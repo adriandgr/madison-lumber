@@ -1,0 +1,39 @@
+<div class="jumbotron text-center login-bg">
+  <h1 class="heading-brand">Login</h1>
+</div>
+
+<div class="row">
+  <div class="col-sm-6 col-sm-offset-3">
+
+    <% if (errors.length > 0) { %>
+      <div class="alert alert-danger">
+      <% for (error of errors) { %>
+        <%= error %><br>
+      <% } %>
+      </div>
+    <% } %>
+    <% if (warnings.length > 0) { %>
+      <div class="alert alert-warning">
+      <% for (warning of warnings) { %>
+        <%= warning %><br>
+      <% } %>
+      </div>
+    <% } %>
+    <form action="/api/auth" method="POST">
+
+      <div class="form-group">
+        <label for="">Email</label>
+        <input type="text" name="email" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label for="">Password</label>
+        <input type="password" name="password" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <button type="submit" class="btn btn-success btn-lg">Login</button>
+      </div>
+    </form>
+  </div>
+</div>

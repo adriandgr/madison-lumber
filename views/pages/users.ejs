@@ -1,0 +1,49 @@
+<% if (success.length > 0) { %>
+  <div class="alert alert-success"><%= success %></div>
+<% } %>
+
+<% if (errors.length > 0) { %>
+  <div class="alert alert-danger">
+  <% for (error of errors) { %>
+    <%= error %><br>
+  <% } %>
+  </div>
+<% } %>
+
+<div class="jumbotron text-center login-bg">
+  <h1 class="heading-brand">Manage Users</h1>
+</div>
+
+<div class="breadcrumb">
+  <a href="/users/create" class="btn btn-lg btn-success"><i class="fa fa-user-plus" aria-hidden="true"></i> Add new user</a>
+</div>
+
+
+<table class="table table-bordered table-hover table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Account Type</th>
+      <th>Expiry</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+
+    <% for (var user of users) { %>
+        <tr>
+            <td><%= user.firstName %> <%= user.lastName %></td>
+            <td><%= user.email %></td>
+            <td><%= user.accountType %></td>
+            <td></td>
+            <td>
+                <a href="/users/<%= user.uuid %>" class="btn btn-sm btn-primary">Manage User</a>
+            </td>
+        </tr>
+    <% } %>
+
+  </tbody>
+</table>
+
+

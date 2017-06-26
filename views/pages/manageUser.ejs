@@ -1,0 +1,85 @@
+<% if (success.length > 0) { %>
+  <div class="alert alert-success"><%= success %></div>
+<% } %>
+
+<div class="jumbotron text-center single-view">
+    <h1 class="heading-brand">User Management</h1>
+</div>
+
+<div class="panel panel-default">
+  <!-- Default panel contents -->
+  <div class="panel-heading"><strong>User Details</strong></div>
+
+
+  <!-- List group -->
+  <ul class="list-group">
+    <li class="list-group-item">
+      <div class="row">
+        <div class="col-sm-3"><strong>First Name</strong></div>
+        <div class="col-sm-9"><%= user.firstName %></div>
+      </div>
+    </li>
+    <li class="list-group-item">
+      <div class="row">
+        <div class="col-sm-3"><strong>Last Name</strong></div>
+        <div class="col-sm-9"><%= user.lastName %></div>
+      </div>
+    </li>
+    <li class="list-group-item">
+      <div class="row">
+        <div class="col-sm-3"><strong>Email</strong></div>
+        <div class="col-sm-9"><%= user.email %></div>
+      </div>
+    </li>
+    <li class="list-group-item">
+      <div class="row">
+        <div class="col-sm-3"><strong>Account Type</strong></div>
+        <div class="col-sm-9"><%= user.accountType %></div>
+      </div>
+    </li>
+    <li class="list-group-item">
+      <div class="row">
+        <div class="col-sm-3"><strong>Created</strong></div>
+        <div class="col-sm-9"><%= user.created %></div>
+      </div>
+    </li>
+  </ul>
+</div>
+
+<% if (errors.length > 0) { %>
+  <div class="alert alert-danger">
+  <% for (error of errors) { %>
+    <%= error %><br>
+  <% } %>
+  </div>
+<% } %>
+
+<div class="panel panel-danger">
+  <div class="panel-heading">
+    <h3 class="panel-title">Danger Zone</h3>
+  </div>
+  <div class="panel-body">
+    <div class="row">
+      <div class="col-md-offset-1 col-md-5 ">
+        <h4 class="text-danger">Delete User Account</h4>
+        Once you delete a user, there is no going back. <br>
+        <em>Please be certain.</em><br><br>
+      </div>
+
+      <div class="col-md-5">
+        <form action="/users/<%= user.uuid %>/delete" method="POST">
+          <div class="form-group">
+            <label for="" class="text-danger">Confirm action by typing user's email.</label>
+            <input type="text" name="email" class="form-control">
+          </div>
+
+          <div class="form-group">
+            <button type="submit" class="btn btn-danger btn-lg">Delete User</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<a href="/users" class="btn btn-lg btn-success"><i class="fa fa-arrow-left" aria-hidden="true"></i> Return to all users</a>

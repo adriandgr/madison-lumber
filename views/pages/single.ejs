@@ -1,0 +1,211 @@
+<% if (success.length > 0) { %>
+  <div class="alert alert-success"><%= success %></div>
+<% } %>
+
+<div class="jumbotron text-center single-view">
+    <h1 class="heading-brand"><%= mill.name %></h1>
+    <h2 class="heading-brand"><%= mill.type %> - <%= mill.region %></h2>
+</div>
+
+<table class="table table-bordered table-hover table-striped">
+  <thead>
+    <tr>
+      <th>Data</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% if (mill.name) {%>
+      <tr>
+          <td>Name</td>
+          <td><%= mill.name %></td>
+      </tr>
+    <% } %>
+    <% if (mill.type) {%>
+      <tr>
+          <td>Type</td>
+          <td><%= mill.type %></td>
+      </tr>
+    <% } %>
+    <% if (mill.region) {%>
+      <tr>
+          <td>region</td>
+          <td><%= mill.region %></td>
+      </tr>
+    <% } %>
+    <% if (mill.contact.address) {%>
+      <tr>
+          <td>Address</td>
+          <td><%= mill.contact.address %></td>
+      </tr>
+    <% } %>
+    <% if (mill.contact.location) {%>
+      <tr>
+          <td>Mill Location</td>
+          <td><%= mill.contact.location %></td>
+      </tr>
+    <% } %>
+    <% if (mill.contact.phone) {%>
+      <tr>
+          <td>Phone</td>
+          <td><%= mill.contact.phone %></td>
+      </tr>
+    <% } %>
+    <% if (mill.contact.fax) {%>
+      <tr>
+          <td>Fax</td>
+          <td><%= mill.contact.fax %></td>
+      </tr>
+    <% } %>
+    <% if (mill.contact.email) {%>
+      <tr>
+          <td>Email</td>
+          <td><%= mill.contact.email %></td>
+      </tr>
+    <% } %>
+    <% if (mill.contact.website) {%>
+      <tr>
+          <td>Website</td>
+          <td><a href="//<%= mill.contact.website %>"><%= mill.contact.website %></a></td>
+      </tr>
+    <% } %>
+    <% if (mill.contact.contactPersons) {%>
+      <tr>
+          <td>Contact Persons</td>
+          <td>
+          <% for (person of mill.contact.contactPersons) {%>
+            <%= person %><br>
+          <% } %>
+          </td>
+      </tr>
+    <% } %>
+    <% if (mill.catalog.products) {%>
+      <tr>
+          <td>Products</td>
+          <td>
+          <% for (product of mill.catalog.products) {%>
+            <%= product %><br>
+          <% } %>
+          </td>
+      </tr>
+    <% } %>
+    <% if (mill.catalog.species) {%>
+      <tr>
+          <td>Species</td>
+          <td>
+          <% for (item of mill.catalog.species) {%>
+            <%= item %><br>
+          <% } %>
+          </td>
+      </tr>
+    <% } %>
+    <% if (mill.catalog.roughSizes.length > 0) {%>
+      <tr>
+          <td>Rough Sizes</td>
+          <td><%= mill.catalog.roughSizes.length%></td>
+      </tr>
+    <% } %>
+    <% if (mill.catalog.surfacedSizes) {%>
+      <tr>
+          <td>Surfaced Sizes</td>
+          <td><%= mill.catalog.surfacedSizes%></td>
+      </tr>
+    <% } %>
+    <% if (mill.catalog.production) {%>
+      <tr>
+          <td>Production</td>
+          <td><%= mill.catalog.production%></td>
+      </tr>
+    <% } %>
+    <% if (mill.catalog.panelThickness) {%>
+      <tr>
+          <td>Panel Thickness</td>
+          <td><%= mill.catalog.panelThickness%></td>
+      </tr>
+    <% } %>
+    <% if (mill.catalog.services.length > 0) {%>
+      <tr>
+          <td>Services</td>
+          <td><%= mill.catalog.services%></td>
+      </tr>
+    <% } %>
+    <% if (mill.catalog.kilnCapacity) {%>
+      <tr>
+          <td>Kiln Capacity</td>
+          <td><%= mill.catalog.kilnCapacity%></td>
+      </tr>
+    <% } %>
+    <% if (mill.catalog.shipping) {%>
+      <tr>
+          <td>Shipping</td>
+          <td><%= mill.catalog.shipping%></td>
+      </tr>
+    <% } %>
+    <% if (mill.catalog.export.length > 0) {%>
+      <tr>
+          <td>Export</td>
+          <td><%= mill.catalog.export%></td>
+      </tr>
+    <% } %>
+    <% if (mill.qualifications.gradingAgency) {%>
+      <tr>
+          <td>Grading Agency</td>
+          <td><%= mill.qualifications.gradingAgency%></td>
+      </tr>
+    <% } %>
+    <% if (mill.qualifications.memberOf > 0) {%>
+      <tr>
+          <td>Member Of</td>
+          <td><%= mill.qualifications.memberOf%></td>
+      </tr>
+    <% } %>
+    <% if (mill.qualifications.employees) {%>
+      <tr>
+          <td>Employees</td>
+          <td><%= mill.qualifications.employees%></td>
+      </tr>
+    <% } %>
+    <% if (mill.qualifications.notes) {%>
+      <tr>
+          <td>Notes</td>
+          <td><%= mill.qualifications.notes%></td>
+      </tr>
+    <% } %>
+    <% if (mill.qualifications.certification) {%>
+      <tr>
+          <td>Certification</td>
+          <td><%= mill.qualifications.certification%></td>
+      </tr>
+    <% } %>
+    <% if (mill.qualifications.preservatives) {%>
+      <tr>
+          <td>Preservatives</td>
+          <td><%= mill.qualifications.preservatives%></td>
+      </tr>
+    <% } %>
+    <% if (mill.qualifications.treatingFacilities) {%>
+      <tr>
+          <td>Treating Facilities</td>
+          <td><%= mill.qualifications.treatingFacilities%></td>
+      </tr>
+    <% } %>
+    <% if (mill.qualifications.distributionYard) {%>
+      <tr>
+          <td>Distribution Yard</td>
+          <td><%= mill.qualifications.distributionYard%></td>
+      </tr>
+    <% } %>
+    <% if (mill.qualifications.millStatus) {%>
+      <tr>
+          <td>Mill Status</td>
+          <td><%= mill.qualifications.millStatus%></td>
+      </tr>
+    <% } %>
+    <% if (mill.lastUpdated) {%>
+      <tr>
+          <td>Last Updated</td>
+          <td><%= mill.qualifications.lastUpdated%></td>
+      </tr>
+    <% } %>
+  </tbody>
+</table>
