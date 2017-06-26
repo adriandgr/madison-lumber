@@ -7,3 +7,9 @@ New web app to drive one of British Columbia's largest databases of lumber suppl
 - MongoDB - Persist information to this document based database.
 - ExpressJS - NodeJS app using express
 - EJS Templates - Since the view requirements are simple, site uses server-rendered templates using EJS.
+
+## Automatic Deployment to VPS
+
+```
+$ git push live master
+```
