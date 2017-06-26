@@ -15,7 +15,7 @@ New web app to drive one of British Columbia's largest databases of lumber suppl
 Instructions to set up local development
 
 ```bash
-// copy .env.example and set your own environment variables
+# copy .env.example and set your own environment variables
 $ cp .env.example ./.env
 $ yarn
 $ yarn start
