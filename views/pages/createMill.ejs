@@ -4,7 +4,6 @@
 
 <div class="row">
   <div class="col-sm-6 col-sm-offset-3">
-
     <% if (errors.length > 0) { %>
       <div class="alert alert-danger">
       <% for (error of errors) { %>
@@ -12,21 +11,244 @@
       <% } %>
       </div>
     <% } %>
-    <form action="/mills/create" method="POST">
-
-      <div class="form-group">
-        <label for="">Name</label>
-        <input type="text" name="name" class="form-control">
-      </div>
-
-      <div class="form-group">
-      <label for="">Description</label>
-        <textarea name="description" rows="5" class="form-control"></textarea>
-      </div>
-
-      <div class="form-group">
-        <button type="submit" class="btn btn-success btn-lg">Create</button>
-      </div>
-    </form>
-  </div>
+     </div>
 </div>
+
+
+<form class="form-horizontal" action="/mills/create" method="POST">
+  <div class="row"> <!-- START MAIN ROW -->
+    <div class="col-sm-6"> <!-- START LEFT COLUMN -->
+
+      <div class="row"> <!-- INTERNAL ROW -->
+        <div class="col-sm-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">General</h3>
+            </div>
+            <div class="panel-body">
+              <div class="form-group">
+                <label for="name" class="col-sm-3 control-label">Name</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="name">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="type" class="col-sm-3 control-label">Type</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="type">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="region" class="col-sm-3 control-label">Region</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="region">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row"> <!-- INTERNAL ROW -->
+        <div class="col-sm-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Contact</h3>
+            </div>
+            <div class="panel-body">
+              <div class="form-group">
+                <label for="address" class="col-sm-3 control-label">Address</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="address">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="location" class="col-sm-3 control-label">Location</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="location">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="phone" class="col-sm-3 control-label">Phone</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="phone">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="fax" class="col-sm-3 control-label">Fax</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="fax">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="website" class="col-sm-3 control-label">Website</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="website">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="contactPersons" class="col-sm-3 control-label">Contact Persons</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="contactPersons" placeholder="Array field: item1, item2, item3">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div> <!-- END LEFT COLUMN -->
+
+    <div class="col-sm-6"> <!-- START RIGHT COLUMN -->
+
+      <div class="row"> <!-- INTERNAL ROW -->
+        <div class="col-sm-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Catalog</h3>
+            </div>
+            <div class="panel-body">
+              <div class="form-group">
+                <label for="products" class="col-sm-3 control-label">Products</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="products" placeholder="Array field: item1, item2, item3">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="species" class="col-sm-3 control-label">Species</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="species" placeholder="Array field: item1, item2, item3">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="roughSizes" class="col-sm-3 control-label">Rough Sizes</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="roughSizes" placeholder="Array field: item1, item2, item3">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="surfacedSizes" class="col-sm-3 control-label">Surfaced Sizes</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="surfacedSizes">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="production" class="col-sm-3 control-label">Production</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="production">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="panelThickness" class="col-sm-3 control-label">Panel Thickness</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="panelThickness">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="services" class="col-sm-3 control-label">Services</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="services" placeholder="Array field: item1, item2, item3">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="kilnCapacity" class="col-sm-3 control-label">Kiln Capacity</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="kilnCapacity">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="shipping" class="col-sm-3 control-label">Shipping</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="shipping" placeholder="Array field: item1, item2, item3">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="export" class="col-sm-3 control-label">Export</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="export" placeholder="Array field: item1, item2, item3">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row"> <!-- INTERNAL ROW -->
+        <div class="col-sm-12">
+          <div class="panel panel-default">
+            <div class="panel-heading">
+              <h3 class="panel-title">Qualifications</h3>
+            </div>
+            <div class="panel-body">
+              <div class="form-group">
+                <label for="gradingAgency" class="col-sm-3 control-label">Grading Agency</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="gradingAgency">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="memberOf" class="col-sm-3 control-label">Member Of</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="memberOf" placeholder="Array field: item1, item2, item3">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="employees" class="col-sm-3 control-label">Employees</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="employees" placeholder="Must be a number">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="notes" class="col-sm-3 control-label">Notes</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="notes">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="certification" class="col-sm-3 control-label">Certification</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="certification">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="preservatives" class="col-sm-3 control-label">Preservatives</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="preservatives">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="treatingFacilities" class="col-sm-3 control-label">Treating Facilities</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="treatingFacilities">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="distributionYard" class="col-sm-3 control-label">Distribution Yard</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="distributionYard">
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="millStatus" class="col-sm-3 control-label">Mill Status</label>
+                <div class="col-sm-9">
+                  <input type="text" class="form-control" name="millStatus">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div> <!-- END RIGHT COLUMN -->
+  </div> <!-- END MAIN ROW -->
+
+
+
+  <div class="form-group">
+    <div class="col-sm-offset-2 col-sm-10">
+      <button type="submit" class="btn btn-success btn-lg center-block">Create Mill</button>
+    </div>
+  </div>
+</form>
+
+
+

@@ -73,7 +73,9 @@ function showCreate(req, res) {
 function processCreate(req, res) {
   // validate info
   req.checkBody('name', 'Name is required.').notEmpty();
-  req.checkBody('description', 'Description is required.').notEmpty();
+  req.checkBody('type', 'Type is required.').notEmpty();
+  req.checkBody('region', 'Region is required.').notEmpty();
+
 
   const errors = req.validationErrors();
 
@@ -84,12 +86,47 @@ function processCreate(req, res) {
 
   const mill = new Mill({
     name: req.body.name,
-    description: req.body.description
+    type: req.body.type,
+    region: req.body.region,
+    contact: {
+      address: req.body.address,
+      location: req.body.location,
+      phone: req.body.phone,
+      fax: req.body.fax,
+      website: req.body.website,
+      contactPersons: req.body.contactPersons.split(", ")
+    },
+    catalog: {
+      products: req.body.products.split(", "),
+      species: req.body.species.split(", "),
+      roughSizes: req.body.roughSizes.split(", "),
+      surfacedSizes: req.body.surfacedSizes,
+      production: req.body.production,
+      panelThickness: req.body.panelThickness,
+      services: req.body.services.split(", "),
+      kilnCapacity: req.body.kilnCapacity,
+      shipping: req.body.shipping.split(", "),
+      export: req.body.export.split(", ")
+    },
+    qualifications: {
+      gradingAgency: req.body.gradingAgency,
+      memberOf: req.body.memberOf.split(", "),
+      employees: req.body.employees,
+      notes: req.body.notes,
+      certification: req.body.certification,
+      preservatives: req.body.preservatives,
+      treatingFacilities: req.body.treatingFacilities,
+      distributionYard: req.body.distributionYard,
+      millStatus: req.body.millStatus
+    },
+    lastUpdated: Date.now()
   });
 
   mill.save((err) => {
     if (err) {
-      throw err;
+      req.flash('errors', 'Database Error: Mill Already Exists!');
+      req.flash('errors', 'Please update existing record or choose a different name.');
+      return res.redirect('/mills/create');
     }
 
     req.flash('success', 'Successfuly created the mill!');
