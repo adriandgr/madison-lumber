@@ -9,9 +9,9 @@ function setup(req, res) {
   const adrian = new User({
     firstName: 'Adrian',
     lastName: 'Diaz',
-    email: 'some@email.com',
+    email: process.env.SEED_EMAIL,
     accountType: 'developer',
-    password: 'dev',
+    password: process.env.SEED_PWD,
     admin: true
   });
   adrian.save(function(err) {
