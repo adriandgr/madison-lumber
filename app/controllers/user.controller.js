@@ -127,11 +127,19 @@ function processCreate(req, res) {
     return res.redirect('/users/create');
   }
 
+  let isAdmin = false;
+
+  if(req.body.accountType === 'admin') {
+    isAdmin = true;
+  }
+
   const user = new User({
     firstName: req.body.firstName,
     lastName: req.body.lastName,
     email: req.body.email,
-    password: req.body.password
+    password: req.body.password,
+    accountType: req.body.accountType,
+    admin: isAdmin
   });
 
   user.save((err) => {
