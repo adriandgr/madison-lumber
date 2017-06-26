@@ -3,27 +3,6 @@ require('dotenv').config();
 const jwt  = require('jsonwebtoken');
 const User = require('../models/user');
 
-function setup(req, res) {
-
-  // create a sample user
-  const adrian = new User({
-    firstName: 'Adrian',
-    lastName: 'Diaz',
-    email: process.env.SEED_EMAIL,
-    accountType: 'developer',
-    password: process.env.SEED_PWD,
-    admin: true
-  });
-  adrian.save(function(err) {
-    if (err) {
-      throw err;
-    }
-
-    console.log('User saved successfully');
-    res.json({ success: true });
-  });
-}
-
 
 function authUser(req, res) {
 
@@ -215,7 +194,6 @@ function logout(req, res) {
 }
 
 module.exports = {
-  setup,
   authUser,
   showLogin,
   showUsers,

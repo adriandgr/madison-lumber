@@ -19,6 +19,8 @@ Instructions to set up local development
 $ cp .env.example ./.env
 
 $ yarn
+# only run seed:admin once to add admin user.
+$ yarn run seed:admin
 $ yarn start
 ```
 

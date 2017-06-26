@@ -11,7 +11,6 @@ router.get('/', mainController.showHome);
 router.get('/login', userController.showLogin);
 router.get('/logout', userController.logout);
 
-router.get('/setup', userController.setup);
 router.post('/api/auth', userController.authUser);
 
 // ---------------------------------------------------------
