@@ -23,13 +23,13 @@
             </a>
           </div>
 
-          <ul class="nav navbar-nav"><% if (validToken == 'true') { %>
+          <ul class="nav navbar-nav"><% if (validToken === true || validToken[0] === true) { %>
             <li><a href="/mills"><i class="fa fa-database" aria-hidden="true"></i> Mills</a></li>
             <li><a href="/users"><i class="fa fa-users" aria-hidden="true"></i> Manage Users</a></li>
             <li><a href="/logout"><i class="fa fa-sign-out" aria-hidden="true"></i> logout</a></li><% } else { %>
             <li><a href="/login"><i class="fa fa-sign-in" aria-hidden="true"></i> login</a></li><% } %>
           </ul>
-          <% if (validToken == 'true') { %>
+          <% if (validToken === true || validToken[0] === true) { %>
           <div id="sb-search" class="sb-search">
             <form method="GET" action="/mills">
               <input class="sb-search-input" placeholder="Enter your search term..." type="search" value="" name="q" id="search">
@@ -54,7 +54,7 @@
   <footer id="site-footer">
     Copyright &copy; 2017 <a href="http://www.ketadesign.ca/">KetaDesign Productions Inc.</a>
   </footer>
-  <script src="/js/classie.js"></script><% if (validToken == 'true') { %>
+  <script src="/js/classie.js"></script><% if (validToken === true || validToken[0] === true) { %>
   <script src="/js/uisearch.js"></script>
   <script>
     new UISearch( document.getElementById( 'sb-search' ) );

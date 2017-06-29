@@ -88,9 +88,6 @@ function showUsers(req, res) {
       res.status(404);
       res.send('Users not found');
     }
-    for (user of users) {
-      console.log(user['_id'].toString(), typeof user['_id'].toString());
-    }
     // return a view with data
     res.render('pages/users', {
       users,
