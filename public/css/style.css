@@ -139,9 +139,9 @@ h1.heading-brand, h2.heading-brand {
   height: 40px;
   margin: 0;
   z-index: 10;
-  padding: 20px 65px 20px 20px;
+  padding: 18px 50px 18px 14px;
   font-family: inherit;
-  font-size: 18px;
+  font-size: 17px;
   color: #2c3e50;
 }
 
@@ -218,26 +218,25 @@ input[type="search"].sb-search-input {
 /* Open state */
 .sb-search.sb-search-open,
 .no-js .sb-search {
-
   width:100%;
 }
 
 
-@media screen and (min-width: 765px) {
+@media screen and (min-width: 768px) {
   /* Open state */
   .sb-search.sb-search-open,
   .no-js .sb-search {
-    width:250px;
+    width:265px;
   }
 }
-@media screen and (min-width: 800px) {
+@media screen and (min-width: 810px) {
   /* Open state */
   .sb-search.sb-search-open,
   .no-js .sb-search {
     width:300px;
   }
 }
-@media screen and (min-width: 900px) {
+@media screen and (min-width: 920px) {
   /* Open state */
   .sb-search.sb-search-open,
   .no-js .sb-search {
