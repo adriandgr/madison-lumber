@@ -13,6 +13,7 @@ const mongoose          = require('mongoose');
 const routes            = require('./app/routes');
 const port              = process.env.PORT || 8080;
 
+app.disable('x-powered-by');
 
 app.use(cookieParser());
 app.use(session({
