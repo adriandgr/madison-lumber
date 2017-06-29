@@ -25,18 +25,12 @@ function authUser(req, res) {
         req.flash('errors', 'Authentication Failed. Please try again.');
         return res.redirect('/login');
       } else {
-
-        // if user is found and password is right
         // create a token and set expiry to 24hrs
         var token = jwt.sign(user, process.env.JWT_SECRET, {
           expiresIn: 86400
         });
 
-
         req.session.jwt = token;
-
-        console.log('trying to set token!', token);
-        console.log('req.session.jwt', req.session.jwt);
 
         req.flash('success', `Welcome back ${user.firstName}`);
         res.redirect('/');
@@ -50,6 +44,7 @@ function authUser(req, res) {
 function showLogin(req, res) {
   res.render('pages/login', {
     errors: req.flash('errors'),
+    validToken: req.flash('validToken'),
     warnings: req.flash('warnings')
   });
 }
@@ -58,21 +53,18 @@ function routerMiddleware(req, res, next) {
 
   // check header or url parameters or post parameters for token
   var token = req.body.token || req.param('token') || req.headers['x-access-token'] || req.session.jwt;
-  // console.log('the token is!', token);
-  // console.log('req.session.jwt', req.session.jwt);
-  // console.log('all session', req.session);
-
   // decode token
   if (token) {
-
     // verifies secret and checks exp
     jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
       if (err) {
+        req.flash('validToken', false);
         req.flash('errors', 'Authentication Failed. Please try again.');
         return res.redirect('/login');
       } else {
         // if everything is good, save to request for use in other routes
         req.decoded = decoded;
+        req.flash('validToken', true);
         next();
       }
     });
@@ -81,6 +73,7 @@ function routerMiddleware(req, res, next) {
 
     // if there is no token
     // return an error
+    req.flash('validToken', false);
     req.flash('warnings', 'Please login to view the requested resource.');
     return res.status(403).redirect('/login');
 
@@ -102,6 +95,7 @@ function showUsers(req, res) {
     res.render('pages/users', {
       users,
       success: req.flash('success'),
+      validToken: req.flash('validToken'),
       errors: req.flash('errors')
     });
   });
@@ -109,6 +103,7 @@ function showUsers(req, res) {
 
 function showCreate(req, res) {
   res.render('pages/createUser', {
+    validToken: req.flash('validToken'),
     errors: req.flash('errors')
   });
 }
@@ -162,6 +157,7 @@ function manageUser(req, res) {
     // return a view with data
     res.render('pages/manageUser', {
       user,
+      validToken: req.flash('validToken'),
       success: req.flash('success'),
       errors: req.flash('errors')
     });

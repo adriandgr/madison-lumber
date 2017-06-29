@@ -15,6 +15,7 @@ function showEvents(req, res) {
       }
       res.render('pages/mills', {
         mills,
+        validToken: req.flash('validToken'),
         success: req.flash('success'),
         query: req.flash('query')
       });
@@ -27,6 +28,7 @@ function showEvents(req, res) {
       }
       res.render('pages/mills', {
         mills,
+        validToken: req.flash('validToken'),
         success: req.flash('success'),
         query: req.flash('query')
       });
@@ -50,6 +52,7 @@ function showSingle(req, res) {
     // return a view with data
     res.render('pages/single', {
       mill,
+      validToken: req.flash('validToken'),
       success: req.flash('success')
     });
   });
@@ -80,6 +83,7 @@ function seedEvents(req, res) {
   **/
 function showCreate(req, res) {
   res.render('pages/createMill', {
+    validToken: req.flash('validToken'),
     errors: req.flash('errors')
   });
 }
@@ -158,6 +162,7 @@ function showEdit(req, res) {
   Mill.findOne({ slug: req.params.slug }, (err, mill) => {
     res.render('pages/edit', {
       mill,
+      validToken: req.flash('validToken'),
       errors: req.flash('errors')
     });
   });
