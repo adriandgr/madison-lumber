@@ -6,17 +6,34 @@ const mills = require('../models/seed');
   **/
 function showEvents(req, res) {
   // get all mills
-  Mill.find({}, (err, mills) => {
-    if (err) {
-      res.status(404);
-      res.send('Events not found');
-    }
-    // return a view with data
-    res.render('pages/mills', {
-      mills,
-      success: req.flash('success')
+  if (req.query.q) {
+    req.flash('query', req.query.q);
+    Mill.find({$text: {$search: req.query.q}}, (err, mills) => {
+      if (err) {
+        res.status(404);
+        res.send('Events not found');
+      }
+      res.render('pages/mills', {
+        mills,
+        success: req.flash('success'),
+        query: req.flash('query')
+      });
     });
-  });
+  } else {
+    Mill.find({}, (err, mills) => {
+      if (err) {
+        res.status(404);
+        res.send('Events not found');
+      }
+      res.render('pages/mills', {
+        mills,
+        success: req.flash('success'),
+        query: req.flash('query')
+      });
+    });
+  }
+
+
 }
 
 /**

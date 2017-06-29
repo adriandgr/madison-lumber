@@ -10,7 +10,7 @@ const millSchema = new Schema({
   contact: {
     address: String,
     location: String,
-    phone: String,
+    phone: Array,
     fax: String,
     website: String,
     contactPersons: Array
@@ -44,6 +44,34 @@ const millSchema = new Schema({
     unique: true
   }
 });
+
+
+millSchema.index(
+  {
+    name: 'text',
+    type: 'text',
+    region: 'text',
+    'contact.address': 'text',
+    'contact.contactPersons': 'text',
+    'catalog.products': 'text',
+    'catalog.species': 'text',
+    'catalog.services': 'text'
+  },
+  {
+    name: 'mill_index',
+    weights: {
+      name: 10,
+      'catalog.products': 6,
+      'catalog.species': 6,
+      'catalog.services': 6,
+      type: 3,
+      region: 3,
+      'contact.address': 1,
+      'contact.contactPersons': 1
+    }
+  }
+);
+
 
 
 // middleware - make sure slug is created from the name

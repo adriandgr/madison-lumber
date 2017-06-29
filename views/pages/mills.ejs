@@ -10,6 +10,12 @@
   <a href="/mills/create" class="btn btn-lg btn-success"><i class="fa fa-plus" aria-hidden="true"></i> Add new mill</a>
 </div>
 
+<% if (query.length > 0) { %>
+  <div class="alert alert-info">
+    <strong>Search results for:</strong> <%= query %>
+  </div>
+<% } %>
+
 <table class="table table-bordered table-hover table-striped">
   <thead>
     <tr>
