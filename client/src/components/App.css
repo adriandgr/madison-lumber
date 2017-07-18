@@ -1,0 +1,309 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:800');
+
+
+body {
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.navbar {
+  background: #009561;
+  color: #fff;
+  /*height: 80px;*/
+}
+
+@media screen and (min-width: 765px) {
+  .navbar.navbar-inverse>.container-fluid {
+    padding: 0px;
+    margin: 0px;
+  }
+  .navbar-header {
+    padding: 0 20px;
+  }
+}
+
+
+
+.navbar-header {
+  background: #005f4a;
+}
+
+img.navbar-logo {
+  margin: 0 10px;
+  transform: translateY(-8px);
+  width: 40px;
+  float: left;
+}
+
+.navbar-inverse .navbar-brand {
+  font-family: 'Open Sans', sans-serif;
+  color:white;
+}
+
+
+
+.nav.navbar-nav>li:hover {
+  background: #005f4a;
+}
+
+.nav.navbar-nav>li>a {
+  color: #badbd0;
+}
+
+.nav.navbar-nav>li>a:hover {
+  color: white;
+}
+
+.home-bg {
+  background-image: url("/header-img.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.mills-bg {
+  background-image: url("/mills-header.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.add-entry-bg {
+  background-image: url("/kiln-dried-lumber.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.single-view {
+  background-image: url("/blue-mill.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+.login-bg {
+  background-image: url("/moodyville-yard.jpg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+h1.heading-brand, h2.heading-brand {
+  color: white;
+  text-shadow: 1px 1px grey;
+}
+
+#site-header .navbar {
+  border-radius: 0;
+  border: none;
+  margin: 0;
+}
+
+#site-main {
+  padding-top: 50px;
+  padding-bottom: 50px;
+
+}
+
+/* Search bar styles
+-------------------------------------------------- */
+
+/* Container for the entire search element */
+.sb-search {
+  position: relative;
+  margin-top: 5px;
+  width: 0%;
+  min-width: 40px;
+  height: 40px;
+  float: right;
+  overflow: hidden;
+  -webkit-transition: width 0.3s;
+  -moz-transition: width 0.3s;
+  transition: width 0.3s;
+  -webkit-backface-visibility: hidden;
+}
+/* The input element on the search element  */
+.sb-search-input {
+  position: absolute;
+  top: 0;
+  right: 0;
+  border: none;
+  outline: none;
+  background: #fff;
+  width: 100%;
+  height: 40px;
+  margin: 0;
+  z-index: 10;
+  padding: 18px 50px 18px 14px;
+  font-family: inherit;
+  font-size: 17px;
+  color: #2c3e50;
+}
+
+
+input[type="search"].sb-search-input {
+  /* remove special webkit formatting on the search input */
+  -webkit-appearance: none;
+  -webkit-border-radius: 0px;
+}
+
+/* browser specific placholder text color */
+.sb-search-input::-webkit-input-placeholder {
+  color: #efb480;
+}
+
+.sb-search-input:-moz-placeholder {
+  color: #efb480;
+}
+
+.sb-search-input::-moz-placeholder {
+  color: #efb480;
+}
+
+.sb-search-input:-ms-input-placeholder {
+  color: #efb480;
+}
+/* format the search button and submit to share the same size and space */
+.sb-icon-search,
+.sb-search-submit  {
+  width: 40px;
+  height: 40px;
+  display: block;
+  position: absolute;
+  right: 0;
+  top: 0;
+  padding: 0;
+  margin: 0;
+  line-height: 40px;
+  text-align: center;
+  cursor: pointer;
+}
+/* hide the submit but leave it clickable */
+.sb-search-submit {
+  background: #fff; /* IE needs this */
+  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; /* IE 8 */
+    filter: alpha(opacity=0); /* IE 5-7 */
+    opacity: 0;
+  color: transparent;
+  border: none;
+  outline: none;
+  z-index: -1;
+}
+
+/* format the search icon */
+.sb-icon-search {
+  color: #fff;
+  background: #e67e22;
+  z-index: 90;
+  font-size: 18px;
+  font-family: 'FontAwesome';
+  speak: none;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* add the magnifying glass character from the icomoon font as a before pseudo element */
+.sb-icon-search:before {
+  content: "\f002";
+}
+
+/* Open state */
+.sb-search.sb-search-open,
+.no-js .sb-search {
+  width:100%;
+}
+
+
+@media screen and (min-width: 768px) {
+  /* Open state */
+  .sb-search.sb-search-open,
+  .no-js .sb-search {
+    width:265px;
+  }
+}
+@media screen and (min-width: 810px) {
+  /* Open state */
+  .sb-search.sb-search-open,
+  .no-js .sb-search {
+    width:300px;
+  }
+}
+@media screen and (min-width: 920px) {
+  /* Open state */
+  .sb-search.sb-search-open,
+  .no-js .sb-search {
+    width:400px;
+  }
+}
+@media screen and (min-width: 1100px) {
+  /* Open state */
+  .sb-search.sb-search-open,
+  .no-js .sb-search {
+    width:500px;
+  }
+}
+@media screen and (min-width: 1500px) {
+  /* Open state */
+  .sb-search.sb-search-open,
+  .no-js .sb-search {
+    width:700px;
+  }
+}
+
+/* add the "active" color on the search button */
+.sb-search.sb-search-open .sb-icon-search,
+.no-js .sb-search .sb-icon-search {
+  background: #da6d0d;
+  color: #fff;
+  z-index: 11;
+}
+
+/* adjust z-index to make sure the search submit is clikacble and not below any other elements */
+.sb-search.sb-search-open .sb-search-submit,
+.no-js .sb-search .sb-search-submit {
+  z-index: 90;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* Set the fixed height of the footer here */
+  height: 60px;
+}
+
+#site-footer a {
+  color: white;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+#site-footer {
+  position:absolute;
+  width:100%;
+  bottom:0px;
+  text-align: center;
+  padding-bottom: 30px;
+  padding-top: 30px;
+  font-size: 12px;
+  background: #009561;
+  color: #daf3eb;
+}
