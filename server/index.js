@@ -8,6 +8,7 @@ const session           = require('express-session');
 const flash             = require('connect-flash');
 const expressValidator  = require('express-validator');
 const expressLayouts    = require('express-ejs-layouts');
+const path              = require('path');
 const morgan            = require('morgan');
 const mongoose          = require('mongoose');
 const routes            = require('./app/routes');
@@ -25,6 +26,7 @@ app.use(flash());
 app.use(morgan('dev'));
 
 app.use(express.static(__dirname + '/public'));
+app.set('views', path.join(__dirname, '/views'));
 app.set('view engine', 'ejs');
 app.use(expressLayouts);
 
