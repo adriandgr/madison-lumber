@@ -2,15 +2,15 @@
   "name": "madison-lumber-db",
   "version": "1.0.0",
   "description": "Madison's Lumber Directory database",
-  "main": "./server/index.js",
+  "main": "./index.js",
   "scripts": {
-    "start": "./node_modules/.bin/nodemon ./server/index.js",
-    "seed:admin": "node ./server/utils/seedAdminUser",
+    "start": "./node_modules/.bin/nodemon ./index.js",
+    "seed:admin": "node ./utils/seedAdminUser",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "Adrian Diaz",
-  "license": "ISC",
+  "license": "MIT",
   "dependencies": {
     "body-parser": "^1.17.2",
     "connect-flash": "^0.1.1",
