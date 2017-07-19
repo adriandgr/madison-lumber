@@ -11,7 +11,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .navbar {
-  background: #009561;
+  background: #37474F;
   color: #fff;
   /*height: 80px;*/
 }
@@ -29,7 +29,7 @@ h1, h2, h3, h4, h5, h6 {
 
 
 .navbar-header {
-  background: #005f4a;
+  background: #263238;
 }
 
 img.navbar-logo {
@@ -44,50 +44,23 @@ img.navbar-logo {
   color:white;
 }
 
-
+.active-link {
+  border-bottom: 3px solid tomato;
+}
 
 .nav.navbar-nav>li:hover {
-  background: #005f4a;
+  background: #455A64;
 }
 
 .nav.navbar-nav>li>a {
-  color: #badbd0;
+  color: #CFD8DC;
 }
 
 .nav.navbar-nav>li>a:hover {
   color: white;
 }
 
-.home-bg {
-  background-image: url("/header-img.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-}
-
-.mills-bg {
-  background-image: url("/mills-header.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-}
-
-.add-entry-bg {
-  background-image: url("/kiln-dried-lumber.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-}
-
-.single-view {
-  background-image: url("/blue-mill.jpg");
-  background-repeat: no-repeat;
-  background-position: center;
-  background-size: cover;
-}
-
-.login-bg {
-  background-image: url("/moodyville-yard.jpg");
+.section-banner {
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -291,7 +264,7 @@ body {
 }
 
 #site-footer a {
-  color: white;
+  color: #CFD8DC;
   font-weight: 600;
   text-decoration: none;
 }
@@ -304,6 +277,6 @@ body {
   padding-bottom: 30px;
   padding-top: 30px;
   font-size: 12px;
-  background: #009561;
-  color: #daf3eb;
+  background: #37474F;
+  color: #CFD8DC;
 }

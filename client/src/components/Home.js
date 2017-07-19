@@ -18,7 +18,7 @@ class Home extends Component {
 
     <div className="container">
     <div
-      className="jumbotron text-center home-bg"
+      className="jumbotron text-center section-banner"
       style={{backgroundImage: `url(${headerBg})`}}>
       <img src={madisonLogo} alt="Madison's Lumber" width="150px"/>
       <h2 className="heading-brand">Madison's Lumber Directory</h2>

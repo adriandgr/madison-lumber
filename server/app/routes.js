@@ -7,12 +7,12 @@ const userController    = require('./controllers/user.controller');
 const eventsController  = require('./controllers/mill.controller');
 
 
-router.get('/', mainController.showHome);
-router.get('/login', userController.showLogin);
+//router.get('/', mainController.getHome);
+router.get('/login', userController.getLogin);
 router.get('/logout', userController.logout);
 
 router.post('/api/auth', userController.authUser);
-
+router.post('/api/authTwo', userController.authUserTwo);
 // ---------------------------------------------------------
 // route middleware to authenticate and check token
 // ---------------------------------------------------------
@@ -24,9 +24,9 @@ router.use(userController.routerMiddleware);
 // AUTHENTICATED ROUTES BELOW THIS COMMENT
 // ---------------------------------------------------------
 
-router.get('/mills', eventsController.showEvents);
+router.get('/api/mills', eventsController.showMills);
 
-router.get('/users', userController.showUsers);
+router.get('/users', userController.getUsers);
 router.get('/users/create', userController.showCreate);
 router.post('/users/create', userController.processCreate);
 

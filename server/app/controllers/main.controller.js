@@ -1,13 +1,14 @@
-function showHome(req, res)  {
+function getHome(req, res)  {
+  let validToken = false;
   if (req.session.jwt) {
     req.flash('validToken', true);
   }
-  res.render('pages/home', {
+  res.json({
     validToken: req.flash('validToken'),
     success: req.flash('success')
   });
 }
 
 module.exports = {
-  showHome
+  getHome
 };

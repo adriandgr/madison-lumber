@@ -1,11 +1,17 @@
 import React, { Component } from 'react';
+import { Redirect } from 'react-router-dom';
+import api from '../utils/api';
 import PropTypes from 'prop-types'
 import headerBg from './moodyville-yard.jpg'
 
 function SectionBanner(props) {
   return (
-    <div className="jumbotron text-center login-bg" style={{backgroundImage: `url(${props.imgSrc})`}}>>
-      <h1 className="heading-brand">{props.sectionName}</h1>
+    <div
+      className="jumbotron text-center section-banner"
+      style={{backgroundImage: `url(${props.imgSrc})`}}>
+      <h1 className="heading-brand">
+        {props.sectionName}
+      </h1>
     </div>
   )
 }
@@ -17,7 +23,57 @@ SectionBanner.propTypes = {
 
 
 class Login extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      redirectToReferrer: false,
+      email: '',
+      pwd: '',
+      error: ''
+    }
+
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  handleChange(event) {
+    const newState = {
+      [event.target.name]: event.target.value
+    }
+    this.setState( () => newState );
+  }
+
+  handleSubmit(event) {
+    event.preventDefault();
+    api.authUser(
+      this.state.email,
+      this.state.pwd
+    ).then(res => {
+      if (res.error) {
+        this.setState(() => ({error: res.error}));
+      } else {
+        this.setState(() => ({error: ''}))
+      }
+
+      this.props.onSubmit(
+        res.token,
+        res.user
+      )
+      this.setState({ redirectToReferrer: true })
+
+    })
+  }
+
   render() {
+    const { from } = this.props.location.state || { from: { pathname: '/' } }
+    const { redirectToReferrer } = this.state
+
+    if (redirectToReferrer) {
+      return (
+        <Redirect to={from}/>
+      )
+    }
+
     return (
       <div className="container">
         <SectionBanner
@@ -27,14 +83,30 @@ class Login extends Component {
 
         <div className="row">
           <div className="col-sm-6 col-sm-offset-3">
-            <form action="/api/auth" method="POST">
+            {this.state.error &&
+              <div className="alert alert-danger">
+                {this.state.error}
+              </div>}
+            <form action="/api/auth" onSubmit={this.handleSubmit}>
               <div className="form-group">
                 <label htmlFor="">Email</label>
-                <input type="text" name="email" className="form-control" />
+                <input
+                  type="text"
+                  name="email"
+                  className="form-control"
+                  value={this.state.email}
+                  onChange={this.handleChange}
+                />
               </div>
               <div className="form-group">
                 <label htmlFor="">Password</label>
-                <input type="password" name="password" className="form-control" />
+                <input
+                  type="password"
+                  name="pwd"
+                  className="form-control"
+                  value={this.state.pwd}
+                  onChange={this.handleChange}
+                />
               </div>
               <div className="form-group">
                 <button type="submit" className="btn btn-success btn-lg">Login</button>
@@ -46,6 +118,10 @@ class Login extends Component {
 
     );
   }
+}
+
+Login.propTypes = {
+  onSubmit: PropTypes.func.isRequired
 }
 
 export default Login;

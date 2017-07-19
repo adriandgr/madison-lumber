@@ -41,8 +41,37 @@ function authUser(req, res) {
   });
 }
 
-function showLogin(req, res) {
-  res.render('pages/login', {
+function authUserTwo(req, res) {
+  console.log(req.body);
+  User.findOne({ email: req.body.email }, function(err, user) {
+    if (err) {
+      throw err;
+    }
+
+    if (!user) {
+      return res.json({ error: 'Authentication Failed. Please try again.' });
+    } else if (user) {
+      if (user.password !== req.body.password) {
+        return res.json({ error: 'Authentication Failed. Please try again.' });
+      } else {
+        // create a token and set expiry to 24hrs
+        var token = jwt.sign(user, process.env.JWT_SECRET, {
+          expiresIn: 86400
+        });
+
+        req.session.jwt = token;
+
+        //req.flash('success', `Welcome back ${user.firstName}`);
+        res.json({ token, user: user.firstName });
+      }
+
+    }
+
+  });
+}
+
+function getLogin(req, res) {
+  res.json({
     errors: req.flash('errors'),
     validToken: req.flash('validToken'),
     warnings: req.flash('warnings')
@@ -50,7 +79,6 @@ function showLogin(req, res) {
 }
 
 function routerMiddleware(req, res, next) {
-
   // check header or url parameters or post parameters for token
   var token = req.body.token || req.param('token') || req.headers['x-access-token'] || req.session.jwt;
   // decode token
@@ -68,20 +96,16 @@ function routerMiddleware(req, res, next) {
         next();
       }
     });
-
   } else {
-
     // if there is no token
     // return an error
     req.flash('validToken', false);
     req.flash('warnings', 'Please login to view the requested resource.');
     return res.status(403).redirect('/login');
-
   }
-
 }
 
-function showUsers(req, res) {
+function getUsers(req, res) {
   // get all users
   User.find({}, (err, users) => {
     if (err) {
@@ -89,7 +113,7 @@ function showUsers(req, res) {
       res.send('Users not found');
     }
     // return a view with data
-    res.render('pages/users', {
+    res.json({
       users,
       success: req.flash('success'),
       validToken: req.flash('validToken'),
@@ -196,8 +220,9 @@ function logout(req, res) {
 
 module.exports = {
   authUser,
-  showLogin,
-  showUsers,
+  authUserTwo,
+  getLogin,
+  getUsers,
   manageUser,
   deleteUser,
   showCreate,

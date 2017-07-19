@@ -4,7 +4,7 @@ const mills = require('../models/seed');
 /**
   * Show All Events
   **/
-function showEvents(req, res) {
+function showMills(req, res) {
   // get all mills
   if (req.query.q) {
     req.flash('query', req.query.q);
@@ -26,7 +26,7 @@ function showEvents(req, res) {
         res.status(404);
         res.send('Events not found');
       }
-      res.render('pages/mills', {
+      res.json({
         mills,
         validToken: req.flash('validToken'),
         success: req.flash('success'),
@@ -209,7 +209,7 @@ function deleteEvent(req, res) {
 }
 
 module.exports = {
-  showEvents,
+  showMills,
   showSingle,
   seedEvents,
   showCreate,
