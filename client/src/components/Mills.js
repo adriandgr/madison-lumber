@@ -55,33 +55,23 @@ class Mills extends Component {
       return
     }
     api.getMills(this.props.token).then(res=> {
-    //   if (res.success) {
-    //     this.setState(()=>({
-    //       successMsg: res.success
-    //     }))
-    //   } else {
-    //     this.setState(()=>({
-    //       successMsg: ''
-    //     }))
-    //   }
-    //   if (res.query) {
-    //     this.setState(()=>({
-    //       searchMsg: res.query
-    //     }))
-    //   } else {
-    //     this.setState(()=>({
-    //       searchMsg: ''
-    //     }))
-    //   }
-      if (res.mills) {
-        this.setState(()=>({
-          mills: res.mills
-        }))
-      } else {
-        this.setState(()=>({
-          mills: []
-        }))
+      const newState = {
+        successMsg: '',
+        searchMsg: '',
+        mills: []
       }
+
+      if (res.success.length) {
+        newState.successMsg = res.success;
+      }
+      if (res.query.length) {
+        newState.searchMsg = res.query;
+      }
+      if (res.mills.length) {
+        newState.mills = res.mills;
+      }
+
+      this.setState(() => newState);
     })
   }
 
