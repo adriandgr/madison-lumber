@@ -24,6 +24,14 @@ const api = {
   getMills: (token) => {
     return instance.get(`/api/mills?token=${token}`)
       .then(res => res.data );
+  },
+  getMill: (token, millSlug) => {
+    return instance.get(`/api${millSlug}?token=${token}`)
+      .then(res => res.data );
+  },
+  getUsers: (token) => {
+    return instance.get(`/api/users?token=${token}`)
+      .then(res => res.data );
   }
 }
 

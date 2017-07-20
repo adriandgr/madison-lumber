@@ -76,13 +76,13 @@ class Mills extends Component {
   }
 
   render() {
-    // if (!this.props.isAuthenticated) {
-    //   return (
-    //     <div>
-    //       Please log in to view this page.
-    //     </div>
-    //   )
-    // }
+    if (!this.props.isAuthenticated) {
+      return (
+        <div>
+          Please log in to view this page.
+        </div>
+      )
+    }
 
     return (
      <div className="container">

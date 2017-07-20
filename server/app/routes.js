@@ -26,7 +26,7 @@ router.use(userController.routerMiddleware);
 
 router.get('/api/mills', eventsController.showMills);
 
-router.get('/users', userController.getUsers);
+router.get('/api/users', userController.getUsers);
 router.get('/users/create', userController.showCreate);
 router.post('/users/create', userController.processCreate);
 
@@ -47,7 +47,7 @@ router.get('/mills/:slug/delete', eventsController.deleteEvent);
 router.post('/users/:uuid/delete', userController.deleteUser);
 
 // view single
-router.get('/mills/:slug', eventsController.showSingle);
+router.get('/api/mills/:slug', eventsController.showSingle);
 router.get('/users/:uuid', userController.manageUser);
 
 

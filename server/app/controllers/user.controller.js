@@ -116,7 +116,6 @@ function getUsers(req, res) {
     res.json({
       users,
       success: req.flash('success'),
-      validToken: req.flash('validToken'),
       errors: req.flash('errors')
     });
   });

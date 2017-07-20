@@ -46,14 +46,16 @@ function showSingle(req, res) {
   Mill.findOne({slug: req.params.slug }, (err, mill) => {
     if (err) {
       res.status(404);
-      res.send('Mill not found');
+      res.json({
+        errors: ['404: Mill not found']
+      });
     }
     console.log('mill', mill);
     // return a view with data
-    res.render('pages/single', {
+    res.json({
       mill,
-      validToken: req.flash('validToken'),
-      success: req.flash('success')
+      success: req.flash('success'),
+      errors: []
     });
   });
 
