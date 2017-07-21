@@ -7,7 +7,7 @@ const userController    = require('./controllers/user.controller');
 const eventsController  = require('./controllers/mill.controller');
 
 
-//router.get('/', mainController.getHome);
+router.get('/', mainController.getHome);
 router.get('/login', userController.getLogin);
 router.get('/logout', userController.logout);
 

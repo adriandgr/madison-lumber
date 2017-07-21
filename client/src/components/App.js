@@ -26,6 +26,9 @@ class App extends Component {
     this.logoutUser = this.logoutUser.bind(this)
   }
   componentWillMount() {
+    if (!loadState()) {
+      return;
+    }
     const localToken = loadState().token
     if (!this.state.token && localToken) {
       this.authWithToken(localToken);
