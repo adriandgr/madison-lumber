@@ -1,31 +1,47 @@
 import React, { Component } from 'react';
-import { NavLink, withRouter } from 'react-router-dom';
+import { Link, NavLink, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types'
 import navbarLogo from './madison-logo-small.png';
 
-const LogoutButton = withRouter(({ history }, props) => (
-  <button onClick={() => {
-      //this.props.signout(() => history.push('/'))
-      console.log(this)
-    }}>
+const LogoutButton = (props) => (
+  <Link to="#" onClick={props.handleSubmit}>
     <i className="fa fa-sign-out" aria-hidden="true"></i> logout
-  </button>
-))
+  </Link>
+)
 
-function handleLogout(props) {
-  return (
-    <div>
-    </div>
-  )
-}
 
 LogoutButton.propTypes = {
-  onSubmit: PropTypes.func.isRequired
+  handleSubmit: PropTypes.func.isRequired
 }
 
 class SiteHeader extends Component {
+
+  constructor(props) {
+    super(props);
+    this.handleSubmit = this.handleSubmit.bind(this)
+  }
+
+
+  handleSubmit(event) {
+    event.preventDefault();
+    // api.authUser(
+    //   this.state.email,
+    //   this.state.pwd
+    // ).then(res => {
+    //   if (res.error) {
+    //     this.setState(() => ({error: res.error}));
+    //   } else {
+    //     this.setState(() => ({error: ''}))
+    //   }
+
+    this.props.history.push('/');
+    this.props.logoutUser(() => {
+      console.log('call me maybe')
+    });
+  }
+
+
   render() {
-    console.log('PROP', this.props.user)
     return (
       <header id="site-header">
         <div className="navbar navbar-inverse">
@@ -43,7 +59,7 @@ class SiteHeader extends Component {
               </div>
 
 
-                {this.props.user
+                {this.props.isAuthenticated
                   ? <ul className="nav navbar-nav">
                       <li>
                         <NavLink to="/mills" activeClassName="active-link">
@@ -56,7 +72,8 @@ class SiteHeader extends Component {
                         </NavLink>
                       </li>
                       <li>
-                        <LogoutButton onSubmit={this.props.logoutUser}/>
+                        <LogoutButton
+                          handleSubmit={this.handleSubmit}/>
                       </li>
                     </ul>
                   : <ul className="nav navbar-nav">
@@ -77,8 +94,8 @@ class SiteHeader extends Component {
 }
 
 SiteHeader.propTypes = {
-  user: PropTypes.string.isRequired,
+  isAuthenticated: PropTypes.bool.isRequired,
   logoutUser: PropTypes.func.isRequired
 }
 
-export default SiteHeader;
+export default withRouter(SiteHeader);

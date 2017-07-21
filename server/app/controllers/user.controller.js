@@ -2,6 +2,7 @@ require('dotenv').config();
 
 const jwt  = require('jsonwebtoken');
 const User = require('../models/user');
+const util = require('util');
 
 
 function authUser(req, res) {
@@ -42,7 +43,22 @@ function authUser(req, res) {
 }
 
 function authUserTwo(req, res) {
-  console.log(req.body);
+  const token = req.body.token;
+  if (token) {
+    return jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
+      if (err) {
+        return res.json({ error: 'Authentication Failed. Please try again.' });
+      } else {
+        req.decoded = decoded;
+        res.json({
+          token,
+          user: decoded._doc.firstName,
+          isAdmin: decoded._doc.admin
+        });
+      }
+    });
+  }
+
   User.findOne({ email: req.body.email }, function(err, user) {
     if (err) {
       throw err;
@@ -62,11 +78,13 @@ function authUserTwo(req, res) {
         req.session.jwt = token;
 
         //req.flash('success', `Welcome back ${user.firstName}`);
-        res.json({ token, user: user.firstName });
+        res.json({
+          token,
+          user: user.firstName,
+          isAdmin: user.admin
+        });
       }
-
     }
-
   });
 }
 
@@ -87,8 +105,9 @@ function routerMiddleware(req, res, next) {
     jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
       if (err) {
         req.flash('validToken', false);
-        req.flash('errors', 'Authentication Failed. Please try again.');
-        return res.redirect('/login');
+        req.flash();
+        return res.json({
+          errors: ['Authentication Failed. Please log in and try again.']});
       } else {
         // if everything is good, save to request for use in other routes
         req.decoded = decoded;
@@ -102,6 +121,19 @@ function routerMiddleware(req, res, next) {
     req.flash('validToken', false);
     req.flash('warnings', 'Please login to view the requested resource.');
     return res.status(403).redirect('/login');
+  }
+}
+
+function adminMiddleware(req, res, next) {
+  if (req.decoded._doc.admin) {
+    next();
+  } else {
+    res.json({
+      errors: [
+        '403 - Forbidden',
+        'The server understood the request but refuses to authorize it.',
+        'You do not have administrative priviledges to view the requested resource.']
+    });
   }
 }
 
@@ -132,39 +164,45 @@ function processCreate(req, res) {
   // validate info
   req.checkBody('firstName', 'First name is required.').notEmpty();
   req.checkBody('lastName', 'Last name is required.').notEmpty();
-  req.checkBody('email', 'Email is required.').notEmpty();
-  req.checkBody('password', 'Password is required.').notEmpty();
+  req.checkBody('email', 'Valid email is required.').isEmail();
+  req.checkBody('password', 'Password should be between 8 and 30 characters long').len(8,30);
 
-  const errors = req.validationErrors();
-
-  if(errors) {
-    req.flash('errors', errors.map(err => err.msg));
-    return res.redirect('/users/create');
-  }
-
-  let isAdmin = false;
-
-  if(req.body.accountType === 'admin') {
-    isAdmin = true;
-  }
-
-  const user = new User({
-    firstName: req.body.firstName,
-    lastName: req.body.lastName,
-    email: req.body.email,
-    password: req.body.password,
-    accountType: req.body.accountType,
-    admin: isAdmin
-  });
-
-  user.save((err) => {
-    if (err) {
-      req.flash('errors', 'Could not save to database. Please try again.');
-      res.redirect('/users/create');
+  req.getValidationResult().then(result => {
+    if (!result.isEmpty()) {
+      const val = result.array().map(err => err.msg);
+      const errors = ['Validation Errors:'].concat(val);
+      console.log(errors, req.body.password)
+      res.json({
+        errors
+      });
+      return;
     }
 
-    req.flash('success', 'Successfuly created the user!');
-    res.redirect('/users');
+    let isAdmin = false;
+
+    if (req.body.accountType === 'admin') {
+      isAdmin = true;
+    }
+
+    const user = new User({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
+      email: req.body.email,
+      password: req.body.password,
+      accountType: req.body.accountType,
+      admin: isAdmin
+    });
+
+    user.save((err) => {
+      if (err) {
+        req.flash('errors', 'Could not save to database. Please try again.');
+        res.redirect('/users/create');
+      }
+
+      res.json({
+        success: 'Successfuly created the user!'
+      });
+    });
   });
 }
 
@@ -227,5 +265,6 @@ module.exports = {
   showCreate,
   processCreate,
   logout,
-  routerMiddleware
+  routerMiddleware,
+  adminMiddleware
 };

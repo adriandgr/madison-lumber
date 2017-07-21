@@ -1,64 +1,85 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import { loadState, saveState } from '../utils/localStorage';
 import api from '../utils/api';
 import SiteHeader from './SiteHeader';
 import Home from './Home';
 import Mills from './Mills';
 import Mill from './Mill';
 import Users from './Users';
+import CreateUser from './CreateUser';
 import Login from './Login';
+import AlertMessages from './AlertMessages';
 import './App.css';
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isAuthenticated: true,
-      isAdmin: true,
-      token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyIkX18iOnsic3RyaWN0TW9kZSI6dHJ1ZSwic2VsZWN0ZWQiOnt9LCJnZXR0ZXJzIjp7fSwiX2lkIjoiNTk1MTVmNTkyYWM3YmJhMDAxNjI2MTE4Iiwid2FzUG9wdWxhdGVkIjpmYWxzZSwiYWN0aXZlUGF0aHMiOnsicGF0aHMiOnsiY3JlYXRlZCI6ImluaXQiLCJhY2NvdW50VHlwZSI6ImluaXQiLCJhZG1pbiI6ImluaXQiLCJfX3YiOiJpbml0IiwicGFzc3dvcmQiOiJpbml0IiwiZW1haWwiOiJpbml0IiwibGFzdE5hbWUiOiJpbml0IiwiZmlyc3ROYW1lIjoiaW5pdCIsInV1aWQiOiJpbml0IiwiX2lkIjoiaW5pdCJ9LCJzdGF0ZXMiOnsiaWdub3JlIjp7fSwiZGVmYXVsdCI6e30sImluaXQiOnsiX192Ijp0cnVlLCJjcmVhdGVkIjp0cnVlLCJhY2NvdW50VHlwZSI6dHJ1ZSwiYWRtaW4iOnRydWUsInBhc3N3b3JkIjp0cnVlLCJlbWFpbCI6dHJ1ZSwibGFzdE5hbWUiOnRydWUsImZpcnN0TmFtZSI6dHJ1ZSwidXVpZCI6dHJ1ZSwiX2lkIjp0cnVlfSwibW9kaWZ5Ijp7fSwicmVxdWlyZSI6e319LCJzdGF0ZU5hbWVzIjpbInJlcXVpcmUiLCJtb2RpZnkiLCJpbml0IiwiZGVmYXVsdCIsImlnbm9yZSJdfSwicGF0aHNUb1Njb3BlcyI6e30sImVtaXR0ZXIiOnsiZG9tYWluIjpudWxsLCJfZXZlbnRzIjp7fSwiX2V2ZW50c0NvdW50IjowLCJfbWF4TGlzdGVuZXJzIjowfX0sImlzTmV3IjpmYWxzZSwiX2RvYyI6eyJjcmVhdGVkIjoiMjAxNy0wNi0yNlQxOToyNDowOS44NDJaIiwiYWNjb3VudFR5cGUiOiJkZXZlbG9wZXIiLCJhZG1pbiI6dHJ1ZSwiX192IjowLCJwYXNzd29yZCI6ImRldiIsImVtYWlsIjoibWUiLCJsYXN0TmFtZSI6IkRpYXoiLCJmaXJzdE5hbWUiOiJBZHJpYW4iLCJ1dWlkIjoicjF6dnkxMUViIiwiX2lkIjoiNTk1MTVmNTkyYWM3YmJhMDAxNjI2MTE4In0sIiRpbml0Ijp0cnVlLCJpYXQiOjE1MDA1MDE2MTEsImV4cCI6MTUwMDU4ODAxMX0.T_Ulxw--ySwCf1R9kwBY1UGgySe3tRuFM8aAVb7rCoo',
+      isAuthenticated: false,
+      isAdmin: false,
+      token: null,
       userName: '',
+      successAuth: []
     }
     this.authUser = this.authUser.bind(this)
     this.logoutUser = this.logoutUser.bind(this)
   }
-  componentDidMount() {
-    this.updateToken(this.state.validToken);
-  }
-  updateToken(token) {
-    if(token) {
-      console.log('you got a token')
-      return
+  componentWillMount() {
+    const localToken = loadState().token
+    if (!this.state.token && localToken) {
+      this.authWithToken(localToken);
     }
-    api.fetchToken().then( res => {
-      console.log(res)
-    })
   }
 
-  authUser(token, userName) {
+  authWithToken(token) {
+    return api.validateToken(token).then( res => {
+      this.authUser(res.token, res.user, res.isAdmin);
+      this.forceUpdate()
+    });
+  }
+
+  authUser(token, userName, isAdmin) {
     this.setState(()=> ({
       isAuthenticated: true,
       token,
-      userName
+      userName,
+      isAdmin,
+      successAuth: ['Login Successful.', `Welcome back, ${userName}!`]
     }));
+
+    saveState({
+      token
+    });
   }
 
   logoutUser(cb) {
+    console.log('logmeout')
     this.setState(() => ({
       isAuthenticated: false,
+      isAdmin: false,
       token: null,
-      userName: ''
+      userName: '',
+      successAuth: ['Logout Successful.', `See you later, ${this.state.userName}.`]
     }))
-    cb
+    saveState({
+      token: null
+    });
+    cb;
   }
 
   render() {
     return (
       <Router>
         <div className="App">
-          <SiteHeader user={this.state.userName} logoutUser={this.logoutUser}/>
+          <SiteHeader
+            isAuthenticated={this.state.isAuthenticated}
+            logoutUser={this.logoutUser}/>
           <main id="site-main">
             <Switch>
-              <Route exact path='/' component={Home} />
+              <Route exact path='/' render={(props) => (
+                <Home {...props} success={this.state.successAuth} />
+              )}/>
               <Route path='/login' render={(props) => (
                 <Login {...props} onSubmit={this.authUser} />
               )}/>
@@ -68,7 +89,7 @@ class App extends Component {
                   isAdmin={this.state.isAdmin}
                   token={this.state.token} />
               )}/>
-              <Route path='/mills/:mill' render={(props) => (
+              <Route exact path='/mills/:mill' render={(props) => (
                 <Mill {...props}
                   isAuthenticated={this.state.isAuthenticated}
                   isAdmin={this.state.isAdmin}
@@ -80,7 +101,23 @@ class App extends Component {
                   isAdmin={this.state.isAdmin}
                   token={this.state.token} />
               )}/>
-              <Route render={ () => <p><strong>404 - Not Found</strong></p> } />
+              <Route exact path='/users/new' render={(props) => (
+                <CreateUser {...props}
+                  isAuthenticated={this.state.isAuthenticated}
+                  isAdmin={this.state.isAdmin}
+                  token={this.state.token} />
+              )}/>
+              <Route render={ () => (
+                <div className="container">
+                  <AlertMessages
+                    success={[]}
+                    errors={[
+                      '404 - Not Found',
+                      'The page you are looking for has been moved or doesn\'t exist anymore.']}
+                  />
+                  <Link to="/" className="btn btn-lg btn-default center-block"><i className="fa fa-undo" aria-hidden="true"></i> Take me home</Link>
+                </div>)
+              } />
             </Switch>
           </main>
           <footer id="site-footer">

@@ -1,7 +1,19 @@
 import React, { Component } from 'react';
 import api from '../utils/api';
 import { Link } from 'react-router-dom';
+import headerBg from './mills-header.jpg'
 import PropTypes from 'prop-types';
+import AlertMessages from './AlertMessages';
+
+const MillsBanner = (props) => (
+  <div
+    className="jumbotron text-center section-banner"
+    style={{backgroundImage: `url(${props.imgSrc})`}}>
+    <h1 className="heading-brand">
+      {props.heading}
+    </h1>
+  </div>
+)
 
 const MillTable = (props) => (
   <table className="table table-bordered table-hover table-striped">
@@ -39,8 +51,8 @@ class Mills extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      successMsg: '',
-      searchMsg: '',
+      successMsg: [],
+      searchMsg: [],
       mills: []
     }
     this.loadMills = this.loadMills.bind(this);
@@ -50,24 +62,25 @@ class Mills extends Component {
     this.loadMills()
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.loadMills()
+  }
+
   loadMills() {
-    if (!this.props.token) {
-      return
-    }
     api.getMills(this.props.token).then(res=> {
       const newState = {
-        successMsg: '',
-        searchMsg: '',
+        successMsg: [],
+        searchMsg: [],
         mills: []
       }
 
-      if (res.success.length) {
+      if (res.success) {
         newState.successMsg = res.success;
       }
-      if (res.query.length) {
+      if (res.query) {
         newState.searchMsg = res.query;
       }
-      if (res.mills.length) {
+      if (res.mills) {
         newState.mills = res.mills;
       }
 
@@ -78,8 +91,14 @@ class Mills extends Component {
   render() {
     if (!this.props.isAuthenticated) {
       return (
-        <div>
-          Please log in to view this page.
+        <div className="container">
+          <AlertMessages
+            success={[]}
+            errors={[
+              '401 - Unauthorized',
+              'The request lacks valid authentication credentials for the target resource.',
+              'Please log in and try again.']}
+          />
         </div>
       )
     }
@@ -87,24 +106,24 @@ class Mills extends Component {
     return (
      <div className="container">
         { this.state.successMsg &&
-          <div className="alert alert-success">
-            {this.state.successMsg}
-          </div>}
+          <AlertMessages
+            success={this.state.successMsg}
+            errors={[]}/> }
 
-        <div className="jumbotron text-center mills-bg">
-          <h1 className="heading-brand">All Mills</h1>
-        </div>
+        <MillsBanner
+          heading="All Mills"
+          imgSrc={headerBg}/>
 
         {this.props.isAdmin &&
         <div className="breadcrumb">
           <Link to="/mills/create" className="btn btn-lg btn-success"><i className="fa fa-plus" aria-hidden="true"></i> Add new mill</Link>
         </div>}
 
-        {this.state.searchMsg &&
+        { this.state.searchMsg.length > 0 &&
           <div className="alert alert-info">
             <strong>Search results for:</strong> {this.state.searchMsg}
           </div>}
-        {this.state.mills &&
+        { this.props.token && this.state.mills.length > 0 &&
           <MillTable mills={this.state.mills} />}
 
 

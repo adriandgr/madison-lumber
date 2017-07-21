@@ -1,9 +1,16 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import madisonLogo from './madison-logo.png';
-import headerBg from './header-img.jpg'
+import headerBg from './header-img.jpg';
+import AlertMessages from './AlertMessages';
 
 
 class Home extends Component {
+  constructor(props) {
+    super(props);
+
+  }
+
   render() {
     let textIntro = `The most comprehensive listing of Canadian solid wood and
     pulp manufacturers anywhere, Madison's Online Lumber Directory
@@ -17,6 +24,14 @@ class Home extends Component {
     return (
 
     <div className="container">
+
+      {this.props.success &&
+        <AlertMessages
+        success={this.props.success}
+        errors={[]} />
+      }
+
+
     <div
       className="jumbotron text-center section-banner"
       style={{backgroundImage: `url(${headerBg})`}}>
@@ -35,6 +50,10 @@ class Home extends Component {
 
     );
   }
+}
+
+Home.propTypes = {
+  success: PropTypes.array.isRequired
 }
 
 export default Home;

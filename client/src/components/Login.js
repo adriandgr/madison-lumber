@@ -57,7 +57,8 @@ class Login extends Component {
 
       this.props.onSubmit(
         res.token,
-        res.user
+        res.user,
+        res.isAdmin
       )
       this.setState({ redirectToReferrer: true })
 

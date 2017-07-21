@@ -9,10 +9,11 @@ var instance = axios.create({
 
 
 const api = {
-  fetchToken: () => {
-    var encodedURI = window.encodeURI('http://localhost:8181/');
-    return axios.get(encodedURI)
-      .then(res => res.data.validToken );
+  validateToken: (token) => {
+    return instance.post(
+      '/api/authTwo',
+      querystring.stringify({ token })
+      ).then(res => res.data);;
   },
   authUser: (email, password) => {
     console.log('hey')
@@ -32,6 +33,18 @@ const api = {
   getUsers: (token) => {
     return instance.get(`/api/users?token=${token}`)
       .then(res => res.data );
+  },
+  createUser: (token, user) => {
+    return instance.post(
+      '/api/users/create',
+      querystring.stringify({
+        token,
+        firstName: user.name,
+        lastName: user.surname,
+        email: user.email,
+        password: user.pwd,
+        accountType: user.type
+      })).then(res => res.data);
   }
 }
 

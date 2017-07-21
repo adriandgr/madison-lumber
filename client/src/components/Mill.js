@@ -1,7 +1,21 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import headerBg from './blue-mill.jpg'
 import PropTypes from 'prop-types';
 import api from '../utils/api';
+
+const MillBanner = (props) => (
+  <div
+    className="jumbotron text-center section-banner"
+    style={{backgroundImage: `url(${props.imgSrc})`}}>
+    <h1 className="heading-brand">
+      {props.mill.name}
+    </h1>
+    <h2 className="heading-brand">
+      {props.mill.type} - {props.mill.region}
+    </h2>
+  </div>
+)
 
 const MillTable = (props) => (
   <table className="table table-bordered table-hover table-striped">
@@ -266,10 +280,9 @@ class Mill extends Component {
       <div className="container">
       { this.state.mill.name
         ? <div className="mill">
-            <div className="jumbotron text-center single-view">
-              <h1 className="heading-brand">{this.state.mill.name}</h1>
-              <h2 className="heading-brand">{this.state.mill.type} - {this.state.mill.region}</h2>
-            </div>
+            <MillBanner
+              imgSrc={headerBg}
+              mill={this.state.mill} />
 
             <MillTable
               mill={this.state.mill} />
