@@ -195,8 +195,9 @@ function processCreate(req, res) {
 
     user.save((err) => {
       if (err) {
-        req.flash('errors', 'Could not save to database. Please try again.');
-        res.redirect('/users/create');
+        return res.json({
+          errors: ['Error 500', 'Internal Server Error. Please try again.']
+        });
       }
 
       res.json({

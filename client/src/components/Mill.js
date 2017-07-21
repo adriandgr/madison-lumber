@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import AlertMessages from './AlertMessages';
 import headerBg from './blue-mill.jpg'
 import PropTypes from 'prop-types';
 import api from '../utils/api';
@@ -288,8 +289,24 @@ class Mill extends Component {
               mill={this.state.mill} />
 
           </div>
-        : <div className="not-found">
-            404
+        : <div className="container">
+            <AlertMessages
+              success={[]}
+              errors={[
+                '404 - Not Found',
+                'The mill record you requested has been moved or doesn\'t exist anymore.']}
+            />
+            <Link
+              to="/mills"
+              className="btn btn-lg btn-default center-block">
+                <i className="fa fa-undo" aria-hidden="true"></i> View all mills
+            </Link>
+            <br />
+            <Link
+              to="/"
+              className="btn btn-lg btn-default center-block">
+                <i className="fa fa-home" aria-hidden="true"></i> Take me home
+            </Link>
           </div>
       }
       </div>

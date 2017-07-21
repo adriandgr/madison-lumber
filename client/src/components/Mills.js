@@ -1,19 +1,11 @@
 import React, { Component } from 'react';
 import api from '../utils/api';
 import { Link } from 'react-router-dom';
-import headerBg from './mills-header.jpg'
+import headerBg from './mills-header.jpg';
 import PropTypes from 'prop-types';
 import AlertMessages from './AlertMessages';
+import Jumbotron from './Jumbotron';
 
-const MillsBanner = (props) => (
-  <div
-    className="jumbotron text-center section-banner"
-    style={{backgroundImage: `url(${props.imgSrc})`}}>
-    <h1 className="heading-brand">
-      {props.heading}
-    </h1>
-  </div>
-)
 
 const MillTable = (props) => (
   <table className="table table-bordered table-hover table-striped">
@@ -105,18 +97,18 @@ class Mills extends Component {
 
     return (
      <div className="container">
+        <Jumbotron
+          heading="All Mills"
+          imgSrc={headerBg}/>
+
         { this.state.successMsg &&
           <AlertMessages
             success={this.state.successMsg}
             errors={[]}/> }
 
-        <MillsBanner
-          heading="All Mills"
-          imgSrc={headerBg}/>
-
         {this.props.isAdmin &&
         <div className="breadcrumb">
-          <Link to="/mills/create" className="btn btn-lg btn-success"><i className="fa fa-plus" aria-hidden="true"></i> Add new mill</Link>
+          <Link to="/mills/new" className="btn btn-lg btn-success"><i className="fa fa-plus" aria-hidden="true"></i> Add new mill</Link>
         </div>}
 
         { this.state.searchMsg.length > 0 &&

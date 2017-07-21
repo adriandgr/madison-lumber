@@ -13,7 +13,7 @@ const api = {
     return instance.post(
       '/api/authTwo',
       querystring.stringify({ token })
-      ).then(res => res.data);;
+      ).then(res => res.data);
   },
   authUser: (email, password) => {
     console.log('hey')
@@ -29,6 +29,14 @@ const api = {
   getMill: (token, millSlug) => {
     return instance.get(`/api${millSlug}?token=${token}`)
       .then(res => res.data );
+  },
+  createMill: (token, mill) => {
+    return instance.post(
+      '/api/mills/create',
+      querystring.stringify({
+        token,
+        ...mill
+      })).then(res => res.data);
   },
   getUsers: (token) => {
     return instance.get(`/api/users?token=${token}`)

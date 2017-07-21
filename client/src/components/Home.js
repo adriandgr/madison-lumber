@@ -6,10 +6,6 @@ import AlertMessages from './AlertMessages';
 
 
 class Home extends Component {
-  constructor(props) {
-    super(props);
-
-  }
 
   render() {
     let textIntro = `The most comprehensive listing of Canadian solid wood and

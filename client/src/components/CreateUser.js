@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
 import headerBg from './moodyville-yard.jpg'
 import PropTypes from 'prop-types';
 import AlertMessages from './AlertMessages';
+import Jumbotron from './Jumbotron';
 import api from '../utils/api';
 
 class NewUser extends Component {
@@ -163,9 +163,12 @@ class CreateUser extends Component {
 
     return (
       <div className="container">
-        <div className="jumbotron text-center login-bg">
-          <h1 className="heading-brand">Create a New User</h1>
-        </div>
+
+        <Jumbotron
+          heading="Create a New User"
+          imgSrc={headerBg}/>
+
+
 
         <div className="row">
           <div className="col-sm-6 col-sm-offset-3">

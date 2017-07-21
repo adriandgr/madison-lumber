@@ -44,7 +44,7 @@ router.post('/api/users/create', userController.processCreate);
 
 //create
 router.get('/mills/create', eventsController.showCreate);
-router.post('/mills/create', eventsController.processCreate);
+router.post('/api/mills/create', eventsController.processCreate);
 
 //edit
 router.get('/mills/:slug/edit', eventsController.showEdit);

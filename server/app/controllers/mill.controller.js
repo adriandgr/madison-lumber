@@ -99,62 +99,67 @@ function processCreate(req, res) {
   req.checkBody('type', 'Type is required.').notEmpty();
   req.checkBody('region', 'Region is required.').notEmpty();
 
-
-  const errors = req.validationErrors();
-
-  if(errors) {
-    req.flash('errors', errors.map(err => err.msg));
-    return res.redirect('/mills/create');
-  }
-
-  const mill = new Mill({
-    name: req.body.name,
-    type: req.body.type,
-    region: req.body.region,
-    contact: {
-      address: req.body.address,
-      location: req.body.location,
-      phone: req.body.phone,
-      fax: req.body.fax,
-      website: req.body.website,
-      contactPersons: req.body.contactPersons.split(", ")
-    },
-    catalog: {
-      products: req.body.products.split(", "),
-      species: req.body.species.split(", "),
-      roughSizes: req.body.roughSizes.split(", "),
-      surfacedSizes: req.body.surfacedSizes,
-      production: req.body.production,
-      panelThickness: req.body.panelThickness,
-      services: req.body.services.split(", "),
-      kilnCapacity: req.body.kilnCapacity,
-      shipping: req.body.shipping.split(", "),
-      export: req.body.export.split(", ")
-    },
-    qualifications: {
-      gradingAgency: req.body.gradingAgency,
-      memberOf: req.body.memberOf.split(", "),
-      employees: req.body.employees,
-      notes: req.body.notes,
-      certification: req.body.certification,
-      preservatives: req.body.preservatives,
-      treatingFacilities: req.body.treatingFacilities,
-      distributionYard: req.body.distributionYard,
-      millStatus: req.body.millStatus
-    },
-    lastUpdated: Date.now()
-  });
-
-  mill.save((err) => {
-    if (err) {
-      req.flash('errors', 'Database Error: Mill Already Exists!');
-      req.flash('errors', 'Please update existing record or choose a different name.');
-      return res.redirect('/mills/create');
+  req.getValidationResult().then(result => {
+    if (!result.isEmpty()) {
+      const val = result.array().map(err => err.msg);
+      const errors = ['Validation Errors:'].concat(val);
+      console.log(errors);
+      return res.json({
+        errors
+      });
     }
 
-    req.flash('success', 'Successfuly created the mill!');
-    res.redirect(`/mills/${mill.slug}`);
+    const mill = new Mill({
+      name: req.body.name,
+      type: req.body.type,
+      region: req.body.region,
+      contact: {
+        address: req.body.address,
+        location: req.body.location,
+        phone: req.body.phone,
+        fax: req.body.fax,
+        website: req.body.website,
+        contactPersons: req.body.contactPersons.split(", ")
+      },
+      catalog: {
+        products: req.body.products.split(", "),
+        species: req.body.species.split(", "),
+        roughSizes: req.body.roughSizes.split(", "),
+        surfacedSizes: req.body.surfacedSizes,
+        production: req.body.production,
+        panelThickness: req.body.panelThickness,
+        services: req.body.services.split(", "),
+        kilnCapacity: req.body.kilnCapacity,
+        shipping: req.body.shipping.split(", "),
+        export: req.body.export.split(", ")
+      },
+      qualifications: {
+        gradingAgency: req.body.gradingAgency,
+        memberOf: req.body.memberOf.split(", "),
+        employees: req.body.employees,
+        notes: req.body.notes,
+        certification: req.body.certification,
+        preservatives: req.body.preservatives,
+        treatingFacilities: req.body.treatingFacilities,
+        distributionYard: req.body.distributionYard,
+        millStatus: req.body.millStatus
+      },
+      lastUpdated: Date.now()
+    });
+
+    mill.save((err) => {
+      if (err) {
+        return res.json({
+          errors: ['Error 500', 'Internal Server Error. Please try again.']
+        });
+      }
+
+      res.json({
+        success: 'Successfuly created mill record!'
+      });
+    });
   });
+
 }
 
 /**

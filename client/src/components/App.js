@@ -6,6 +6,7 @@ import SiteHeader from './SiteHeader';
 import Home from './Home';
 import Mills from './Mills';
 import Mill from './Mill';
+import CreateMill from './CreateMill';
 import Users from './Users';
 import CreateUser from './CreateUser';
 import Login from './Login';
@@ -88,6 +89,12 @@ class App extends Component {
               )}/>
               <Route exact path='/mills' render={(props) => (
                 <Mills {...props}
+                  isAuthenticated={this.state.isAuthenticated}
+                  isAdmin={this.state.isAdmin}
+                  token={this.state.token} />
+              )}/>
+              <Route exact path='/mills/new' render={(props) => (
+                <CreateMill {...props}
                   isAuthenticated={this.state.isAuthenticated}
                   isAdmin={this.state.isAdmin}
                   token={this.state.token} />
