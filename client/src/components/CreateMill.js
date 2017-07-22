@@ -36,9 +36,10 @@ const MillSchema = {
   millStatus: ''
 }
 
-class NewMill extends Component {
+class NewMillForm extends Component {
   constructor(props) {
     super(props);
+    // using Object.assign() to create a shallow copy of MillSchema
     this.state = Object.assign({}, MillSchema)
 
     this.handleChange = this.handleChange.bind(this)
@@ -449,7 +450,7 @@ class NewMill extends Component {
   }
 }
 
-NewMill.proptypes = {
+NewMillForm.proptypes = {
   onSubmit: PropTypes.func.isRequired
 }
 
@@ -488,13 +489,13 @@ class CreateMill extends Component {
           heading="Create a New Mill"
           imgSrc={headerBg}/>
 
-
-        <AlertMessages
+        { this.state.errors &&
+          <AlertMessages
           success={[]}
           errors={this.state.errors}
-          />
+          />}
 
-        <NewMill
+        <NewMillForm
           onSubmit={this.onSubmit}/>
       </div>
     )
