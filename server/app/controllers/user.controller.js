@@ -5,44 +5,9 @@ const User = require('../models/user');
 const util = require('util');
 
 
+
 function authUser(req, res) {
-
-  // find the user
-  User.findOne({
-    email: req.body.email
-  }, function(err, user) {
-
-    if (err) {
-      throw err;
-    }
-
-    if (!user) {
-      req.flash('errors', 'Authentication Failed. Please try again.');
-      return res.redirect('/login');
-    } else if (user) {
-
-      // check if password matches
-      if (user.password !== req.body.password) {
-        req.flash('errors', 'Authentication Failed. Please try again.');
-        return res.redirect('/login');
-      } else {
-        // create a token and set expiry to 24hrs
-        var token = jwt.sign(user, process.env.JWT_SECRET, {
-          expiresIn: 86400
-        });
-
-        req.session.jwt = token;
-
-        req.flash('success', `Welcome back ${user.firstName}`);
-        res.redirect('/');
-      }
-
-    }
-
-  });
-}
-
-function authUserTwo(req, res) {
+  // first check if they have a token
   const token = req.body.token;
   if (token) {
     return jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
@@ -50,6 +15,7 @@ function authUserTwo(req, res) {
         return res.json({ error: 'Authentication Failed. Please try again.' });
       } else {
         req.decoded = decoded;
+        req.session.jwt = token;
         res.json({
           token,
           user: decoded._doc.firstName,
@@ -258,7 +224,6 @@ function logout(req, res) {
 
 module.exports = {
   authUser,
-  authUserTwo,
   getLogin,
   getUsers,
   manageUser,
