@@ -41,7 +41,12 @@ app.use(function(req, res, next) {
   next();
 });
 
-app.use('/', routes);
+app.use('/api', routes);
+
+// Resolve all non-api requests to index.html, allow react-router-dom to resolve the route in the client
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, './', 'public', 'index.html'));
+});
 
 app.listen(port, () => {
   console.log(`App listening on http://localhost:${port}`);

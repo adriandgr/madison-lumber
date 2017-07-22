@@ -64,7 +64,7 @@ typings/
 
 
 # production
-/build
+client/build
 
 # misc
 .env.local
