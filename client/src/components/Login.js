@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
+import AlertMessages from './AlertMessages';
 import api from '../utils/api';
 import PropTypes from 'prop-types'
 import headerBg from './moodyville-yard.jpg'
@@ -29,7 +30,7 @@ class Login extends Component {
       redirectToReferrer: false,
       email: '',
       pwd: '',
-      error: ''
+      errors: []
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -49,18 +50,20 @@ class Login extends Component {
       this.state.email,
       this.state.pwd
     ).then(res => {
-      if (res.error) {
-        this.setState(() => ({error: res.error}));
+      if (res.errors) {
+        this.setState(() => ({errors: res.errors}));
       } else {
-        this.setState(() => ({error: ''}))
+        this.setState(() => ({errors: []}))
       }
 
-      this.props.onSubmit(
-        res.token,
-        res.user,
-        res.isAdmin
-      )
-      this.setState({ redirectToReferrer: true })
+      if (res.token) {
+        this.props.onSubmit(
+          res.token,
+          res.user,
+          res.isAdmin
+        )
+        this.setState({ redirectToReferrer: true })
+      }
 
     })
   }
@@ -84,10 +87,10 @@ class Login extends Component {
 
         <div className="row">
           <div className="col-sm-6 col-sm-offset-3">
-            {this.state.error &&
-              <div className="alert alert-danger">
-                {this.state.error}
-              </div>}
+            {this.state.errors &&
+              <AlertMessages
+                success={[]}
+                errors={this.state.errors} />}
             <form action="/api/auth" onSubmit={this.handleSubmit}>
               <div className="form-group">
                 <label htmlFor="">Email</label>

@@ -2,8 +2,12 @@ import axios from 'axios';
 import querystring from 'querystring';
 
 
+const baseURL = process.env.NODE_ENV === 'production'
+  ? 'https://db.madisonsreport.com'
+  : 'http://localhost:8181';
+
 var instance = axios.create({
-  baseURL: 'http://localhost:8181',
+  baseURL,
   headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 });
 
@@ -11,14 +15,14 @@ var instance = axios.create({
 const api = {
   validateToken: (token) => {
     return instance.post(
-      '/api/authTwo',
+      '/api/auth',
       querystring.stringify({ token })
       ).then(res => res.data);
   },
   authUser: (email, password) => {
     console.log('hey')
     return instance.post(
-      '/api/authTwo',
+      '/api/auth',
       querystring.stringify({ email, password })
       ).then(res => res.data);
   },

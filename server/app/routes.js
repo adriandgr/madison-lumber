@@ -9,7 +9,7 @@ const millsController  = require('./controllers/mill.controller');
 
 
 router.get('/logout', userController.logout);
-router.post('/authTwo', userController.authUser);
+router.post('/auth', userController.authUser);
 
 // route middleware to authenticate and check token
 router.use(userController.routerMiddleware);

@@ -1,8 +1,10 @@
 require('dotenv').config();
 
-const jwt  = require('jsonwebtoken');
-const User = require('../models/user');
-const util = require('util');
+const jwt     = require('jsonwebtoken');
+const User    = require('../models/user');
+const util    = require('util');
+const bcrypt  = require('bcrypt');
+const saltRounds = 12;
 
 
 
@@ -25,32 +27,51 @@ function authUser(req, res) {
     });
   }
 
-  User.findOne({ email: req.body.email }, function(err, user) {
-    if (err) {
-      throw err;
+  req.checkBody('email', 'Email may not be blank.').notEmpty();
+  req.checkBody('password', 'Password may not be blank').notEmpty();
+
+  req.getValidationResult().then(result => {
+    if (!result.isEmpty()) {
+      const val = result.array().map(err => err.msg);
+      const errors = ['Validation Errors:'].concat(val);
+      console.log(errors, req.body.password);
+      return res.json({
+        errors
+      });
     }
 
-    if (!user) {
-      return res.json({ error: 'Authentication Failed. Please try again.' });
-    } else if (user) {
-      if (user.password !== req.body.password) {
-        return res.json({ error: 'Authentication Failed. Please try again.' });
-      } else {
-        // create a token and set expiry to 24hrs
-        var token = jwt.sign(user, process.env.JWT_SECRET, {
-          expiresIn: 86400
-        });
+    User.findOne({ email: req.body.email }, function(err, user) {
+      if (err) { throw err; }
 
-        req.session.jwt = token;
-
-        //req.flash('success', `Welcome back ${user.firstName}`);
-        res.json({
-          token,
-          user: user.firstName,
-          isAdmin: user.admin
-        });
+      if (!user) {
+        return res.json({ errors: ['403 - Forbidden', 'Authentication Failed. Please try again.'] });
       }
-    }
+
+      bcrypt.compare(req.body.password, user.hash, function(err, comp) {
+        if (err) {
+          return res.json({ errors: ['Error 500', 'Internal Server Error. Please try again.']});
+        }
+
+        if (comp === false) {
+          return res.json({ errors: ['403 - Forbidden', 'Authentication Failed. Please try again.'] });
+        }
+
+        if (comp === true) {
+          // create a token and set expiry to 24hrs
+          var token = jwt.sign(user, process.env.JWT_SECRET, {
+            expiresIn: 86400
+          });
+
+          req.session.jwt = token;
+          console.log(token);
+          return res.json({
+            token,
+            user: user.firstName,
+            isAdmin: user.admin
+          });
+        }
+      });
+    });
   });
 }
 
@@ -131,43 +152,46 @@ function processCreate(req, res) {
   req.checkBody('firstName', 'First name is required.').notEmpty();
   req.checkBody('lastName', 'Last name is required.').notEmpty();
   req.checkBody('email', 'Valid email is required.').isEmail();
-  req.checkBody('password', 'Password should be between 8 and 30 characters long').len(8,30);
+  req.checkBody('password', 'Password should be between 8 and 30 characters long').len(8, 30);
 
   req.getValidationResult().then(result => {
     if (!result.isEmpty()) {
       const val = result.array().map(err => err.msg);
       const errors = ['Validation Errors:'].concat(val);
-      console.log(errors, req.body.password)
-      res.json({
+      console.log(errors, req.body.password);
+      return res.json({
         errors
       });
-      return;
     }
 
-    let isAdmin = false;
-
-    if (req.body.accountType === 'admin') {
-      isAdmin = true;
-    }
-
-    const user = new User({
-      firstName: req.body.firstName,
-      lastName: req.body.lastName,
-      email: req.body.email,
-      password: req.body.password,
-      accountType: req.body.accountType,
-      admin: isAdmin
-    });
-
-    user.save((err) => {
+    bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
       if (err) {
-        return res.json({
-          errors: ['Error 500', 'Internal Server Error. Please try again.']
-        });
+        return res.json({errors: ['Error 500', 'Internal Server Error. Please try again.']});
       }
 
-      res.json({
-        success: 'Successfuly created the user!'
+      let isAdmin = false;
+
+      if (req.body.accountType === 'admin') {
+        isAdmin = true;
+      }
+
+      const user = new User({
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        hash,
+        accountType: req.body.accountType,
+        admin: isAdmin
+      });
+
+      user.save((err) => {
+        if (err) {
+          return res.json({errors: ['Error 500', 'Internal Server Error. Please try again.']});
+        }
+
+        res.json({
+          success: 'Successfuly created the user!'
+        });
       });
     });
   });
