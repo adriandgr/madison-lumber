@@ -25,8 +25,23 @@ const MillTable = (props) => (
             <td> {mill.region} </td>
             <td>
               <Link to={`/mills/${mill.slug}`} className="btn btn-sm btn-primary"><i className="fa fa-eye" aria-hidden="true"></i> View</Link>
-              <Link to={`/mills/${mill.slug}/edit`} className="btn btn-sm btn-primary"><i className="fa fa-pencil" aria-hidden="true"></i> Edit</Link>
-              <Link to={`/mills/${mill.slug}/delete`} className="btn btn-sm btn-danger"><i className="fa fa-trash" aria-hidden="true"></i> Delete</Link>
+              { props.isAdmin &&
+                  <Link
+                    to={`/mills/${mill.slug}/edit`}
+                    className="btn btn-sm btn-primary">
+                      <i className="fa fa-pencil" aria-hidden="true"></i> Edit
+                  </Link>}
+              { props.isAdmin &&
+                  <Link
+                    to='#'
+                    name={mill.slug}
+                    className="btn btn-sm btn-danger"
+                    onClick={(event) => {
+                      event.preventDefault();
+                      props.handleDelete(event.target.name);
+                    }}>
+                      <i className="fa fa-trash" aria-hidden="true"></i> Delete
+                  </Link>}
             </td>
           </tr>
         )
@@ -36,18 +51,22 @@ const MillTable = (props) => (
 )
 
 MillTable.propTypes = {
-  mills: PropTypes.array.isRequired
+  mills: PropTypes.array.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
+  handleDelete: PropTypes.func.isRequired
 }
 
 class Mills extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      successMsg: [],
+      success: [],
+      errors: [],
       searchMsg: [],
       mills: []
     }
     this.loadMills = this.loadMills.bind(this);
+    this.handleDelete = this.handleDelete.bind(this);
   }
 
   componentDidMount() {
@@ -61,13 +80,14 @@ class Mills extends Component {
   loadMills() {
     api.getMills(this.props.token).then(res=> {
       const newState = {
-        successMsg: [],
+        success: [],
+        errors: [],
         searchMsg: [],
         mills: []
       }
 
       if (res.success) {
-        newState.successMsg = res.success;
+        newState.success = res.success;
       }
       if (res.query) {
         newState.searchMsg = res.query;
@@ -78,6 +98,35 @@ class Mills extends Component {
 
       this.setState(() => newState);
     })
+  }
+
+  handleDelete(slug){
+    const { mills } = this.state;
+    const snap = Object.assign([], mills)
+    const index = mills.indexOf(mills.find(mill => mill.slug === slug))
+    mills.splice(index, 1);
+
+    // optimistically remove the target mill from the component state
+    this.setState(() => (mills));
+
+    api.deleteMill(this.props.token, slug).then(res => {
+      const newState = {
+        success: [],
+        errors: []
+      }
+
+      if (res.success) {
+        newState.success = res.success
+        this.setState(() => (newState))
+      }
+
+      if (res.errors) {
+        // if errors are returned, restore the original component state
+        newState.mills = snap;
+        newState.errors = res.errors;
+        this.setState(() => (newState))
+      }
+    });
   }
 
   render() {
@@ -101,14 +150,16 @@ class Mills extends Component {
           heading="All Mills"
           imgSrc={headerBg}/>
 
-        { this.state.successMsg &&
+        { (this.state.success || this.state.errors) &&
           <AlertMessages
-            success={this.state.successMsg}
-            errors={[]}/> }
+            success={this.state.success}
+            errors={this.state.errors}/> }
 
         {this.props.isAdmin &&
         <div className="breadcrumb">
           <Link to="/mills/new" className="btn btn-lg btn-success"><i className="fa fa-plus" aria-hidden="true"></i> Add new mill</Link>
+          <Link to="/mills/not-yet-implemented" className="btn btn-lg btn-success"><i className="fa fa-upload" aria-hidden="true"></i> Bulk Import</Link>
+          <Link to="/mills/not-yet-implemented" className="btn btn-lg btn-success"><i className="fa fa-download" aria-hidden="true"></i> Export</Link>
         </div>}
 
         { this.state.searchMsg.length > 0 &&
@@ -116,7 +167,10 @@ class Mills extends Component {
             <strong>Search results for:</strong> {this.state.searchMsg}
           </div>}
         { this.props.token && this.state.mills.length > 0 &&
-          <MillTable mills={this.state.mills} />}
+          <MillTable
+            mills={this.state.mills}
+            isAdmin={this.props.isAdmin}
+            handleDelete={this.handleDelete} />}
 
 
       </div>

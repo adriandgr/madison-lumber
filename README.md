@@ -6,8 +6,9 @@ New web app to drive one of British Columbia's largest databases of lumber suppl
 ## Tech Stack
 
 - MongoDB - Persist information to this document based database.
+- Mongoose - ORM library
 - ExpressJS - NodeJS app using express
-- EJS Templates - Since the view requirements are simple, site uses server-rendered templates using EJS.
+- React - client rendered app with `react-router-dom`.
 
 
 ## Local Development

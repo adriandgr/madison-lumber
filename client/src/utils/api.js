@@ -42,6 +42,10 @@ const api = {
         ...mill
       })).then(res => res.data);
   },
+  deleteMill: (token, millSlug) => {
+    return instance.get(`/api/mills/${millSlug}/delete?token=${token}`)
+      .then(res => res.data );
+  },
   getUsers: (token) => {
     return instance.get(`/api/users?token=${token}`)
       .then(res => res.data );

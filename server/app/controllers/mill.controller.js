@@ -208,10 +208,13 @@ function processEdit(req, res) {
   });
 }
 
-function deleteEvent(req, res) {
-  Mill.remove({ slug: req.params.slug }, err => {
-    req.flash('success', 'Mill deleted!');
-    res.redirect('/mills');
+function deleteMill(req, res) {
+  Mill.remove({ slug: req.params.slug }, (err, db) => {
+    if (db.result.n === 0) {
+      // if mill entry is not found return an error
+      return res.json({errors: ['Error 500', 'Internal server error.']});
+    }
+    res.json({success: ['Sucess', 'The mill was removed from the database.']});
   });
 }
 
@@ -223,5 +226,5 @@ module.exports = {
   processCreate,
   showEdit,
   processEdit,
-  deleteEvent
+  deleteMill
 };

@@ -50,7 +50,7 @@ router.get('/mills/seed', millsController.seedEvents);
 router.get('/users/:uuid', userController.manageUser);
 
 //delete
-router.get('/mills/:slug/delete', millsController.deleteEvent);
+router.get('/mills/:slug/delete', millsController.deleteMill);
 router.post('/users/:uuid/delete', userController.deleteUser);
 
 
