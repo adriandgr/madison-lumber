@@ -204,7 +204,7 @@ function manageUser(req, res) {
       res.send('User not found');
     }
     // return a view with data
-    res.render('pages/manageUser', {
+    res.json({
       user,
       validToken: req.flash('validToken'),
       success: req.flash('success'),
@@ -215,24 +215,27 @@ function manageUser(req, res) {
 
 function deleteUser(req, res) {
   if (req.decoded._doc.admin) {
-    User.findOne({uuid: req.params.uuid }, (err, user) => {
+    User.findOne({email: req.body.email }, (err, user) => {
       if (err) {
         res.status(404);
         res.send('User not found');
       }
       if (req.body.email === user.email) {
         User.remove({ uuid: req.params.uuid }, err => {
-          req.flash('success', 'User deleted!');
-          res.redirect('/users');
+          res.json({
+            success: ['User deleted!']
+          });
         });
       } else {
-        req.flash('errors', 'Email does not match. Please try again.');
-        res.redirect(`/users/${user.uuid}`);
+        res.json({
+          errors: ['Email does not match. Please try again.']
+        });
       }
     });
   } else {
-    req.flash('errors', 'Error 403 - Access Forbidden');
-    res.redirect('/users/');
+    res.json({
+      errors: ['Error 403 - Access Forbidden']
+    });
   }
 
 

@@ -11,6 +11,7 @@ import CreateMill from './CreateMill';
 import BulkImport from './BulkImport';
 import Users from './Users';
 import CreateUser from './CreateUser';
+import ManageUser from './ManageUser';
 import Login from './Login';
 import AlertMessages from './AlertMessages';
 import './App.css';
@@ -59,7 +60,14 @@ const AppRoutes = (props) => (
         isAdmin={props.isAdmin}
         token={props.token} />
     )}/>
-    <Route render={ () => (
+    <Route exact path='/users/:uuid' render={(routerProps) => (
+      <ManageUser {...routerProps}
+        isAuthenticated={props.isAuthenticated}
+        isAdmin={props.isAdmin}
+        token={props.token} />
+    )}/>
+    <Route render={ () => {
+      return (
       <div className="container">
         <AlertMessages
           success={[]}
@@ -68,7 +76,7 @@ const AppRoutes = (props) => (
             'The page you are looking for has been moved or doesn\'t exist anymore.']}
         />
         <Link to="/" className="btn btn-lg btn-default center-block"><i className="fa fa-undo" aria-hidden="true"></i> Take me home</Link>
-      </div>)
+      </div>)}
     } />
   </Switch>
 )

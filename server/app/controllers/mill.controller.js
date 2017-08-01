@@ -13,7 +13,7 @@ function showMills(req, res) {
         res.status(404);
         res.send('Events not found');
       }
-      res.render('pages/mills', {
+      res.json({
         mills,
         validToken: req.flash('validToken'),
         success: req.flash('success'),

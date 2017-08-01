@@ -53,6 +53,19 @@ const api = {
     return instance.get(`/api/users?token=${token}`)
       .then(res => res.data );
   },
+  getUser: (token, userUri) => {
+    return instance.get(`/api${userUri}?token=${token}`)
+      .then(res => {
+        return res.data} );
+  },
+  deleteUser: (token, email, uuidUri) => {
+    return instance.post(
+      `/api${uuidUri}/delete`,
+      querystring.stringify({
+        token,
+        email
+      })).then(res => res.data);
+  },
   createUser: (token, user) => {
     return instance.post(
       '/api/users/create',
