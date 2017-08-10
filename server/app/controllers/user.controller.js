@@ -49,7 +49,7 @@ function authUser(req, res) {
 
       bcrypt.compare(req.body.password, user.hash, function(err, comp) {
         if (err) {
-          return res.json({ errors: ['Error 500', 'Internal Server Error. Please try again.']});
+          return res.json({ errors: ['Error 500', 'Internal Server Error (bcrypt). Please try again.']});
         }
 
         if (comp === false) {
@@ -153,6 +153,9 @@ function processCreate(req, res) {
   req.checkBody('lastName', 'Last name is required.').notEmpty();
   req.checkBody('email', 'Valid email is required.').isEmail();
   req.checkBody('password', 'Password should be between 8 and 30 characters long').len(8, 30);
+  console.log('\n\n\n\n\n\n');
+  console.log(req.body);
+  console.log('\n\n\n\n\n\n');
 
   req.getValidationResult().then(result => {
     if (!result.isEmpty()) {
@@ -190,7 +193,7 @@ function processCreate(req, res) {
         }
 
         res.json({
-          success: 'Successfuly created the user!'
+          success: 'Successfully created the user!'
         });
       });
     });
@@ -243,7 +246,7 @@ function deleteUser(req, res) {
 
 function logout(req, res) {
   req.session.regenerate(err => {
-    console.log(err);
+    console.error(err);
     req.flash('success', 'You\'ve been logged out successfully.');
     res.redirect('/');
   });

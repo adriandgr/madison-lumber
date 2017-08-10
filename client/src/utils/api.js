@@ -20,7 +20,6 @@ const api = {
       ).then(res => res.data);
   },
   authUser: (email, password) => {
-    console.log('hey')
     return instance.post(
       '/api/auth',
       querystring.stringify({ email, password })

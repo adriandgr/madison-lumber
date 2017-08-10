@@ -17,14 +17,15 @@ class Home extends Component {
     the full database contains more than 1,799 individual solid wood
     and pulp producer entries. Further details and a link to our Madison's
     Directory order form is HERE.`
+
     return (
 
     <div className="container">
 
       {this.props.success &&
         <AlertMessages
-        success={this.props.success}
-        errors={[]} />
+          success={this.props.success}
+          errors={[]} />
       }
 
 

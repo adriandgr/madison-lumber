@@ -16,7 +16,7 @@ const UsersBanner = (props) => (
 )
 
 const UsersTable = (props) => (
-  <table className="table table-bordered table-hover table-striped">
+  <table className="table table-bordered table-hover table-striped user-table">
     <thead>
       <tr>
         <th>Name</th>
@@ -33,7 +33,7 @@ const UsersTable = (props) => (
             <td>{user.email}</td>
             <td>{user.accountType}</td>
             <td></td>
-            <td>
+            <td className="manage-button">
               <Link to={`/users/${user.uuid}`} className="btn btn-sm btn-primary">Manage User</Link>
             </td>
         </tr>
@@ -54,15 +54,19 @@ class Users extends Component {
     this.state = {
       success: [],
       errors: [],
+      loaded: true,
       users: []
     }
   }
 
   componentDidMount() {
-    this.loadUsers()
+    this.loadUsers();
   }
   componentWillReceiveProps(nextProps) {
-    this.loadUsers()
+    this.loadUsers();
+  }
+  componentWillUpdate(nextProps, nextState) {
+    this.state.loaded && this.loadUsers();
   }
 
   loadUsers() {
@@ -78,6 +82,7 @@ class Users extends Component {
 
       if (res.success) {
         newState.success = res.success;
+        newState.loaded = false;
       }
       if (res.errors) {
         newState.errors = res.errors;
@@ -86,7 +91,7 @@ class Users extends Component {
         newState.users = res.users;
       }
 
-      this.setState(() => newState);
+      this.setState(() => newState );
     })
   }
 
@@ -129,7 +134,7 @@ class Users extends Component {
           imgSrc={headerBg} />
 
         <div className="breadcrumb">
-          <Link to="/users/new" className="btn btn-lg btn-success"><i className="fa fa-user-plus" aria-hidden="true"></i> Add new user</Link>
+          <Link to="/users/new" className="btn btn-lg btn-success action-button"><i className="fa fa-user-plus" aria-hidden="true"></i> Add new user</Link>
         </div>
 
         { this.state.users.length > 0 &&

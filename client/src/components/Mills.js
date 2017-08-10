@@ -157,9 +157,9 @@ class Mills extends Component {
 
         {this.props.isAdmin &&
         <div className="breadcrumb">
-          <Link to="/mills/new" className="btn btn-lg btn-success"><i className="fa fa-plus" aria-hidden="true"></i> Add new mill</Link>
-          <Link to="/mills/import" className="btn btn-lg btn-success"><i className="fa fa-upload" aria-hidden="true"></i> Bulk Import</Link>
-          <Link to="/mills/not-yet-implemented" className="btn btn-lg btn-success"><i className="fa fa-download" aria-hidden="true"></i> Export</Link>
+          <Link to="/mills/new" className="btn btn-lg btn-success action-button"><i className="fa fa-plus" aria-hidden="true"></i> Add new mill</Link>
+          <Link to="/mills/import" className="btn btn-lg btn-success action-button"><i className="fa fa-upload" aria-hidden="true"></i> Bulk Import</Link>
+          <Link to="/mills/not-yet-implemented" className="btn btn-lg btn-success action-button"><i className="fa fa-download" aria-hidden="true"></i> Export</Link>
         </div>}
 
         { this.state.searchMsg.length > 0 &&

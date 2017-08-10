@@ -155,7 +155,7 @@ function processCreate(req, res) {
       }
 
       res.json({
-        success: 'Successfuly created mill record!'
+        success: 'Successfully created mill record!'
       });
     });
   });

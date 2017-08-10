@@ -1,6 +1,7 @@
 import React, { Component} from 'react';
-import headerBg from './kiln-dried-lumber.jpg'
+import { Redirect } from 'react-router'
 import api from '../utils/api';
+import headerBg from './header-img.jpg'
 import PropTypes from 'prop-types';
 import AlertMessages from './AlertMessages';
 import Jumbotron from './Jumbotron';
@@ -51,15 +52,16 @@ class DeleteUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      fireRedirect: false,
       email: ''
     };
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
+    this.handleChange = this.handleChange.bind(this);
+    this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   handleSubmit(event) {
     event.preventDefault();
-    this.props.onSubmit(this.state.email)
+    this.props.onSubmit(this.state.email);
   }
 
   handleChange(event) {
@@ -70,6 +72,8 @@ class DeleteUser extends Component {
   }
 
   render() {
+    const { fireRedirect } = this.props
+
     return(
       <div className="panel panel-danger">
         <div className="panel-heading">
@@ -91,6 +95,7 @@ class DeleteUser extends Component {
                     type="text"
                     name="email"
                     className="form-control"
+                    autoComplete="off"
                     value={this.state.email}
                     onChange={this.handleChange}/>
                 </div>
@@ -99,6 +104,9 @@ class DeleteUser extends Component {
                   <button type="submit" className="btn btn-danger btn-lg">Delete User</button>
                 </div>
               </form>
+              { fireRedirect && (
+                <Redirect to={'/users'}/>
+              ) }
             </div>
           </div>
         </div>
@@ -117,7 +125,9 @@ class ManageUser extends Component {
     this.state = {
       success: [],
       errors: [],
-      user: {}
+      user: {},
+      fireRedirect: false,
+      loaded: true
     }
     this.onSubmit = this.onSubmit.bind(this)
   }
@@ -127,21 +137,31 @@ class ManageUser extends Component {
   }
 
   componentWillUpdate() {
-    this.loadUser()
+    this.state.loaded && this.loadUser()
   }
 
   onSubmit(email) {
-    api.deleteUser(this.props.token, email, this.props.match.url).then(res=>{
-      console.log(res)
-    })
-
+    api.deleteUser(this.props.token, email, this.props.match.url)
+      .then(res => {
+        console.log(res)
+        if(res.errors) {
+          this.setState(() => ({
+            errors: res.errors
+          }));
+        } else{
+          this.setState(() => ({
+            errors: [],
+            fireRedirect: true
+          }));
+        }
+      });
   }
 
   loadUser() {
     if (!this.props.token) {
       return
     }
-    api.getUser(this.props.token, this.props.match.url).then(res=> {
+    api.getUser(this.props.token, this.props.match.url).then(res => {
       const newState = {
         success: '',
         errors: '',
@@ -155,9 +175,9 @@ class ManageUser extends Component {
         newState.errors = res.errors;
       }
       if (res.user) {
+        newState.loaded = false
         newState.user = res.user;
       }
-
       this.setState(() => newState);
     })
   }
@@ -168,7 +188,7 @@ class ManageUser extends Component {
       <div className='container'>
 
         <Jumbotron
-          heading="All Mills"
+          heading="Manage User"
           imgSrc={headerBg}/>
 
         { (this.state.success || this.state.errors) &&
@@ -179,10 +199,12 @@ class ManageUser extends Component {
         { this.state.user &&
           <UserTable
             user={this.state.user}
-            />}
+            /> }
+
         <DeleteUser
           onSubmit={this.onSubmit}
           matchUrl={this.props.match.url}
+          fireRedirect={this.state.fireRedirect}
           />
       </div>
     )
@@ -190,13 +212,3 @@ class ManageUser extends Component {
 }
 
 export default ManageUser;
-
-
-
-
-
-
-<a href="/users" class="btn btn-lg btn-success"><i class="fa fa-arrow-left" aria-hidden="true"></i> Return to all users</a>
-
-
-

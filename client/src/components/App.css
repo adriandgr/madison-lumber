@@ -280,3 +280,20 @@ body {
   background: #37474F;
   color: #CFD8DC;
 }
+
+/* Miscellaneous styling
+-------------------------------------------------- */
+
+.action-button {
+  margin-left: 1em;
+}
+.breadcrumb {
+  background-color: inherit;
+}
+.user-table>tbody>tr>td, .user-table>thead>tr>th {
+  line-height: 200%;
+  padding: 0.5em 0 0.5em 1em;
+}
+.user-table .manage-button {
+  text-align: center;
+}

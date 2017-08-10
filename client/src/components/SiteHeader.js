@@ -83,9 +83,6 @@ class SiteHeader extends Component {
                         </NavLink>
                       </li>
                     </ul>}
-
-
-
             </div>
           </div>
       </header>
