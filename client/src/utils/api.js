@@ -74,7 +74,7 @@ const api = {
         lastName: user.surname,
         email: user.email,
         password: user.pwd,
-        accountType: user.type
+        accountType: user.accountType
       })).then(res => res.data);
   }
 }
