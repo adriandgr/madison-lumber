@@ -65,7 +65,7 @@ class Users extends Component {
   componentWillReceiveProps(nextProps) {
     this.loadUsers();
   }
-  componentWillUpdate(nextProps, nextState) {
+  componentWillUpdate() {
     this.state.loaded && this.loadUsers();
   }
 
