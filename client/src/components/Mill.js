@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import Time from'react-time';
 import { Link } from 'react-router-dom';
 import AlertMessages from './AlertMessages';
 import headerBg from './blue-mill.jpg'
@@ -217,7 +218,9 @@ const MillTable = (props) => (
     { props.mill.lastUpdated &&
       <tr>
           <td>Last Updated</td>
-          <td>{props.mill.qualifications.lastUpdated}</td>
+          <td>
+            <Time value={props.mill.lastUpdated} format="DD/MM/YYYY HH:mm" relative />
+          </td>
       </tr>
     }
   </tbody>
