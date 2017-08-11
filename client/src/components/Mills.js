@@ -23,8 +23,12 @@ const MillTable = (props) => (
             <td> {mill.name} </td>
             <td> {mill.type} </td>
             <td> {mill.region} </td>
-            <td>
-              <Link to={`/mills/${mill.slug}`} className="btn btn-sm btn-primary"><i className="fa fa-eye" aria-hidden="true"></i> View</Link>
+            <td className="mill-action-buttons">
+              <Link
+                to={`/mills/${mill.slug}`}
+                className="btn btn-sm btn-primary">
+                  <i className="fa fa-eye" aria-hidden="true"></i> View
+              </Link>
               { props.isAdmin &&
                   <Link
                     to={`/mills/${mill.slug}/edit`}
@@ -62,10 +66,14 @@ class Mills extends Component {
     this.state = {
       success: [],
       errors: [],
-      searchMsg: [],
+      searchTerm: [],
+      searchQuery: '',
+      prevSearchInput: [],
       mills: []
     }
     this.loadMills = this.loadMills.bind(this);
+    this.handleInput = this.handleInput.bind(this);
+    this.handleClick = this.handleClick.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
   }
 
@@ -78,11 +86,13 @@ class Mills extends Component {
   }
 
   loadMills() {
-    api.getMills(this.props.token).then(res=> {
+    api.getMills(this.props.token, this.props.location.search).then(res => {
       const newState = {
         success: [],
         errors: [],
-        searchMsg: [],
+        searchTerm: [],
+        searchQuery: '',
+        prevSearchInput: this.state.prevSearchInput,
         mills: []
       }
 
@@ -90,7 +100,7 @@ class Mills extends Component {
         newState.success = res.success;
       }
       if (res.query) {
-        newState.searchMsg = res.query;
+        newState.searchTerm = res.query;
       }
       if (res.mills) {
         newState.mills = res.mills;
@@ -98,6 +108,29 @@ class Mills extends Component {
 
       this.setState(() => newState);
     })
+  }
+
+  handleInput(event) {
+    this.setState({
+      searchQuery: event.target.value,
+      prevSearchInput: this.state.prevSearchInput.concat(event.target.value)
+    });
+    if(event.key === 'Backspace' && event.target.value === '' && this.state.prevSearchInput.slice(-2).shift() !== '') {
+      // Reloads all mills if search bar is cleared
+      this.props.location.search = ''
+      this.loadMills();
+    }
+    if(event.key === 'Enter' || event.key === 'Tab') {
+      event.preventDefault();
+      this.props.location.search = event.target.value;
+      this.loadMills();
+    }
+  }
+
+  handleClick(event) {
+    event.preventDefault();
+    this.props.location.search = this.state.searchQuery;
+    this.loadMills();
   }
 
   handleDelete(slug){
@@ -130,6 +163,7 @@ class Mills extends Component {
   }
 
   render() {
+
     if (!this.props.isAuthenticated) {
       return (
         <div className="container">
@@ -162,9 +196,18 @@ class Mills extends Component {
           <Link to="/mills/not-yet-implemented" className="btn btn-lg btn-success action-button"><i className="fa fa-download" aria-hidden="true"></i> Export</Link>
         </div>}
 
-        { this.state.searchMsg.length > 0 &&
+        {this.props.isAuthenticated &&
+          <div className="search-container">
+            <input className="form-control" id="search" name="search" placeholder="Search Mills" onKeyUp={this.handleInput}></input>
+            <div className="input-group-btn">
+              <button className="btn btn-default btn-search" type="submit" onClick={this.handleClick}><i className="glyphicon glyphicon-search"></i></button>
+            </div>
+          </div>
+        }
+
+        { this.state.searchTerm.length > 0 &&
           <div className="alert alert-info">
-            <strong>Search results for:</strong> {this.state.searchMsg}
+            Search results for <strong> {this.state.searchTerm} </strong> returned <strong> {this.state.mills.length} </strong> {this.state.mills.length === 1 ? 'result' : 'results'}
           </div>}
         { this.props.token && this.state.mills.length > 0 &&
           <MillTable

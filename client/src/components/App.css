@@ -83,166 +83,58 @@ h1.heading-brand, h2.heading-brand {
 
 }
 
-/* Search bar styles
+/* Search bar styling
 -------------------------------------------------- */
 
-/* Container for the entire search element */
-.sb-search {
-  position: relative;
-  margin-top: 5px;
-  width: 0%;
-  min-width: 40px;
-  height: 40px;
-  float: right;
-  overflow: hidden;
-  -webkit-transition: width 0.3s;
-  -moz-transition: width 0.3s;
-  transition: width 0.3s;
-  -webkit-backface-visibility: hidden;
+.search-container {
+  display: flex;
+  margin-bottom: 1em;
 }
-/* The input element on the search element  */
-.sb-search-input {
-  position: absolute;
-  top: 0;
-  right: 0;
-  border: none;
+.search-container input {
+  width: 15%;
+  border-radius: 4px 0 0 4px;
+  transition: width 0.4s ease-in-out;
+  padding: 1.5em;
+}
+.btn-search {
+  // border-left-width: 0;
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  left: -2px;
+  padding: 0.8em 1em;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+.search-container .form-control:focus {
+  border-color: #ccc;
+  box-shadow: none;
   outline: none;
-  background: #fff;
-  width: 100%;
-  height: 40px;
-  margin: 0;
-  z-index: 10;
-  padding: 18px 50px 18px 14px;
-  font-family: inherit;
-  font-size: 17px;
-  color: #2c3e50;
+  width: 30%;
 }
 
+/*------------------------------------*/
 
-input[type="search"].sb-search-input {
-  /* remove special webkit formatting on the search input */
-  -webkit-appearance: none;
-  -webkit-border-radius: 0px;
+@media screen and (min-width: 320px) {
+  .search-container input {
+    width: 50%
+  }
+  .search-container .form-control:focus {
+    width: 80%
+  }
 }
-
-/* browser specific placholder text color */
-.sb-search-input::-webkit-input-placeholder {
-  color: #efb480;
-}
-
-.sb-search-input:-moz-placeholder {
-  color: #efb480;
-}
-
-.sb-search-input::-moz-placeholder {
-  color: #efb480;
-}
-
-.sb-search-input:-ms-input-placeholder {
-  color: #efb480;
-}
-/* format the search button and submit to share the same size and space */
-.sb-icon-search,
-.sb-search-submit  {
-  width: 40px;
-  height: 40px;
-  display: block;
-  position: absolute;
-  right: 0;
-  top: 0;
-  padding: 0;
-  margin: 0;
-  line-height: 40px;
-  text-align: center;
-  cursor: pointer;
-}
-/* hide the submit but leave it clickable */
-.sb-search-submit {
-  background: #fff; /* IE needs this */
-  -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=0)"; /* IE 8 */
-    filter: alpha(opacity=0); /* IE 5-7 */
-    opacity: 0;
-  color: transparent;
-  border: none;
-  outline: none;
-  z-index: -1;
-}
-
-/* format the search icon */
-.sb-icon-search {
-  color: #fff;
-  background: #e67e22;
-  z-index: 90;
-  font-size: 18px;
-  font-family: 'FontAwesome';
-  speak: none;
-  font-style: normal;
-  font-weight: normal;
-  font-variant: normal;
-  text-transform: none;
-  -webkit-font-smoothing: antialiased;
-}
-
-/* add the magnifying glass character from the icomoon font as a before pseudo element */
-.sb-icon-search:before {
-  content: "\f002";
-}
-
-/* Open state */
-.sb-search.sb-search-open,
-.no-js .sb-search {
-  width:100%;
-}
-
-
 @media screen and (min-width: 768px) {
-  /* Open state */
-  .sb-search.sb-search-open,
-  .no-js .sb-search {
-    width:265px;
+  .search-container input {
+    width: 20%
+  }
+  .search-container .form-control:focus {
+    width: 30%
   }
 }
-@media screen and (min-width: 810px) {
-  /* Open state */
-  .sb-search.sb-search-open,
-  .no-js .sb-search {
-    width:300px;
+@media screen and (min-width: 1024px) {
+  .search-container input {
+    width: 15%
   }
-}
-@media screen and (min-width: 920px) {
-  /* Open state */
-  .sb-search.sb-search-open,
-  .no-js .sb-search {
-    width:400px;
+  .search-container .form-control:focus {
+    width: 25%
   }
-}
-@media screen and (min-width: 1100px) {
-  /* Open state */
-  .sb-search.sb-search-open,
-  .no-js .sb-search {
-    width:500px;
-  }
-}
-@media screen and (min-width: 1500px) {
-  /* Open state */
-  .sb-search.sb-search-open,
-  .no-js .sb-search {
-    width:700px;
-  }
-}
-
-/* add the "active" color on the search button */
-.sb-search.sb-search-open .sb-icon-search,
-.no-js .sb-search .sb-icon-search {
-  background: #da6d0d;
-  color: #fff;
-  z-index: 11;
-}
-
-/* adjust z-index to make sure the search submit is clikacble and not below any other elements */
-.sb-search.sb-search-open .sb-search-submit,
-.no-js .sb-search .sb-search-submit {
-  z-index: 90;
 }
 
 /* Sticky footer styles
@@ -290,10 +182,18 @@ body {
 .breadcrumb {
   background-color: inherit;
 }
+.manage-button {
+  text-align: center;
+}
+.mill-action-buttons > a {
+  margin-left: 1em;
+}
+.search-button {
+  background: none;
+  border: 1px solid #ddd;
+  border-radius: 0;
+}
 .user-table>tbody>tr>td, .user-table>thead>tr>th {
   line-height: 200%;
   padding: 0.5em 0 0.5em 1em;
-}
-.user-table .manage-button {
-  text-align: center;
 }

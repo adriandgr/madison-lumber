@@ -25,8 +25,8 @@ const api = {
       querystring.stringify({ email, password })
       ).then(res => res.data);
   },
-  getMills: (token) => {
-    return instance.get(`/api/mills?token=${token}`)
+  getMills: (token, q) => {
+    return instance.get(`/api/mills?token=${token}&q=${q}`)
       .then(res => res.data );
   },
   getMill: (token, millSlug) => {
