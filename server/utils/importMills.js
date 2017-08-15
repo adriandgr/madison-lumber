@@ -55,7 +55,6 @@ function insertMills(mills) {
   mongoose.connect(process.env.DB_URI);
 
   let newMill;
-  let count = 0;
   mills.forEach((mill, i) => {
     newMill = new Mill(mill);
     newMill.save((err, res) => {
