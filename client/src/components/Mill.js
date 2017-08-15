@@ -28,7 +28,6 @@ const MillTable = (props) => (
     </tr>
   </thead>
   <tbody>
-
     { props.mill.name &&
       <tr>
           <td>Name</td>
@@ -43,7 +42,7 @@ const MillTable = (props) => (
     }
     { props.mill.region &&
       <tr>
-          <td>region</td>
+          <td>Region</td>
           <td>{props.mill.region}</td>
       </tr>
     }
@@ -62,7 +61,11 @@ const MillTable = (props) => (
     { props.mill.contact && props.mill.contact.phone &&
       <tr>
           <td>Phone</td>
-          <td>{props.mill.contact.phone}</td>
+          <td>
+            { props.mill.contact.phone.map((number, i) => (
+              <p key={i}>{number}</p>
+            )) }
+          </td>
       </tr>
     }
     { props.mill.contact && props.mill.contact.fax &&
@@ -83,46 +86,54 @@ const MillTable = (props) => (
           <td><Link to={`//${props.mill.contact.website}`}>{props.mill.contact.website}</Link></td>
       </tr>
     }
-    { props.mill.contact && props.mill.contact.contactPersons &&
+    { props.mill.contact && props.mill.contact.contactPersons && props.mill.contact.contactPersons[0] !== '' &&
       <tr>
         <td>Contact Persons</td>
         <td>
-          { props.mill.contact.contactPersons.map(person=> (
-              <span>{person} <br /></span>
+          { props.mill.contact.contactPersons.map((person, i) => (
+              <p key={i}>{person}</p>
             )) }
         </td>
       </tr>
     }
-    { props.mill.catalog && props.mill.catalog.products &&
+    { props.mill.catalog && props.mill.catalog.products && props.mill.catalog.products[0] !== '' &&
       <tr>
         <td>Products</td>
         <td>
-          { props.mill.catalog.products.map( product => (
-              <span>{product} <br /></span>
+          { props.mill.catalog.products.map((product, i) => (
+              <p key={i}>{product}</p>
             )) }
         </td>
       </tr>
     }
-    { props.mill.catalog && props.mill.catalog.species &&
+    { props.mill.catalog && props.mill.catalog.species && props.mill.catalog.species[0] !== '' &&
       <tr>
         <td>Species</td>
         <td>
-          { props.mill.catalog.species.map(item => (
-              <span>{item} <br /></span>
+          { props.mill.catalog.species.map((item, i) => (
+              <p key={i}>{item}</p>
             )) }
         </td>
       </tr>
     }
-    { props.mill.catalog && props.mill.catalog.roughSizes.length > 0 &&
+    { props.mill.catalog && props.mill.catalog.roughSizes.length > 0 && props.mill.catalog.roughSizes[0] !== '' &&
       <tr>
           <td>Rough Sizes</td>
-          <td>{props.mill.catalog.roughSizes.length}</td>
+          <td>
+            { props.mill.catalog.roughSizes.map((roughSize, i) => (
+              <p key={i}>{roughSize}</p>
+            )) }
+          </td>
       </tr>
     }
-    { props.mill.catalog && props.mill.catalog.surfacedSizes &&
+    { props.mill.catalog && props.mill.catalog.surfacedSizes && props.mill.catalog.surfacedSizes[0] !== '' &&
       <tr>
           <td>Surfaced Sizes</td>
-          <td>{props.mill.catalog.surfacedSizes}</td>
+          <td>
+            { props.mill.catalog.surfacedSizes.map((surfaceSize, i) => (
+              <p key={i}>{surfaceSize}</p>
+            )) }
+          </td>
       </tr>
     }
     { props.mill.catalog && props.mill.catalog.production &&
@@ -137,10 +148,14 @@ const MillTable = (props) => (
           <td>{props.mill.catalog.panelThickness}</td>
       </tr>
     }
-    { props.mill.catalog && props.mill.catalog.services.length > 0 &&
+    { props.mill.catalog && props.mill.catalog.services[0] !== '' &&
       <tr>
           <td>Services</td>
-          <td>{props.mill.catalog.services}</td>
+          <td>
+            { props.mill.catalog.services.map((service, i) => (
+              <p key={i}>{service}</p>
+            )) }
+          </td>
       </tr>
     }
     { props.mill.catalog && props.mill.catalog.kilnCapacity &&
@@ -149,16 +164,24 @@ const MillTable = (props) => (
           <td>{props.mill.catalog.kilnCapacity}</td>
       </tr>
     }
-    { props.mill.catalog && props.mill.catalog.shipping &&
+    { props.mill.catalog && props.mill.catalog.shipping && props.mill.catalog.shipping[0] !== '' &&
       <tr>
           <td>Shipping</td>
-          <td>{props.mill.catalog.shipping}</td>
+          <td>
+            { props.mill.catalog.shipping.map((method, i) => (
+              <p key={i}>{method}</p>
+            )) }
+          </td>
       </tr>
     }
-    { props.mill.catalog && props.mill.catalog.export.length > 0 &&
+    { props.mill.catalog && props.mill.catalog.export.length > 0 && props.mill.catalog.export[0] !== '' &&
       <tr>
           <td>Export</td>
-          <td>{props.mill.catalog.export}</td>
+          <td>
+          { props.mill.catalog.export.map((location, i) => (
+            <p key={i}>{location}</p>
+          )) }
+          </td>
       </tr>
     }
     { props.mill.qualifications && props.mill.qualifications.gradingAgency &&
@@ -246,10 +269,11 @@ class Mill extends Component {
     this.loadMill()
   }
 
+  componentWillReceiveProps(nextProps) {
+    this.loadMill()
+  }
+
   loadMill() {
-    if (!this.props.token) {
-      return
-    }
     api.getMill(this.props.token, this.props.match.url).then(res=> {
       const newState = {
         success: '',

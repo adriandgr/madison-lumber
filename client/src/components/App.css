@@ -173,8 +173,27 @@ body {
   color: #CFD8DC;
 }
 
+/* Dropdown menu styling
+-------------------------------------------------- */
+.dropdown-menu {
+  padding: 0;
+  margin: 0;
+}
+.dropdown-menu li.divider {
+  margin: 0;
+}
+.dropdown-menu > li > a {
+  padding: 6px 15px;
+}
+.dropdown-menu > li > a > i.fa {
+  margin-right: 3px;
+}
+
 /* Miscellaneous styling
 -------------------------------------------------- */
+.text-middle {
+  vertical-align: center;
+}
 
 .action-button {
   margin-left: 1em;
@@ -188,12 +207,25 @@ body {
 .mill-action-buttons > a {
   margin-left: 1em;
 }
+.mill-table-link {
+  color: #666666;
+}
 .search-button {
   background: none;
   border: 1px solid #ddd;
   border-radius: 0;
 }
-.user-table>tbody>tr>td, .user-table>thead>tr>th {
+.table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+  vertical-align: middle;
+}
+.table > tbody > tr > td > p:first-letter {
+  text-transform: capitalize;
+}
+.table > tbody > tr > td > p {
+  text-transform: capitalize;
+  margin: 0;
+}
+.user-table > tbody > tr > td, .user-table > thead > tr > th {
   line-height: 200%;
   padding: 0.5em 0 0.5em 1em;
 }

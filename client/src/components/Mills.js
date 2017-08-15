@@ -13,39 +13,63 @@ const MillTable = (props) => (
       <tr>
         <th>Name</th>
         <th>Type</th>
-        <th>Region</th>
-        <th>Details</th>
+        <th className="text-center">Region</th>
+        <th className="text-center">Details</th>
       </tr>
     </thead>
     <tbody>
-      {props.mills.map(mill=> (
+      {props.mills.map(mill => (
           <tr key={mill.slug}>
-            <td> {mill.name} </td>
-            <td> {mill.type} </td>
-            <td> {mill.region} </td>
-            <td className="mill-action-buttons">
-              <Link
-                to={`/mills/${mill.slug}`}
-                className="btn btn-sm btn-primary">
-                  <i className="fa fa-eye" aria-hidden="true"></i> View
+            <td>
+              <Link to={`/mills/${mill.slug}`} className="mill-table-link">
+                  {mill.name}
               </Link>
+            </td>
+            <td> {mill.type} </td>
+            <td className="text-center"> {mill.region} </td>
+            <td className="text-center">
+              { !props.isAdmin &&
+                <Link
+                  to={`/mills/${mill.slug}`}
+                  className="btn btn-primary">
+                    <i className="fa fa-eye" aria-hidden="true"></i> View
+                </Link>
+              }
               { props.isAdmin &&
-                  <Link
-                    to={`/mills/${mill.slug}/edit`}
-                    className="btn btn-sm btn-primary">
-                      <i className="fa fa-pencil" aria-hidden="true"></i> Edit
-                  </Link>}
-              { props.isAdmin &&
-                  <Link
-                    to='#'
-                    name={mill.slug}
-                    className="btn btn-sm btn-danger"
-                    onClick={(event) => {
-                      event.preventDefault();
-                      props.handleDelete(event.target.name);
-                    }}>
-                      <i className="fa fa-trash" aria-hidden="true"></i> Delete
-                  </Link>}
+                <div className="dropdown">
+                  <button className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                    Manage &nbsp;
+                     <span className="caret"></span>
+                  </button>
+                  <ul className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                    <li>
+                      <Link
+                        to={`/mills/${mill.slug}`}>
+                          <i className="fa fa-eye" aria-hidden="true"></i> View
+                      </Link>
+                    </li>
+                    <li className="divider"></li>
+                    <li>
+                      <Link
+                        to={`/mills/${mill.slug}/edit`}>
+                          <i className="fa fa-pencil" aria-hidden="true"></i> Edit
+                      </Link>
+                    </li>
+                    <li className="divider"></li>
+                    <li>
+                      <Link
+                        to='#'
+                        name={mill.slug}
+                        onClick={(event) => {
+                          event.preventDefault();
+                          props.handleDelete(event.target.name);
+                        }}>
+                          <i className="fa fa-trash" aria-hidden="true"></i> Delete
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
+              }
             </td>
           </tr>
         )
@@ -207,7 +231,7 @@ class Mills extends Component {
 
         { this.state.searchTerm.length > 0 &&
           <div className="alert alert-info">
-            Search results for <strong> {this.state.searchTerm} </strong> returned <strong> {this.state.mills.length} </strong> {this.state.mills.length === 1 ? 'result' : 'results'}
+            Search for <strong> {this.state.searchTerm} </strong> returned <strong> {this.state.mills.length} </strong> {this.state.mills.length === 1 ? 'result' : 'results'}
           </div>}
         { this.props.token && this.state.mills.length > 0 &&
           <MillTable
