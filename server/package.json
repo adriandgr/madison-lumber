@@ -24,8 +24,10 @@
     "express-validator": "^3.2.0",
     "jsonwebtoken": "^7.4.1",
     "mongoose": "^4.10.8",
+    "mongoose-uniqueslugs": "0.0.4",
     "morgan": "^1.8.2",
-    "shortid": "^2.2.8"
+    "shortid": "^2.2.8",
+    "xls-to-json": "0.4.0"
   },
   "devDependencies": {
     "nodemon": "^1.11.0"

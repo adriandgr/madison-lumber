@@ -21,7 +21,7 @@ function showMills(req, res) {
       });
     });
   } else {
-    Mill.find({}, (err, mills) => {
+    Mill.find({}).limit(20).exec((err, mills) => {
       if (err) {
         res.status(404);
         res.send('Events not found');
