@@ -8,31 +8,43 @@ function showMills(req, res) {
   // get all mills
   if (req.query.q) {
     req.flash('query', req.query.q);
-    Mill.find({$text: {$search: req.query.q}}, (err, mills) => {
-      if (err) {
+    Mill.paginate({$text: {$search: `"${req.query.q}"`}}, { page: req.query.p, limit: Number(req.query.limit) })
+      .then(mills => {
+        res.json({
+          mills: mills.docs,
+          total: mills.total,
+          limit: mills.limit,
+          page: mills.page,
+          pages: mills.pages,
+          validToken: req.flash('validToken'),
+          success: req.flash('success'),
+          query: req.flash('query')
+        });
+      })
+      .catch(err => {
+        console.error(err);
         res.status(404);
         res.send('Events not found');
-      }
-      res.json({
-        mills,
-        validToken: req.flash('validToken'),
-        success: req.flash('success'),
-        query: req.flash('query')
       });
-    });
   } else {
-    Mill.find({}).limit(20).exec((err, mills) => {
-      if (err) {
+    Mill.paginate({}, { page: req.query.p, limit: Number(req.query.limit) })
+      .then(mills => {
+        res.json({
+          mills: mills.docs,
+          total: mills.total,
+          limit: mills.limit,
+          page: mills.page,
+          pages: mills.pages,
+          validToken: req.flash('validToken'),
+          success: req.flash('success'),
+          query: req.flash('query')
+        });
+      })
+      .catch(err => {
+        console.error(err);
         res.status(404);
         res.send('Events not found');
-      }
-      res.json({
-        mills,
-        validToken: req.flash('validToken'),
-        success: req.flash('success'),
-        query: req.flash('query')
       });
-    });
   }
 
 

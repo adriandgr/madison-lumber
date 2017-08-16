@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import madisonLogo from './madison-logo.png';
-import headerBg from './header-img.jpg';
-import AlertMessages from './AlertMessages';
+import madisonLogo from './images/madison-logo.png';
+import headerBg from './images/header-img.jpg';
+import AlertMessages from './shared/AlertMessages';
 
 
 class Home extends Component {

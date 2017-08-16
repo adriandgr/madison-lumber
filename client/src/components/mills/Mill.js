@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import Time from'react-time';
 import { Link } from 'react-router-dom';
-import AlertMessages from './AlertMessages';
-import headerBg from './blue-mill.jpg'
 import PropTypes from 'prop-types';
-import api from '../utils/api';
+import Time from'react-time';
+import api from '../../utils/api';
+import headerBg from '../images/blue-mill.jpg'
+import AlertMessages from '../shared/AlertMessages';
 
-const MillBanner = (props) => (
+const MillBanner = props => (
   <div
     className="jumbotron text-center section-banner"
     style={{backgroundImage: `url(${props.imgSrc})`}}>
@@ -19,7 +19,7 @@ const MillBanner = (props) => (
   </div>
 )
 
-const MillTable = (props) => (
+const MillTable = props => (
   <table className="table table-bordered table-hover table-striped">
   <thead>
     <tr>

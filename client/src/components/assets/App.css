@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:800');
 
+/* Global
+---------- */
 
 body {
   font-size: 15px;
@@ -9,6 +11,21 @@ body {
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Open Sans', sans-serif;
 }
+
+/* 4 the convenience
+---------------------- */
+
+.text-middle {
+  line-height: 250%;
+}
+
+.visible {
+  visibility: visible !important;
+}
+
+
+/* Navbar
+---------- */
 
 .navbar {
   background: #37474F;
@@ -25,8 +42,6 @@ h1, h2, h3, h4, h5, h6 {
     padding: 0 20px;
   }
 }
-
-
 
 .navbar-header {
   background: #263238;
@@ -80,54 +95,95 @@ h1.heading-brand, h2.heading-brand {
 #site-main {
   padding-top: 50px;
   padding-bottom: 50px;
-
 }
 
-/* Search bar styling
--------------------------------------------------- */
+
+/* Search bar
+-------------- */
 
 .search-container {
   display: flex;
   margin-bottom: 1em;
 }
+
 .search-container input {
-  width: 15%;
   border-radius: 4px 0 0 4px;
-  transition: width 0.4s ease-in-out;
   padding: 1.5em;
+  transition: width 0.4s ease-in-out;
 }
+
 .btn-search {
-  // border-left-width: 0;
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   left: -2px;
   padding: 0.8em 1em;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
-.search-container .form-control:focus {
+
+.search-container :focus {
   border-color: #ccc;
   box-shadow: none;
   outline: none;
-  width: 30%;
 }
 
-/*------------------------------------*/
+.clear-search > span {
+  border-left: none;
+  color: #777;
+}
+
+.clear-search:hover > span,
+.clear-search:focus > span,
+.clear-search:active > span
+.clear-search:hover:active > span,
+.clear-search:focus:active > span,
+.clear-search > .btn-default:active:hover {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-left: none;
+  box-shadow: none;
+  cursor: default;
+}
+
+.clear-search > span > i {
+  visibility: hidden;
+}
+
+
+/* Responsiveness for search container
+---------------------------------------*/
 
 @media screen and (min-width: 320px) {
   .search-container input {
-    width: 50%
-  }
-  .search-container .form-control:focus {
-    width: 80%
+    width: 70%;
   }
 }
+
+@media screen and (min-width: 375px) {
+  .search-container input {
+    width: 77%;
+  }
+}
+
+@media screen and (min-width: 425px) {
+  .search-container input {
+    width: 80%;
+  }
+}
+
+@media screen and (min-width: 550px) {
+  .search-container input {
+    width: 85%;
+  }
+}
+
 @media screen and (min-width: 768px) {
   .search-container input {
     width: 20%
   }
   .search-container .form-control:focus {
-    width: 30%
+    width: 35%
   }
 }
+
 @media screen and (min-width: 1024px) {
   .search-container input {
     width: 15%
@@ -137,16 +193,20 @@ h1.heading-brand, h2.heading-brand {
   }
 }
 
-/* Sticky footer styles
--------------------------------------------------- */
+
+/* Sticky footer styling
+------------------------- */
+
 html {
   position: relative;
   min-height: 100%;
 }
+
 body {
   /* Margin bottom by footer height */
   margin-bottom: 60px;
 }
+
 .footer {
   position: absolute;
   bottom: 0;
@@ -173,58 +233,99 @@ body {
   color: #CFD8DC;
 }
 
+
 /* Dropdown menu styling
--------------------------------------------------- */
+-------------------------- */
 .dropdown-menu {
   padding: 0;
   margin: 0;
 }
+
 .dropdown-menu li.divider {
   margin: 0;
 }
+
 .dropdown-menu > li > a {
   padding: 6px 15px;
 }
+
 .dropdown-menu > li > a > i.fa {
   margin-right: 3px;
 }
 
-/* Miscellaneous styling
--------------------------------------------------- */
-.text-middle {
-  vertical-align: center;
-}
 
-.action-button {
-  margin-left: 1em;
-}
+/* Users/Mills shared styling
+------------------------------ */
+
 .breadcrumb {
   background-color: inherit;
+  margin-bottom: 30px;
 }
-.manage-button {
-  text-align: center;
+
+.breadcrumb > a {
+  margin-bottom: 1em;
 }
-.mill-action-buttons > a {
-  margin-left: 1em;
+
+@media screen and (max-width: 768px) {
+  .breadcrumb {
+    margin-bottom: 0;
+  }
 }
-.mill-table-link {
-  color: #666666;
-}
-.search-button {
-  background: none;
-  border: 1px solid #ddd;
-  border-radius: 0;
-}
-.table > tbody > tr > td, .table > tbody > tr > th, .table > tfoot > tr > td, .table > tfoot > tr > th, .table > thead > tr > td, .table > thead > tr > th {
+
+
+.table > tbody > tr > td,
+.table > tbody > tr > th,
+.table > tfoot > tr > td,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > thead > tr > th {
   vertical-align: middle;
 }
+
+.table > tbody > tr > td > p {
+  margin: 0;
+}
+
 .table > tbody > tr > td > p:first-letter {
   text-transform: capitalize;
 }
-.table > tbody > tr > td > p {
-  text-transform: capitalize;
-  margin: 0;
+
+
+/* Mills styling
+---------------- */
+
+.mill-table-link {
+  color: #666666;
 }
+
+@media screen and (max-width: 768px) {
+  .paginate {
+    margin-bottom: 1em;
+  }
+  .mill-table-action > a {
+    margin-bottom: 1em;
+    width: 90%;
+  }
+}
+
+@media screen and (max-width: 768px) {
+}
+
+@media screen and (min-width: 768px) {
+  .mill-table-action > a:not(:first-child) {
+    margin-left: 1em;
+  }
+}
+
+
+/* Users styling
+---------------- */
+
+.manage-user {
+  text-align: center;
+  margin-bottom: 1em;
+}
+
 .user-table > tbody > tr > td, .user-table > thead > tr > th {
   line-height: 200%;
   padding: 0.5em 0 0.5em 1em;
