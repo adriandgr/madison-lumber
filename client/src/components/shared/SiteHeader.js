@@ -15,12 +15,10 @@ LogoutButton.propTypes = {
 }
 
 class SiteHeader extends Component {
-
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this)
   }
-
 
   handleSubmit(event) {
     event.preventDefault();

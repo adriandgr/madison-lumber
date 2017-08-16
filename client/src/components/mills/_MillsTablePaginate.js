@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
-const MillTablePaginate = props => {
+const MillsTablePaginate = props => {
   const nextDisabled = props.page === props.pages;
   const prevDisabled = props.page === 1;
   return (
@@ -17,12 +17,12 @@ const MillTablePaginate = props => {
           &nbsp; Back
         </Link>
       </div>
-      <div className='col-sm-3 col-sm-offset-2  col-xs-12 text-center text-middle'>
+      <div className='col-sm-5 col-sm-offset-1  col-xs-12 text-center text-middle pagination-info'>
         <span>
-          Page <strong>{props.page}</strong> of <strong>{props.pages}</strong>
+          Page <strong>{props.page}</strong> of <strong>{props.pages}</strong> (<strong>{props.total}</strong>  mills in total)
         </span>
       </div>
-      <div className='col-sm-2 col-sm-offset-3 col-xs-8 col-xs-offset-2'>
+      <div className='col-sm-2 col-sm-offset-2 col-xs-8 col-xs-offset-2'>
         <Link
           to={`?p=${(props.page + 1)}&limit=${props.limit}${props.searchQuery ? '&q=' + props.searchQuery : ''}`}
           className='btn btn-default btn-block'
@@ -37,4 +37,4 @@ const MillTablePaginate = props => {
   )
 };
 
-export default MillTablePaginate;
+export default MillsTablePaginate;
