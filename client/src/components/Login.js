@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import api from '../utils/api';
-import headerBg from './images/moodyville-yard.jpg'
+import Jumbotron from './shared/Jumbotron';
+import headerBg from './images/moodyville-yard.jpg';
 import AlertMessages from './shared/AlertMessages';
 
 function SectionBanner(props) {
@@ -14,7 +15,7 @@ function SectionBanner(props) {
         {props.sectionName}
       </h1>
     </div>
-  )
+  );
 }
 
 SectionBanner.propTypes = {
@@ -80,10 +81,9 @@ class Login extends Component {
 
     return (
       <div className="container">
-        <SectionBanner
-          sectionName="Login"
-          imgSrc={headerBg}
-        />
+        <Jumbotron
+          heading="Login"
+          imgSrc={headerBg}/>
 
         <div className="row">
           <div className="col-sm-6 col-sm-offset-3">
