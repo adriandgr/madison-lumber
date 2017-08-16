@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router'
-import headerBg from './moodyville-yard.jpg'
 import PropTypes from 'prop-types';
-import AlertMessages from './AlertMessages';
-import Jumbotron from './Jumbotron';
-import api from '../utils/api';
+import api from '../../utils/api';
+import Jumbotron from '../shared/Jumbotron';
+import headerBg from '../images/moodyville-yard.jpg'
+import AlertMessages from '../shared/AlertMessages';
 
 class NewUser extends Component {
   constructor(props) {

@@ -1,8 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-
-const AlertMessages = (props) => {
+const AlertMessages = props => {
   let msgCount = 0;
   let errCount = 0;
   return (
@@ -37,13 +36,11 @@ const AlertMessages = (props) => {
       </div>
     }
   </div>
-)}
-
+)};
 
 AlertMessages.propTypes = {
   success: PropTypes.array.isRequired,
   errors: PropTypes.array.isRequired
-}
-
+};
 
 export default AlertMessages;

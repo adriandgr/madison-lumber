@@ -26,7 +26,15 @@ const api = {
       ).then(res => res.data);
   },
   getMills: (token, q) => {
-    return instance.get(`/api/mills?token=${token}&q=${q}`)
+    let query = `/api/mills/?token=${token}&`;
+    if(q) {
+      const parsed = querystring.parse(q.slice(1));
+      parsed.q ? parsed.q = parsed.q : parsed.q = '';
+      query += `q=${parsed.q}&p=${parsed.p}&limit=${parsed.limit}`;
+    } else {
+      query += `q=&p=1&limit=20`;
+    }
+    return instance.get(query)
       .then(res => res.data );
   },
   getMill: (token, millSlug) => {

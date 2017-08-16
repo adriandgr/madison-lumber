@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Link, NavLink, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types'
-import navbarLogo from './madison-logo-small.png';
+import navbarLogo from '../images/madison-logo-small.png';
 
-const LogoutButton = (props) => (
+const LogoutButton = props => (
   <Link to="#" onClick={props.handleSubmit}>
     <i className="fa fa-sign-out" aria-hidden="true"></i> logout
   </Link>
