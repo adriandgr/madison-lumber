@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { Redirect } from 'react-router-dom';
-import AlertMessages from './AlertMessages';
-import api from '../utils/api';
 import PropTypes from 'prop-types'
-import headerBg from './moodyville-yard.jpg'
+import api from '../utils/api';
+import headerBg from './images/moodyville-yard.jpg'
+import AlertMessages from './shared/AlertMessages';
 
 function SectionBanner(props) {
   return (

@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import headerBg from './kiln-dried-lumber.jpg'
 import PropTypes from 'prop-types';
-import AlertMessages from './AlertMessages';
-import Jumbotron from './Jumbotron';
-import api from '../utils/api';
+import api from '../../utils/api';
+import Jumbotron from '../shared/Jumbotron';
+import headerBg from '../images/kiln-dried-lumber.jpg'
+import AlertMessages from '../shared/AlertMessages';
 
 const MillSchema = {
   name: '',

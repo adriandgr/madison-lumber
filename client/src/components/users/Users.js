@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
-import headerBg from './moodyville-yard.jpg'
 import PropTypes from 'prop-types';
-import AlertMessages from './AlertMessages';
-import api from '../utils/api';
+import api from '../../utils/api';
+import headerBg from '../images/moodyville-yard.jpg'
+import AlertMessages from '../shared/AlertMessages';
 
-const UsersBanner = (props) => (
+const UsersBanner = props => (
   <div
     className="jumbotron text-center section-banner"
     style={{backgroundImage: `url(${props.imgSrc})`}}>
@@ -15,7 +15,7 @@ const UsersBanner = (props) => (
   </div>
 )
 
-const UsersTable = (props) => (
+const UsersTable = props => (
   <table className="table table-bordered table-hover table-striped user-table">
     <thead>
       <tr>
@@ -33,8 +33,8 @@ const UsersTable = (props) => (
             <td>{user.email}</td>
             <td>{user.accountType}</td>
             <td></td>
-            <td className="manage-button">
-              <Link to={`/users/${user.uuid}`} className="btn btn-sm btn-primary">Manage User</Link>
+            <td className="manage-user">
+              <Link to={`/users/${user.uuid}`} className="btn btn-sm btn-default">Manage User</Link>
             </td>
         </tr>
       ))}
