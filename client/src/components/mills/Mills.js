@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import querystring from 'querystring';
 import api from '../../utils/api';
-import MillTable from './_MillTable';
+import MillsTable from './_MillsTable';
 import Jumbotron from '../shared/Jumbotron';
 import headerBg from '../images/mills-header.jpg';
 import AlertMessages from '../shared/AlertMessages';
@@ -201,7 +201,7 @@ class Mills extends Component {
           </div>}
 
         { this.props.token && this.state.mills.length > 0 &&
-          <MillTable
+          <MillsTable
             mills={this.state.mills}
             metaData={this.state.data}
             search={querystring.parse(this.props.history.location.search.slice(1))}

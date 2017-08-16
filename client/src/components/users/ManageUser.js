@@ -2,122 +2,11 @@ import React, { Component} from 'react';
 import { Redirect } from 'react-router'
 import PropTypes from 'prop-types';
 import api from '../../utils/api';
+import DeleteUser from './DeleteUser';
+import ManageUserTable from './_ManageUserTable';
 import Jumbotron from '../shared/Jumbotron';
 import headerBg from '../images/header-img.jpg'
 import AlertMessages from '../shared/AlertMessages';
-
-const UserTable = props => (
-<div className="panel panel-default">
-  {/* Default panel contents */}
-  <div className="panel-heading"><strong>User Details</strong></div>
-
-
-  {/* List group */}
-  <ul className="list-group">
-    <li className="list-group-item">
-      <div className="row">
-        <div className="col-sm-3"><strong>First Name</strong></div>
-        <div className="col-sm-9"> {props.user.firstName}</div>
-      </div>
-    </li>
-    <li className="list-group-item">
-      <div className="row">
-        <div className="col-sm-3"><strong>Last Name</strong></div>
-        <div className="col-sm-9"> {props.user.lastName} </div>
-      </div>
-    </li>
-    <li className="list-group-item">
-      <div className="row">
-        <div className="col-sm-3"><strong>Email</strong></div>
-        <div className="col-sm-9"> {props.user.email}</div>
-      </div>
-    </li>
-    <li className="list-group-item">
-      <div className="row">
-        <div className="col-sm-3"><strong>Account Type</strong></div>
-        <div className="col-sm-9"> {props.user.accountType} </div>
-      </div>
-    </li>
-    <li className="list-group-item">
-      <div className="row">
-        <div className="col-sm-3"><strong>Created</strong></div>
-        <div className="col-sm-9"> {props.user.created} </div>
-      </div>
-    </li>
-  </ul>
-</div>
-)
-
-class DeleteUser extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      fireRedirect: false,
-      email: ''
-    };
-    this.handleChange = this.handleChange.bind(this);
-    this.handleSubmit = this.handleSubmit.bind(this);
-  }
-
-  handleSubmit(event) {
-    event.preventDefault();
-    this.props.onSubmit(this.state.email);
-  }
-
-  handleChange(event) {
-    const newState = {
-      [event.target.name]: event.target.value
-    }
-    this.setState( () => newState );
-  }
-
-  render() {
-    const { fireRedirect } = this.props
-
-    return(
-      <div className="panel panel-danger">
-        <div className="panel-heading">
-          <h3 className="panel-title">Danger Zone</h3>
-        </div>
-        <div className="panel-body">
-          <div className="row">
-            <div className="col-md-offset-1 col-md-5 ">
-              <h4 className="text-danger">Delete User Account</h4>
-              Once you delete a user, there is no going back. <br />
-              <em>Please be certain.</em><br /><br />
-            </div>
-
-            <div className="col-md-5">
-              <form action={`${this.props.matchUrl}/delete`} onSubmit={this.handleSubmit}>
-                <div className="form-group">
-                  <label htmlFor="" className="text-danger">Confirm action by typing user's email.</label>
-                  <input
-                    type="text"
-                    name="email"
-                    className="form-control"
-                    autoComplete="off"
-                    value={this.state.email}
-                    onChange={this.handleChange}/>
-                </div>
-
-                <div className="form-group">
-                  <button type="submit" className="btn btn-danger btn-lg">Delete User</button>
-                </div>
-              </form>
-              { fireRedirect && (
-                <Redirect to={'/users'}/>
-              ) }
-            </div>
-          </div>
-        </div>
-      </div>
-    )
-  }
-}
-
-UserTable.proptypes = {
-  user: PropTypes.object.isRequired
-}
 
 class ManageUser extends Component {
   constructor(props) {
@@ -197,7 +86,7 @@ class ManageUser extends Component {
             errors={this.state.errors}/> }
 
         { this.state.user &&
-          <UserTable
+          <ManageUserTable
             user={this.state.user}
             /> }
 

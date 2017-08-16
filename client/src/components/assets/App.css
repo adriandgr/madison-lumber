@@ -16,7 +16,7 @@ h1, h2, h3, h4, h5, h6 {
 ---------------------- */
 
 .text-middle {
-  line-height: 250%;
+  line-height: 1.42857143;
 }
 
 .visible {
@@ -103,7 +103,7 @@ h1.heading-brand, h2.heading-brand {
 
 .search-container {
   display: flex;
-  margin-bottom: 1em;
+  margin-bottom: 1.5em;
 }
 
 .search-container input {
@@ -246,7 +246,7 @@ body {
 }
 
 .dropdown-menu > li > a {
-  padding: 6px 15px;
+  padding: 10px 15px;
 }
 
 .dropdown-menu > li > a > i.fa {
@@ -294,21 +294,23 @@ body {
 /* Mills styling
 ---------------- */
 
+.mill-table {
+  margin: 5px 0;
+}
+
 .mill-table-link {
   color: #666666;
 }
 
+.pagination-info {
+  margin-top: 8px;
+}
+
 @media screen and (max-width: 768px) {
-  .paginate {
-    margin-bottom: 1em;
-  }
   .mill-table-action > a {
     margin-bottom: 1em;
     width: 90%;
   }
-}
-
-@media screen and (max-width: 768px) {
 }
 
 @media screen and (min-width: 768px) {
