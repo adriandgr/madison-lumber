@@ -1,12 +1,12 @@
 import React, { Component} from 'react';
 import { Redirect } from 'react-router'
-import api from '../utils/api';
-import headerBg from './header-img.jpg'
 import PropTypes from 'prop-types';
-import AlertMessages from './AlertMessages';
-import Jumbotron from './Jumbotron';
+import api from '../../utils/api';
+import Jumbotron from '../shared/Jumbotron';
+import headerBg from '../images/header-img.jpg'
+import AlertMessages from '../shared/AlertMessages';
 
-const UserTable = (props) => (
+const UserTable = props => (
 <div className="panel panel-default">
   {/* Default panel contents */}
   <div className="panel-heading"><strong>User Details</strong></div>

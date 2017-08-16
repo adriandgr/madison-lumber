@@ -1,22 +1,31 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
 import { loadState, saveState } from '../utils/localStorage';
+import PropTypes from 'prop-types';
 import api from '../utils/api';
-import SiteHeader from './SiteHeader';
-import Home from './Home';
-import Mills from './Mills';
-import Mill from './Mill';
-import CreateMill from './CreateMill';
-import BulkImport from './BulkImport';
-import Users from './Users';
-import CreateUser from './CreateUser';
-import ManageUser from './ManageUser';
-import Login from './Login';
-import AlertMessages from './AlertMessages';
-import './App.css';
+import './assets/App.css';
 
-const AppRoutes = (props) => (
+import Home from './Home';
+import Login from './Login';
+
+// User components
+import Users from './users/Users';
+import CreateUser from './users/CreateUser';
+import ManageUser from './users/ManageUser';
+
+// Mill components
+import Mills from './mills/Mills';
+import Mill from './mills/Mill';
+import CreateMill from './mills/CreateMill';
+import BulkImport from './mills/BulkImport';
+
+// Shared components
+import SiteHeader from './shared/SiteHeader';
+import AlertMessages from './shared/AlertMessages';
+import Footer from './shared/Footer';
+
+
+const AppRoutes = props => (
   <Switch>
     <Route exact path='/' render={(routerProps) => (
       <Home {...routerProps} success={props.successAuth} />
@@ -162,11 +171,7 @@ class App extends Component {
               token={this.state.token}
             />
           </main>
-          <footer id="site-footer">
-            Copyright &copy; 2017 <a href="http://www.ketadesign.ca/">
-              KetaDesign Productions Inc.
-            </a>
-          </footer>
+          <Footer />
         </div>
       </Router>
     );
