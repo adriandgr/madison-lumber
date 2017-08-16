@@ -52,6 +52,7 @@ const MillTable = props => {
                           </Link>
                         </li>
                         <li className="divider"></li>
+                        <li className="divider"></li> {/* For some reason this doesn't work w/ one divider ??? */}
                         <li>
                           <Link
                             to={`/mills/${mill.slug}/edit`}>
