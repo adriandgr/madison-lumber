@@ -16,7 +16,6 @@ function showMills(req, res) {
           limit: mills.limit,
           page: mills.page,
           pages: mills.pages,
-          validToken: req.flash('validToken'),
           success: req.flash('success'),
           query: req.flash('query')
         });
@@ -35,7 +34,6 @@ function showMills(req, res) {
           limit: mills.limit,
           page: mills.page,
           pages: mills.pages,
-          validToken: req.flash('validToken'),
           success: req.flash('success'),
           query: req.flash('query')
         });
@@ -62,7 +60,6 @@ function showSingle(req, res) {
         errors: ['404: Mill not found']
       });
     }
-    console.log('mill', mill);
     // return a view with data
     res.json({
       mill,
@@ -97,7 +94,6 @@ function seedEvents(req, res) {
   **/
 function showCreate(req, res) {
   res.render('pages/createMill', {
-    validToken: req.flash('validToken'),
     errors: req.flash('errors')
   });
 }
@@ -181,7 +177,6 @@ function showEdit(req, res) {
   Mill.findOne({ slug: req.params.slug }, (err, mill) => {
     res.render('pages/edit', {
       mill,
-      validToken: req.flash('validToken'),
       errors: req.flash('errors')
     });
   });
