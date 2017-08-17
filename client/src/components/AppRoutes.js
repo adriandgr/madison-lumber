@@ -26,65 +26,95 @@ import AlertMessages from './shared/AlertMessages';
 
 const AppRoutes = props => (
   <Switch>
-    <Route exact path='/' render={routerProps => (
-      <Home {...routerProps} success={props.successAuth} />
+    <Route
+      exact
+      path='/'
+      render={routerProps => (
+        <Home {...routerProps}
+        success={props.successAuth} />
     )}/>
-    <Route path='/login' render={routerProps => (
-      <Login {...routerProps} onSubmit={props.authUser} />
+    <Route
+      path='/login'
+      render={routerProps => (
+        <Login {...routerProps}
+        onSubmit={props.authUser} />
     )}/>
-    <Route exact path='/mills' render={routerProps => (
-      <Mills {...routerProps}
-        isAuthenticated={props.isAuthenticated}
-        isAdmin={props.isAdmin}
-        token={props.token} />
+    <Route
+      exact
+      path='/mills'
+      render={routerProps => (
+        <Mills {...routerProps}
+          isAuthenticated={props.isAuthenticated}
+          isAdmin={props.isAdmin}
+          token={props.token} />
     )}/>
-    <Route exact path='/mills/new' render={routerProps => (
-      <CreateMill {...routerProps}
-        isAuthenticated={props.isAuthenticated}
-        isAdmin={props.isAdmin}
-        token={props.token} />
+    <Route
+      exact
+      path='/mills/new'
+      render={routerProps => (
+        <CreateMill {...routerProps}
+          isAuthenticated={props.isAuthenticated}
+          isAdmin={props.isAdmin}
+          token={props.token} />
     )}/>
-    <Route exact path='/mills/import' render={routerProps => (
-      <BulkImport {...routerProps}
-        isAuthenticated={props.isAuthenticated}
-        isAdmin={props.isAdmin}
-        token={props.token} />
+    <Route
+      exact
+      path='/mills/import'
+      render={routerProps => (
+        <BulkImport {...routerProps}
+          isAuthenticated={props.isAuthenticated}
+          isAdmin={props.isAdmin}
+          token={props.token} />
     )}/>
-    <Route exact path='/mills/:mill' render={routerProps => (
-      <Mill {...routerProps}
-        isAuthenticated={props.isAuthenticated}
-        isAdmin={props.isAdmin}
-        token={props.token} />
+    <Route
+      exact
+      path='/mills/:mill'
+      render={routerProps => (
+        <Mill {...routerProps}
+          isAuthenticated={props.isAuthenticated}
+          isAdmin={props.isAdmin}
+          token={props.token} />
     )}/>
-    <Route exact path='/users' render={routerProps => (
-      <Users {...routerProps}
-        isAuthenticated={props.isAuthenticated}
-        isAdmin={props.isAdmin}
-        token={props.token} />
+    <Route
+      exact
+      path='/users'
+      render={routerProps => (
+        <Users {...routerProps}
+          isAuthenticated={props.isAuthenticated}
+          isAdmin={props.isAdmin}
+          token={props.token} />
     )}/>
-    <Route exact path='/users/new' render={routerProps => (
-      <CreateUser {...routerProps}
-        isAuthenticated={props.isAuthenticated}
-        isAdmin={props.isAdmin}
-        token={props.token} />
+    <Route
+      exact
+      path='/users/new'
+      render={routerProps => (
+        <CreateUser {...routerProps}
+          isAuthenticated={props.isAuthenticated}
+          isAdmin={props.isAdmin}
+          token={props.token} />
     )}/>
-    <Route exact path='/users/:uuid' render={routerProps => (
-      <ManageUser {...routerProps}
-        isAuthenticated={props.isAuthenticated}
-        isAdmin={props.isAdmin}
-        token={props.token} />
+    <Route
+      exact
+      path='/users/:uuid'
+      render={routerProps => (
+        <ManageUser {...routerProps}
+          isAuthenticated={props.isAuthenticated}
+          isAdmin={props.isAdmin}
+          token={props.token} />
     )}/>
     <Route render={ () => {
       return (
-      <div className="container">
-        <AlertMessages
-          success={[]}
-          errors={[
-            '404 - Not Found',
-            'The page you are looking for has been moved or doesn\'t exist anymore.']}
-        />
-        <Link to="/" className="btn btn-lg btn-default center-block"><i className="fa fa-undo" aria-hidden="true"></i> Take me home</Link>
-      </div>)}
+        <div className="container">
+          <AlertMessages
+            success={[]}
+            errors={[
+              '404 - Not Found',
+              'The page you are looking for has been moved or doesn\'t exist anymore.']}
+          />
+          <Link to="/" className="btn btn-lg btn-default center-block"><i className="fa fa-undo" aria-hidden="true"></i> Take me home</Link>
+        </div>
+      );
+    }
     } />
   </Switch>
 );

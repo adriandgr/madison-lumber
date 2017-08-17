@@ -8,8 +8,8 @@ const millsController  = require('./controllers/mill.controller');
 
 
 
+router.post('/login', userController.authUser);
 router.get('/logout', userController.logout);
-router.post('/auth', userController.authUser);
 
 // route middleware to authenticate and check token
 router.use(userController.routerMiddleware);
@@ -18,6 +18,9 @@ router.use(userController.routerMiddleware);
 // ---------------------------------------------------------
 // AUTHENTICATED ROUTES BELOW THIS COMMENT
 // ---------------------------------------------------------
+
+// Verify user's token is valid on authenticated route load
+router.post('/validate', userController.validateToken);
 
 router.get('/mills', millsController.showMills);
 router.get('/mills/:slug', millsController.showSingle);

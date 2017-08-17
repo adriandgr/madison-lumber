@@ -26,7 +26,7 @@ class ManageUser extends Component {
   render() {
     return (
       <div className="container">
-        { this.state.mill.name
+        { this.state.mill
           ?
           <Jumbotron
             heading={`Edit ${this.state.mill.name}`}

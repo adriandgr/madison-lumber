@@ -13,16 +13,16 @@ var instance = axios.create({
 
 
 const api = {
-  validateToken: (token) => {
-    return instance.post(
-      '/api/auth',
-      querystring.stringify({ token })
-      ).then(res => res.data);
-  },
   authUser: (email, password) => {
     return instance.post(
-      '/api/auth',
+      '/api/login',
       querystring.stringify({ email, password })
+      ).then(res => res.data);
+  },
+  validateToken: token => {
+    return instance.post(
+      '/api/validate',
+      querystring.stringify({ token })
       ).then(res => res.data);
   },
   getMills: (token, q) => {
