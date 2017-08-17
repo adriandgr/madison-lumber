@@ -60,17 +60,9 @@ class Mill extends Component {
   }
 
   render() {
-    if (!this.props.isAuthenticated) {
-      return (
-        <div>
-          Please log in to view this page.
-        </div>
-      )
-    }
-
     return (
       <div className="container">
-      { this.state.mill.name
+      { this.state.mill
         ? <div className="mill">
             <MillBanner
               imgSrc={headerBg}

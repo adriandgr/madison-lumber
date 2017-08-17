@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Time from'react-time';
 
 const MillTable = props => (
-  <table className="table table-bordered table-hover table-striped">
+  <table className="table table-bordered table-hover table-striped mill-table">
   <thead>
     <tr>
       <th>Data</th>

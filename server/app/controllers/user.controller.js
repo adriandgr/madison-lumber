@@ -6,11 +6,8 @@ const util    = require('util');
 const bcrypt  = require('bcrypt');
 const saltRounds = 12;
 
-
-
-function authUser(req, res) {
-  // first check if they have a token
-  const token = req.body.token;
+function validateToken(req, res) {
+  const token = req.body.token
   if (token) {
     return jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
       if (err) {
@@ -26,7 +23,9 @@ function authUser(req, res) {
       }
     });
   }
+}
 
+function authUser(req, res) {
   req.checkBody('email', 'Email may not be blank.').notEmpty();
   req.checkBody('password', 'Password may not be blank').notEmpty();
 
@@ -58,7 +57,7 @@ function authUser(req, res) {
 
         if (comp === true) {
           // create a token and set expiry to 24hrs
-          var token = jwt.sign(user, process.env.JWT_SECRET, {
+          const token = jwt.sign(user, process.env.JWT_SECRET, {
             expiresIn: 86400
           });
 
@@ -78,7 +77,6 @@ function authUser(req, res) {
 function getLogin(req, res) {
   res.json({
     errors: req.flash('errors'),
-    validToken: req.flash('validToken'),
     warnings: req.flash('warnings')
   });
 }
@@ -91,21 +89,17 @@ function routerMiddleware(req, res, next) {
     // verifies secret and checks exp
     jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
       if (err) {
-        req.flash('validToken', false);
-        req.flash();
         return res.json({
           errors: ['Authentication Failed. Please log in and try again.']});
       } else {
         // if everything is good, save to request for use in other routes
         req.decoded = decoded;
-        req.flash('validToken', true);
         next();
       }
     });
   } else {
     // if there is no token
     // return an error
-    req.flash('validToken', false);
     req.flash('warnings', 'Please login to view the requested resource.');
     return res.status(403).redirect('/login');
   }
@@ -129,7 +123,8 @@ function getUsers(req, res) {
   User.find({}, (err, users) => {
     if (err) {
       res.status(404);
-      res.send('Users not found');
+      res.json({
+        errors: ['Users not found', 'The target user could not be found']});
     }
     // return a view with data
     res.json({
@@ -142,7 +137,6 @@ function getUsers(req, res) {
 
 function showCreate(req, res) {
   res.render('pages/createUser', {
-    validToken: req.flash('validToken'),
     errors: req.flash('errors')
   });
 }
@@ -209,7 +203,6 @@ function manageUser(req, res) {
     // return a view with data
     res.json({
       user,
-      validToken: req.flash('validToken'),
       success: req.flash('success'),
       errors: req.flash('errors')
     });
@@ -217,21 +210,28 @@ function manageUser(req, res) {
 }
 
 function deleteUser(req, res) {
+  console.log('request body', req.body);
   if (req.decoded._doc.admin) {
     User.findOne({email: req.body.email }, (err, user) => {
       if (err) {
-        res.status(404);
-        res.send('User not found');
-      }
-      if (req.body.email === user.email) {
-        User.remove({ uuid: req.params.uuid }, err => {
-          res.json({
-            success: ['User deleted!']
-          });
+        res.status(500);
+        return res.json({
+          errors: ['505 - Internal Server Error', 'Something went wrong; please try again']
         });
+      }
+      if(user) {
+        // Found user in database
+        if(user.email === req.body.email) {
+          User.remove({ uuid: req.params.uuid }, err => {
+            return res.json({
+              success: ['User deleted!']
+            });
+          });
+        }
       } else {
-        res.json({
-          errors: ['Email does not match. Please try again.']
+        // Did not find email in db, meaning it doesn't match
+        return res.json({
+          errors: ['Error — Email does not match', 'Please try again']
         });
       }
     });
@@ -253,6 +253,7 @@ function logout(req, res) {
 }
 
 module.exports = {
+  validateToken,
   authUser,
   getLogin,
   getUsers,
