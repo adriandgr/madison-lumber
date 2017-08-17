@@ -24,6 +24,23 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 
+/* Loading bar */
+
+.loading-bar {
+  background-image: url('images/loading.gif');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 150px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  margin: auto;
+}
+
+
 /* Navbar
 ---------- */
 
@@ -93,8 +110,8 @@ h1.heading-brand, h2.heading-brand {
 }
 
 #site-main {
-  padding-top: 50px;
-  padding-bottom: 50px;
+  margin-top: 50px;
+  margin-bottom: 125px;
 }
 
 
@@ -115,7 +132,7 @@ h1.heading-brand, h2.heading-brand {
 .btn-search {
   box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
   left: -2px;
-  padding: 0.8em 1em;
+  padding: 0.85em 1em;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
 }
 
@@ -207,14 +224,6 @@ body {
   margin-bottom: 60px;
 }
 
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  /* Set the fixed height of the footer here */
-  height: 60px;
-}
-
 #site-footer a {
   color: #CFD8DC;
   font-weight: 600;
@@ -222,9 +231,10 @@ body {
 }
 
 #site-footer {
-  position:absolute;
-  width:100%;
-  bottom:0px;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
   text-align: center;
   padding-bottom: 30px;
   padding-top: 30px;
@@ -295,10 +305,14 @@ body {
 ---------------- */
 
 .mill-table {
+  margin-bottom: 5em;
+}
+
+.mills-table {
   margin: 5px 0;
 }
 
-.mill-table-link {
+.mills-table-link {
   color: #666666;
 }
 
@@ -307,14 +321,14 @@ body {
 }
 
 @media screen and (max-width: 768px) {
-  .mill-table-action > a {
+  .mills-table-action > a {
     margin-bottom: 1em;
     width: 90%;
   }
 }
 
 @media screen and (min-width: 768px) {
-  .mill-table-action > a:not(:first-child) {
+  .mills-table-action > a:not(:first-child) {
     margin-left: 1em;
   }
 }

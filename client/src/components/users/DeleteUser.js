@@ -5,7 +5,6 @@ class DeleteUser extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      fireRedirect: false,
       email: ''
     };
     this.handleChange = this.handleChange.bind(this);

@@ -12,7 +12,7 @@ const MillsTable = props => {
         total={props.metaData.total}
         limit={props.metaData.limit}
         searchQuery={props.search.q}/>
-      <table className="table table-bordered table-hover table-striped mill-table">
+      <table className="table table-bordered table-hover table-striped mills-table">
         <thead>
           <tr>
             <th>Name</th>
@@ -25,7 +25,7 @@ const MillsTable = props => {
           {props.mills.map(mill => (
               <tr key={mill.slug}>
                 <td>
-                  <Link to={`/mills/${mill.slug}`} className="mill-table-link">
+                  <Link to={`/mills/${mill.slug}`} className="mills-table-link">
                       {mill.name}
                   </Link>
                 </td>
@@ -45,7 +45,7 @@ const MillsTable = props => {
                         Manage &nbsp;
                          <span className="caret"></span>
                       </button>
-                      <ul className="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenu1">
+                      <ul className="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
                         <li>
                           <Link
                             to={`/mills/${mill.slug}`}>
