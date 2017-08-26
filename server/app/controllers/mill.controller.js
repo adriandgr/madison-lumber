@@ -171,46 +171,40 @@ function processCreate(req, res) {
 }
 
 /**
-* Show the edit form
-**/
-function showEdit(req, res) {
-  Mill.findOne({ slug: req.params.slug }, (err, mill) => {
-    res.render('pages/edit', {
-      mill,
-      errors: req.flash('errors')
-    });
-  });
-}
-
-/**
 * Process Edit
 **/
 function processEdit(req, res) {
-  // validate info
-  req.checkBody('name', 'Name is required.').notEmpty();
-  req.checkBody('description', 'Description is required.').notEmpty();
+  let [[ millKeys, val ]] = Object.entries(req.body.options);
+  millKeys = millKeys.split('.');
 
-  const errors = req.validationErrors();
+  Mill.findOne({slug: req.body.slug }, (err, mill) => {
+    // Accounts for nested nature of mill schema
+    if(millKeys.length === 1) {
+      const [ key ] = millKeys;
+      mill[key] = val;
+    } else {
+      let temp;
+      millKeys.forEach((key, i) => {
+        if(i === 0) {
+          temp = mill[key];
+        } else if(i > 0 && i < (millKeys.length - 1)) {
+          temp = temp[key];
+        } else {
+          mill = temp;
+          mill[key] = val;
+        }
+      });
+    }
 
-  if(errors) {
-    req.flash('errors', errors.map(err => err.msg));
-    return res.redirect(`/mills/${req.params.slug}/edit`);
-  }
-
-  // find the mill
-  Mill.findOne({ slug: req.params.slug }, (err, mill) => {
-    //  update the mill
-    mill.name        = req.body.name;
-    mill.description = req.body.description;
-
-    mill.save((err) => {
+    mill.save(err => {
       if(err) {
-        throw err;
+        return res.json({
+          errors: ['500 - Internal Server Error', 'Internal Server Error. Please try again.']
+        });
       }
-      // success flash message
-      req.flash('success', 'Successfully updated the mill.');
-      // redirect back to the /mills
-      res.redirect('/mills');
+      return res.json({
+        success: ['Successfully Updated', `${req.body.sectionName} has been updated successfully`]
+      });
     });
   });
 }
@@ -231,7 +225,6 @@ module.exports = {
   seedEvents,
   showCreate,
   processCreate,
-  showEdit,
   processEdit,
   deleteMill
 };
