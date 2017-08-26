@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import querystring from 'querystring';
 import api from '../../utils/api';
 import MillsTable from './_MillsTable';
+import scroll from '../../utils/scrollTo';
 import Jumbotron from '../shared/Jumbotron';
 import headerBg from '../images/mills-header.jpg';
 import AlertMessages from '../shared/AlertMessages';
@@ -181,7 +182,15 @@ class Mills extends Component {
         {this.props.isAuthenticated &&
           <div className="row">
               <div className="search-container col-xs-12">
-                <input ref={input => this.searchInput = input} className="form-control" id="search" name="search" placeholder="Search Mills" onKeyUp={this.handleInput}></input>
+                <input
+                  ref={input => this.searchInput = input}
+                  className="form-control"
+                  id="search"
+                  name="search"
+                  placeholder="Search Mills"
+                  onKeyUp={this.handleInput}
+                  onFocus={() => scroll.to('.search-container')}>
+                </input>
                 <div className="input-group-btn clear-search">
                   <span className="btn btn-default btn-search" onClick={this.reloadMills}>
                     <i className={`fa fa-close ${this.state.searchQuery ? 'visible' : ''}`}></i>

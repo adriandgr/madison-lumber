@@ -1,9 +1,14 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import scroll from '../../utils/scrollTo';
 
 const AlertMessages = props => {
   let msgCount = 0;
   let errCount = 0;
+
+  if((props.success.length > 0 || props.errors.length > 0) && props.scroll) {
+    scroll.to('.alert-messages');
+  }
   return (
   <div className="alert-messages">
     { props.success.length > 0 &&

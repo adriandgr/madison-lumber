@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import api from '../../utils/api';
+import millSchema from '../../utils/millSchema';
 import MillTable from './_MillTable';
 import headerBg from '../images/blue-mill.jpg';
+import LoadingBar from '../LoadingBar';
 import AlertMessages from '../shared/AlertMessages';
 
 const MillBanner = props => (
@@ -19,39 +21,61 @@ const MillBanner = props => (
   </div>
 )
 
+const MillNotFound = props => (
+  <div className="container">
+    <AlertMessages
+      success={[]}
+      errors={[
+        '404 - Not Found',
+        'The mill record you requested has been moved or doesn\'t exist anymore.']}
+    />
+    <Link
+      to="/mills"
+      className="btn btn-lg btn-default center-block">
+        <i className="fa fa-undo" aria-hidden="true"></i> View all mills
+    </Link>
+    <br />
+    <Link
+      to="/"
+      className="btn btn-lg btn-default center-block">
+        <i className="fa fa-home" aria-hidden="true"></i> Take me home
+    </Link>
+  </div>
+);
+
 class Mill extends Component {
   constructor(props) {
     super(props);
     this.state = {
       success: [],
       errors: [],
-      mill: {}
+      mill: null,
+      millStatus: 'INIT'
     }
+
+    this.handleEdit = this.handleEdit.bind(this);
   }
 
   componentDidMount() {
     this.loadMill();
   }
 
-  componentWillReceiveProps(nextProps) {
-    this.loadMill();
-  }
-
   loadMill() {
-    api.getMill(this.props.token, this.props.match.url).then(res=> {
+    api.getMill(this.props.token, this.props.match.url).then(res => {
       const newState = {
         success: '',
         errors: '',
-        mill: {}
+        mill: null,
+        millStatus: 'COMPLETE'
       };
 
-      if (res.success) {
+      if(res.success) {
         newState.success = res.success;
       }
-      if (res.errors) {
+      if(res.errors) {
         newState.errors = res.errors;
       }
-      if (res.mill) {
+      if(res.mill) {
         newState.mill = res.mill;
       }
 
@@ -59,41 +83,73 @@ class Mill extends Component {
     })
   }
 
+  updateMillState(options) {
+    let mill = this.state.mill;
+    let [[millKeys, val]] = Object.entries(options);
+    millKeys = millKeys.split('.');
+
+    if(millKeys.length === 1) {
+      const [ key ] = millKeys;
+      mill[key] = val;
+    } else {
+      let temp;
+      millKeys.forEach((key, i) => {
+        if(i === 0) {
+          temp = mill[key];
+        } else if(i > 0 && i < (millKeys.length - 1)) {
+          temp = temp[key];
+        } else {
+          mill = temp;
+          mill[key] = val;
+        }
+      });
+    }
+  }
+
+  handleEdit(options, sectionName) {
+    this.updateMillState(options)
+    return api.editMill(this.props.token, this.state.mill.slug, options, sectionName)
+              .then(res => {
+                if(res.errors) {
+                  this.setState({
+                    errors: res.errors
+                  });
+                } else {
+                  this.setState({
+                    success: res.success
+                  });
+                }
+              });
+  }
+
   render() {
-    return (
-      <div className="container">
-      { this.state.mill
-        ? <div className="mill">
-            <MillBanner
-              imgSrc={headerBg}
-              mill={this.state.mill} />
+    if(this.state.millStatus === 'COMPLETE') {
+      if(this.state.mill) {
+        return (
+          <div className="container">
+            <div className="mill">
+              <MillBanner
+                imgSrc={headerBg}
+                mill={this.state.mill} />
 
-            <MillTable
-              mill={this.state.mill} />
+              <AlertMessages
+                success={this.state.success}
+                errors={this.state.errors}
+                scroll={true} />
 
+              <MillTable
+                isAdmin={this.props.isAdmin}
+                mill={this.state.mill}
+                handleEdit={this.handleEdit}/>
+            </div>
           </div>
-        : <div className="container">
-            <AlertMessages
-              success={[]}
-              errors={[
-                '404 - Not Found',
-                'The mill record you requested has been moved or doesn\'t exist anymore.']}
-            />
-            <Link
-              to="/mills"
-              className="btn btn-lg btn-default center-block">
-                <i className="fa fa-undo" aria-hidden="true"></i> View all mills
-            </Link>
-            <br />
-            <Link
-              to="/"
-              className="btn btn-lg btn-default center-block">
-                <i className="fa fa-home" aria-hidden="true"></i> Take me home
-            </Link>
-          </div>
+        );
+      } else {
+        return <MillNotFound />;
       }
-      </div>
-    )
+    } else {
+      return <LoadingBar />;
+    }
   }
 }
 
