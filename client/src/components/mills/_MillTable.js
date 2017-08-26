@@ -1,238 +1,83 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import MillTableDataRow from './_MillTableDataRow';
 import Time from'react-time';
 
-const MillTable = props => (
-  <table className="table table-bordered table-hover table-striped mill-table">
-  <thead>
-    <tr>
-      <th>Data</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    { props.mill.name &&
-      <tr>
-          <td>Name</td>
-          <td>{props.mill.name}</td>
-      </tr>
+function mapTableData(props) {
+  // Converts key into sectionName
+  function sectionName(text) {
+    const sectionName = text.replace(/([A-Z])/, ' $1');
+    return `${sectionName[0].toUpperCase()}${sectionName.slice(1)}`;
+  }
+
+  const { mill } = props;
+  const tableData = [];
+
+  // Filter these keys out; they're not relevant to the table
+  const irrelevant = ['__v', '_id', 'slug', 'lastUpdated'];
+  const millKeys = Object.keys(mill)
+                         .filter(key => !irrelevant.includes(key));
+
+  millKeys.forEach(key => {
+    // Evaluates whether or not key's value is another object
+    // to the end of populating the millKeys dyanimcally
+    // Note: this doesn't support any nesting deeper than two levels;
+    // you'd have to drop some recursion in to account for more
+    if(typeof mill[key] === 'object' && !Array.isArray(mill[key])) {
+      // If it is, grab nested keys, associated content, and create new millKey
+      let newKeys = Object.keys(mill[key]);
+      newKeys.forEach(newKey => {
+        tableData.push({
+          sectionName: sectionName(newKey),
+          content: mill[key][newKey],
+          millKey: `${key}.${newKey}`
+        });
+      });
+    } else {
+      // If it isn't just push normal, surface-level data
+      tableData.push({
+        sectionName: sectionName(key),
+        content: mill[key],
+        millKey: key
+      });
     }
-    { props.mill.type &&
-      <tr>
-          <td>Type</td>
-          <td>{props.mill.type}</td>
-      </tr>
-    }
-    { props.mill.region &&
-      <tr>
-          <td>Region</td>
-          <td>{props.mill.region}</td>
-      </tr>
-    }
-    { props.mill.contact && props.mill.contact.address &&
-      <tr>
-          <td>Address</td>
-          <td>{props.mill.contact.address}</td>
-      </tr>
-    }
-    { props.mill.contact && props.mill.contact.location &&
-      <tr>
-          <td>Mill Location</td>
-          <td>{props.mill.contact.location}</td>
-      </tr>
-    }
-    { props.mill.contact && props.mill.contact.phone &&
-      <tr>
-          <td>Phone</td>
-          <td>
-            { props.mill.contact.phone.map((number, i) => (
-              <p key={i}>{number}</p>
-            )) }
-          </td>
-      </tr>
-    }
-    { props.mill.contact && props.mill.contact.fax &&
-      <tr>
-          <td>Fax</td>
-          <td>{props.mill.contact.fax}</td>
-      </tr>
-    }
-    { props.mill.contact && props.mill.contact.email &&
-      <tr>
-          <td>Email</td>
-          <td>{props.mill.contact.email}</td>
-      </tr>
-    }
-    { props.mill.contact && props.mill.contact.website &&
-      <tr>
-          <td>Website</td>
-          <td><Link to={`//${props.mill.contact.website}`}>{props.mill.contact.website}</Link></td>
-      </tr>
-    }
-    { props.mill.contact && props.mill.contact.contactPersons && props.mill.contact.contactPersons[0] !== '' &&
-      <tr>
-        <td>Contact Persons</td>
-        <td>
-          { props.mill.contact.contactPersons.map((person, i) => (
-              <p key={i}>{person}</p>
-            )) }
-        </td>
-      </tr>
-    }
-    { props.mill.catalog && props.mill.catalog.products && props.mill.catalog.products[0] !== '' &&
-      <tr>
-        <td>Products</td>
-        <td>
-          { props.mill.catalog.products.map((product, i) => (
-              <p key={i}>{product}</p>
-            )) }
-        </td>
-      </tr>
-    }
-    { props.mill.catalog && props.mill.catalog.species && props.mill.catalog.species[0] !== '' &&
-      <tr>
-        <td>Species</td>
-        <td>
-          { props.mill.catalog.species.map((item, i) => (
-              <p key={i}>{item}</p>
-            )) }
-        </td>
-      </tr>
-    }
-    { props.mill.catalog && props.mill.catalog.roughSizes.length > 0 && props.mill.catalog.roughSizes[0] !== '' &&
-      <tr>
-          <td>Rough Sizes</td>
-          <td>
-            { props.mill.catalog.roughSizes.map((roughSize, i) => (
-              <p key={i}>{roughSize}</p>
-            )) }
-          </td>
-      </tr>
-    }
-    { props.mill.catalog && props.mill.catalog.surfacedSizes && props.mill.catalog.surfacedSizes[0] !== '' &&
-      <tr>
-          <td>Surfaced Sizes</td>
-          <td>
-            { props.mill.catalog.surfacedSizes.map((surfaceSize, i) => (
-              <p key={i}>{surfaceSize}</p>
-            )) }
-          </td>
-      </tr>
-    }
-    { props.mill.catalog && props.mill.catalog.production &&
-      <tr>
-          <td>Production</td>
-          <td>{props.mill.catalog.production}</td>
-      </tr>
-    }
-    { props.mill.catalog && props.mill.catalog.panelThickness &&
-      <tr>
-          <td>Panel Thickness</td>
-          <td>{props.mill.catalog.panelThickness}</td>
-      </tr>
-    }
-    { props.mill.catalog && props.mill.catalog.services[0] !== '' &&
-      <tr>
-          <td>Services</td>
-          <td>
-            { props.mill.catalog.services.map((service, i) => (
-              <p key={i}>{service}</p>
-            )) }
-          </td>
-      </tr>
-    }
-    { props.mill.catalog && props.mill.catalog.kilnCapacity &&
-      <tr>
-          <td>Kiln Capacity</td>
-          <td>{props.mill.catalog.kilnCapacity}</td>
-      </tr>
-    }
-    { props.mill.catalog && props.mill.catalog.shipping && props.mill.catalog.shipping[0] !== '' &&
-      <tr>
-          <td>Shipping</td>
-          <td>
-            { props.mill.catalog.shipping.map((method, i) => (
-              <p key={i}>{method}</p>
-            )) }
-          </td>
-      </tr>
-    }
-    { props.mill.catalog && props.mill.catalog.export.length > 0 && props.mill.catalog.export[0] !== '' &&
-      <tr>
-          <td>Export</td>
-          <td>
-          { props.mill.catalog.export.map((location, i) => (
-            <p key={i}>{location}</p>
-          )) }
-          </td>
-      </tr>
-    }
-    { props.mill.qualifications && props.mill.qualifications.gradingAgency &&
-      <tr>
-          <td>Grading Agency</td>
-          <td>{props.mill.qualifications.gradingAgency}</td>
-      </tr>
-    }
-    { props.mill.qualifications && props.mill.qualifications.memberOf > 0 &&
-      <tr>
-          <td>Member Of</td>
-          <td>{props.mill.qualifications.memberOf}</td>
-      </tr>
-    }
-    { props.mill.qualifications && props.mill.qualifications.employees &&
-      <tr>
-          <td>Employees</td>
-          <td>{props.mill.qualifications.employees}</td>
-      </tr>
-    }
-    { props.mill.qualifications && props.mill.qualifications.notes &&
-      <tr>
-          <td>Notes</td>
-          <td>{props.mill.qualifications.notes}</td>
-      </tr>
-    }
-    { props.mill.qualifications && props.mill.qualifications.certification &&
-      <tr>
-          <td>Certification</td>
-          <td>{props.mill.qualifications.certification}</td>
-      </tr>
-    }
-    { props.mill.qualifications && props.mill.qualifications.preservatives &&
-      <tr>
-          <td>Preservatives</td>
-          <td>{props.mill.qualifications.preservatives}</td>
-      </tr>
-    }
-    { props.mill.qualifications && props.mill.qualifications.treatingFacilities &&
-      <tr>
-          <td>Treating Facilities</td>
-          <td>{props.mill.qualifications.treatingFacilities}</td>
-      </tr>
-    }
-    { props.mill.qualifications && props.mill.qualifications.distributionYard &&
-      <tr>
-          <td>Distribution Yard</td>
-          <td>{props.mill.qualifications.distributionYard}</td>
-      </tr>
-    }
-    { props.mill.qualifications && props.mill.qualifications.millStatus &&
-      <tr>
-          <td>Mill Status</td>
-          <td>{props.mill.qualifications.millStatus}</td>
-      </tr>
-    }
-    { props.mill.lastUpdated &&
-      <tr>
-          <td>Last Updated</td>
-          <td>
-            <Time value={props.mill.lastUpdated} format="DD/MM/YYYY HH:mm" relative />
-          </td>
-      </tr>
-    }
-  </tbody>
-</table>
-);
+  });
+  return tableData
+}
+
+const MillTable = props => {
+  const tableData = mapTableData(props);
+  return (
+    <table className="table table-bordered table-hover table-striped mill-table">
+      <thead>
+        <tr>
+          <th>Data</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {tableData.map((data, i) => (
+          <MillTableDataRow
+            key={i}
+            isAdmin={props.isAdmin}
+            sectionName={data.sectionName}
+            content={data.content}
+            millKey={data.millKey}
+            handleEdit={props.handleEdit} />
+        ))}
+        { props.mill.lastUpdated &&
+          <tr>
+              <td>Last Updated</td>
+              <td>
+                <Time value={props.mill.lastUpdated} format="DD/MM/YYYY HH:mm" relative />
+              </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  );
+};
 
 MillTable.propTypes = {
   mill: PropTypes.object.isRequired
