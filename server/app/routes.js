@@ -43,7 +43,6 @@ router.post('/users/create', userController.processCreate);
 router.post('/mills/create', millsController.processCreate);
 
 //edit
-router.get('/x/mills/:slug/edit', millsController.showEdit); //to delete
 router.post('/mills/:slug', millsController.processEdit);
 
 // seed mills
