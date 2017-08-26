@@ -1,6 +1,5 @@
 import axios from 'axios';
-import querystring from 'querystring';
-
+import querystring from 'qs';
 
 const baseURL = process.env.NODE_ENV === 'production'
   ? 'https://db.madisonsreport.com'
@@ -47,9 +46,20 @@ const api = {
       querystring.stringify({
         token,
         ...mill
-      })).then(res => res.data);
+    })).then(res => res.data);
   },
-  uploadCsv: (token, csv) =>{
+  editMill: (token, slug, options, sectionName) => {
+    return instance.post(
+      '/api/mills/processEdit',
+      querystring.stringify({
+        token,
+        slug: slug,
+        options: options,
+        sectionName: sectionName
+      })
+    ).then(res => res.data);
+  },
+  uploadCsv: (token, csv) => {
 
   },
   deleteMill: (token, millSlug) => {

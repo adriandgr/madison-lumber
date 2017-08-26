@@ -31,7 +31,11 @@ app.set('view engine', 'ejs');
 app.use(expressLayouts);
 
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(expressValidator());
+app.use(expressValidator({
+  isRegion: options => {
+    return options.region.length === 2;
+  }
+}));
 
 mongoose.connect(process.env.DB_URI);
 

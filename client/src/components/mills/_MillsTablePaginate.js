@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 const MillsTablePaginate = props => {
   const nextDisabled = props.page === props.pages;
   const prevDisabled = props.page === 1;
+
   return (
     <div className='row paginate'>
       <div className='col-sm-2 col-sm-offset-0 col-xs-8 col-xs-offset-2'>
@@ -34,7 +35,7 @@ const MillsTablePaginate = props => {
         </Link>
       </div>
     </div>
-  )
+  );
 };
 
 export default MillsTablePaginate;

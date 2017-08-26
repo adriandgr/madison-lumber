@@ -1,0 +1,32 @@
+const MillSchema = {
+  name: '',
+  type: '',
+  region: '',
+  address: '',
+  location: '',
+  phone: '',
+  fax: '',
+  website: '',
+  contactPersons: '',
+  products: '',
+  species: '',
+  roughSizes: '',
+  surfacedSizes: '',
+  production: '',
+  panelThickness: '',
+  services: '',
+  kilnCapacity: '',
+  shipping: '',
+  export: '',
+  gradingAgency: '',
+  memberOf: '',
+  employees: '',
+  notes: '',
+  certification: '',
+  preservatives: '',
+  treatingFacilities: '',
+  distributionYard: '',
+  millStatus: ''
+};
+
+export default MillSchema;
