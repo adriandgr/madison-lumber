@@ -55,13 +55,6 @@ const MillsTable = props => {
                         <li className="divider"></li>
                         <li>
                           <Link
-                            to={`/mills/${mill.slug}/edit`}>
-                              <i className="fa fa-pencil" aria-hidden="true"></i> Edit
-                          </Link>
-                        </li>
-                        <li className="divider"></li>
-                        <li>
-                          <Link
                             to='#'
                             name={mill.slug}
                             onClick={(event) => {
