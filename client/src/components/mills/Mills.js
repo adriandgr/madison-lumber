@@ -162,7 +162,8 @@ class Mills extends Component {
         { (this.state.success || this.state.errors) &&
           <AlertMessages
             success={this.state.success}
-            errors={this.state.errors}/> }
+            errors={this.state.errors}
+            scroll={true}/> }
 
         {this.props.isAdmin &&
           <div className="breadcrumb">
