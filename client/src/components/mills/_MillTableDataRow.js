@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-
+import Linkify from 'react-linkify';
 
 ///////////////////////////////
 // Read-only helper components
@@ -8,7 +8,9 @@ import React, { Component } from 'react';
 const StrContent = props => {
   return (
     <td className='content-row'>
-      <span>{props.content}</span>
+      <span>
+        <Linkify>{props.content}</Linkify>
+      </span>
       {props.isAdmin &&
         <i className='fa fa-pencil' aria-hidden="true" onClick={props.toggleEditable}></i>
       }
@@ -21,7 +23,9 @@ const ArrContent = props => {
     <td>
       {props.content.map((content, i) => (
         <div key={i} className='content-row'>
-          <p key={i + 1} style={{display: 'inline-block', marginBottom: 0}}>{content}</p>
+          <p key={i + 1} style={{display: 'inline-block', marginBottom: 0}}>
+            <Linkify>{content}</Linkify>
+          </p>
           {props.isAdmin &&
             <i key={i + 2} className='fa fa-pencil' aria-hidden="true" onClick={props.toggleEditable}></i>
           }
