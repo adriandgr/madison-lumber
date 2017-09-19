@@ -33,7 +33,6 @@ function authUser(req, res) {
     if (!result.isEmpty()) {
       const val = result.array().map(err => err.msg);
       const errors = ['Validation Errors:'].concat(val);
-      console.log(errors, req.body.password);
       return res.json({
         errors
       });
@@ -147,15 +146,11 @@ function processCreate(req, res) {
   req.checkBody('lastName', 'Last name is required.').notEmpty();
   req.checkBody('email', 'Valid email is required.').isEmail();
   req.checkBody('password', 'Password should be between 8 and 30 characters long').len(8, 30);
-  console.log('\n\n\n\n\n\n');
-  console.log(req.body);
-  console.log('\n\n\n\n\n\n');
 
   req.getValidationResult().then(result => {
     if (!result.isEmpty()) {
       const val = result.array().map(err => err.msg);
       const errors = ['Validation Errors:'].concat(val);
-      console.log(errors, req.body.password);
       return res.json({
         errors
       });
@@ -210,7 +205,6 @@ function manageUser(req, res) {
 }
 
 function deleteUser(req, res) {
-  console.log('request body', req.body);
   if (req.decoded._doc.admin) {
     User.findOne({email: req.body.email }, (err, user) => {
       if (err) {

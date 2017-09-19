@@ -19,7 +19,6 @@ class CreateUser extends Component {
   }
 
   onSubmit(user) {
-    console.log(user);
     api.createUser(this.props.token, user)
       .then(res => {
         if (res.errors) {

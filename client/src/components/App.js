@@ -72,7 +72,6 @@ class App extends Component {
   }
 
   logoutUser() {
-    console.log('logmeout')
     this.setState(() => ({
       isAuthenticated: false,
       isAdmin: false,

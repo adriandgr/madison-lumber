@@ -37,7 +37,6 @@ const ArrContent = props => {
 };
 
 const Default = props => {
-  console.log(props.contentType)
   return(
     <tr className='mill-table-data-row'>
       <td>{props.sectionName}</td>

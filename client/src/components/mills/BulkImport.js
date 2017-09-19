@@ -13,7 +13,6 @@ class BulkImport extends Component {
 
   handleSumbit(event) {
     event.preventDefault()
-    console.log(event.target)
   }
 
   handleChange(event) {
@@ -23,7 +22,6 @@ class BulkImport extends Component {
     data.append('name', event.target.files[0].name);
     data.append('description', 'some value user types');
 
-    console.log(event.target, event.target.files[0].name, data.get('file'))
     const newState = {
       [event.target.name]: event.target.value
     }

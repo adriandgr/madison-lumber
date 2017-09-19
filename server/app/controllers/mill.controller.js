@@ -111,7 +111,6 @@ function processCreate(req, res) {
     if (!result.isEmpty()) {
       const val = result.array().map(err => err.msg);
       const errors = ['Validation Errors:'].concat(val);
-      console.log(errors);
       return res.json({
         errors
       });
