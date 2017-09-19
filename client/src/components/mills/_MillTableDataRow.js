@@ -19,12 +19,13 @@ const StrContent = props => {
 };
 
 const ArrContent = props => {
+  const titleize = content => content[0].toUpperCase() + content.slice(1);
   return (
     <td>
       {props.content.map((content, i) => (
         <div key={i} className='content-row'>
           <p key={i + 1} style={{display: 'inline-block', marginBottom: 0}}>
-            <Linkify>{content}</Linkify>
+            <Linkify>{titleize(content.trim())}</Linkify>
           </p>
           {props.isAdmin &&
             <i key={i + 2} className='fa fa-pencil' aria-hidden="true" onClick={props.toggleEditable}></i>
