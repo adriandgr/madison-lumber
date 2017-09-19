@@ -4,6 +4,23 @@ import PropTypes from 'prop-types';
 import MillTableDataRow from './_MillTableDataRow';
 import Time from'react-time';
 
+import orderedSections from './millTableSectionOrder';
+
+// By dynamically populating mill table data, deliberate ordering
+// of sections is lost. This function steps through ordered section
+// names and reorders the mill table data accordingly.
+const orderMillData = millData => {
+  const findMatch = oSection => {
+    for(let prop of millData) {
+      if(prop.sectionName === oSection) {
+        return prop;
+      }
+    }
+  };
+
+  return orderedSections.reduce((orderedData, oSection) => orderedData.concat(findMatch(oSection)), []);
+};
+
 const mapTableData = props => {
   // Converts key into sectionName
   const processed = str => str.replace(/([A-Z])/, ' $1');
@@ -42,7 +59,7 @@ const mapTableData = props => {
       });
     }
   });
-  return tableData
+  return orderMillData(tableData)
 }
 
 const MillTable = props => {
