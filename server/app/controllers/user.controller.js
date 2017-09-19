@@ -7,7 +7,7 @@ const bcrypt  = require('bcrypt');
 const saltRounds = 12;
 
 function validateToken(req, res) {
-  const token = req.body.token
+  const token = req.body.token;
   if (token) {
     return jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
       if (err) {
@@ -205,6 +205,7 @@ function manageUser(req, res) {
 }
 
 function deleteUser(req, res) {
+  console.log('request body', req.body);
   if (req.decoded._doc.admin) {
     User.findOne({email: req.body.email }, (err, user) => {
       if (err) {
@@ -234,8 +235,6 @@ function deleteUser(req, res) {
       errors: ['Error 403 - Access Forbidden']
     });
   }
-
-
 }
 
 function logout(req, res) {

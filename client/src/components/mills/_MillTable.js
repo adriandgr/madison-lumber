@@ -10,15 +10,15 @@ import orderedSections from './millTableSectionOrder';
 // of sections is lost. This function steps through ordered section
 // names and reorders the mill table data accordingly.
 const orderMillData = millData => {
-  const findMatch = oSection => {
+  const findMatch = section => {
     for(let prop of millData) {
-      if(prop.sectionName === oSection) {
+      if(prop.sectionName === section) {
         return prop;
       }
     }
   };
 
-  return orderedSections.reduce((orderedData, oSection) => orderedData.concat(findMatch(oSection)), []);
+  return orderedSections.reduce((ordered, section) => ordered.concat(findMatch(section)), []);
 };
 
 const mapTableData = props => {
