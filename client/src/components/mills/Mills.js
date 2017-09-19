@@ -171,12 +171,15 @@ class Mills extends Component {
               <div className="col-lg-2 col-lg-offset-0 col-sm-3 col-sm-offset-0 col-md-3 col-md-offset-0 col-xs-10 col-xs-offset-1 mills-table-action">
                 <Link to="/mills/new" className="btn btn-lg btn-success btn-block"><i className="fa fa-plus" aria-hidden="true"></i> Add new mill</Link>
               </div>
+            {/*
+              XXX For use in future developments
               <div className="col-lg-2 col-lg-offset-0 col-sm-3 col-sm-offset-0 col-md-3 col-md-offset-0 col-xs-10 col-xs-offset-1 mills-table-action">
                 <Link to="/mills/import" className="btn btn-lg btn-success btn-block"><i className="fa fa-upload" aria-hidden="true"></i> Bulk Import</Link>
               </div>
               <div className="col-lg-2 col-lg-offset-0 col-sm-3 col-sm-offset-0 col-md-3 col-md-offset-0 col-xs-10 col-xs-offset-1 mills-table-action">
                 <Link to="/mills/not-yet-implemented" className="btn btn-lg btn-success btn-block"><i className="fa fa-download" aria-hidden="true"></i> Export</Link>
               </div>
+            */}
             </div>
           </div>}
 
