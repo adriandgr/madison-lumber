@@ -304,16 +304,16 @@ body {
 /* Mills styling
 ---------------- */
 
+.table > tbody > tr > td, .table > thead > tr > th {
+  padding: 5px 14px;
+}
+
 .mill-table {
   margin-bottom: 5em;
 }
 
 .mill-table > thead > tr > th, .mill-table > tbody > tr > td {
   line-height: 225%;
-}
-
-.table > tbody > tr > td {
-  padding: 5px 14px;
 }
 
 .mill-table-data-input {
