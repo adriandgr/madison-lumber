@@ -32,7 +32,6 @@ class ManageUser extends Component {
   onSubmit(email) {
     api.deleteUser(this.props.token, email, this.props.match.url)
       .then(res => {
-        console.log(res)
         if(res.errors) {
           this.setState(() => ({
             errors: res.errors

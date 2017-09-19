@@ -55,22 +55,9 @@ class SiteHeader extends Component {
 
   handleSubmit(event) {
     event.preventDefault();
-    // api.authUser(
-    //   this.state.email,
-    //   this.state.pwd
-    // ).then(res => {
-    //   if (res.error) {
-    //     this.setState(() => ({error: res.error}));
-    //   } else {
-    //     this.setState(() => ({error: ''}))
-    //   }
-
     this.props.history.push('/');
-    this.props.logoutUser(() => {
-      console.log('call me maybe')
-    });
+    this.props.logoutUser();
   }
-
 
   render() {
     return (

@@ -40,7 +40,6 @@ function slugify(text) {
       slug += '-1';
     }
 
-    console.log(slug);
     return slug;
   });
 }
