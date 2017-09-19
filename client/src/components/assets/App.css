@@ -304,7 +304,7 @@ body {
 /* Mills styling
 ---------------- */
 
-.table > tbody > tr > td, .table > thead > tr > th {
+.table > tbody > tr > td, .table > thead > tr > th` {
   padding: 5px 14px;
 }
 
