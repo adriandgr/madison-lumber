@@ -4,20 +4,19 @@ import PropTypes from 'prop-types';
 import MillTableDataRow from './_MillTableDataRow';
 import Time from'react-time';
 
-function mapTableData(props) {
+const mapTableData = props => {
   // Converts key into sectionName
-  function sectionName(text) {
-    const sectionName = text.replace(/([A-Z])/, ' $1');
-    return `${sectionName[0].toUpperCase()}${sectionName.slice(1)}`;
-  }
+  const processed = str => str.replace(/([A-Z])/, ' $1');
+  const titleized = str => str[0].toUpperCase() + str.slice(1);
+  const make = processed => titleized => titleized(processed);
+  const sectionName = str => make(processed(str))(titleized);
 
   const { mill } = props;
   const tableData = [];
 
   // Filter these keys out; they're not relevant to the table
   const irrelevant = ['__v', '_id', 'slug', 'lastUpdated'];
-  const millKeys = Object.keys(mill)
-                         .filter(key => !irrelevant.includes(key));
+  const millKeys = Object.keys(mill).filter(key => !irrelevant.includes(key));
 
   millKeys.forEach(key => {
     // Evaluates whether or not key's value is another object
@@ -25,7 +24,7 @@ function mapTableData(props) {
     // Note: this doesn't support any nesting deeper than two levels;
     // you'd have to drop some recursion in to account for more
     if(typeof mill[key] === 'object' && !Array.isArray(mill[key])) {
-      // If it is, grab nested keys, associated content, and create new millKey
+      // If another obj, grab nested keys, associated content, and create new millKey
       let newKeys = Object.keys(mill[key]);
       newKeys.forEach(newKey => {
         tableData.push({
@@ -35,7 +34,7 @@ function mapTableData(props) {
         });
       });
     } else {
-      // If it isn't just push normal, surface-level data
+      // If it isn't, just push normal, surface-level data
       tableData.push({
         sectionName: sectionName(key),
         content: mill[key],
@@ -52,7 +51,7 @@ const MillTable = props => {
     <table className="table table-bordered table-hover table-striped mill-table">
       <thead>
         <tr>
-          <th>Data</th>
+          <th width='30%'>Data</th>
           <th></th>
         </tr>
       </thead>
