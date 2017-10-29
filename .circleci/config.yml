@@ -7,5 +7,5 @@ jobs:
     steps:
       - checkout
       - run: cd client
-      - run: yarn install
-      - run: yarn test
+      - run: npm install --prefix ./client
+      - run: npm test --prefix ./client
