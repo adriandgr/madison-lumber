@@ -7,7 +7,7 @@ const AlertMessages = props => {
   let infoCount = 0;
   let errCount = 0;
 
-  if((props.success.length > 0 || props.errors.length > 0 || (props.info && props.info.length > 0)) && props.scroll) {
+  if((props.success.length > 0 || props.errors.length > 0 || (props.info && props.info.length > 0))  && props.scroll) {
     scroll.to('.alert-messages');
   }
   return (

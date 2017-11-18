@@ -1,13 +1,15 @@
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { shallow, mount } from 'enzyme';
 import App from './App';
-
 
 jest.mock('scroll-to-element', () => 'scroll-to-element');
 
-
 it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<App />, div);
+  shallow(<App />);
+});
 
+it('renders site heading', () => {
+  const wrapper = mount(<App />);
+  const heading = <h2 className="heading-brand">Madison's Lumber Directory</h2>;
+  expect(wrapper).toContainReact(heading);
 });
