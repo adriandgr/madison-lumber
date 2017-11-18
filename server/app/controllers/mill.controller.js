@@ -8,7 +8,8 @@ function showMills(req, res) {
   // get all mills
   if (req.query.q) {
     req.flash('query', req.query.q);
-    Mill.paginate({$text: {$search: `"${req.query.q}"`}}, { page: req.query.p, limit: Number(req.query.limit) })
+    const query = req.query.q.split(' ').map(q => `"${q}"`);
+    Mill.paginate({$text: {$search: `${query}`}}, { page: req.query.p, limit: Number(req.query.limit) })
       .then(mills => {
         res.json({
           mills: mills.docs,

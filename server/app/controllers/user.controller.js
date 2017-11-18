@@ -15,6 +15,7 @@ function validateToken(req, res) {
       } else {
         req.decoded = decoded;
         req.session.jwt = token;
+        res.cookie('jwt', token);
         res.json({
           token,
           user: decoded._doc.firstName,
@@ -82,6 +83,7 @@ function getLogin(req, res) {
 
 function routerMiddleware(req, res, next) {
   // check header or url parameters or post parameters for token
+  console.log('HEADERS!!!!!', req.headers['x-access-token'], "body token", req.body.token);
   var token = req.body.token || req.param('token') || req.headers['x-access-token'] || req.session.jwt;
   // decode token
   if (token) {

@@ -1,30 +1,8 @@
 const shortid = require('shortid');
 const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
 
-// create a Schema
-const userSchema = new Schema({
-  firstName: String,
-  lastName: String,
-  email: String,
-  hash: String,
-  uuid: {
-    type: String,
-    unique: true
-  },
-  created: {
-    type: Date,
-    default: Date.now
-  },
-  accountType: {
-    type: String,
-    default: 'free'
-  },
-  admin: {
-    type: Boolean,
-    default: false
-  }
-});
+// Initialize user schema
+const userSchema = require('./schemas/user');
 
 // middleware - make sure a random uuid is created
 userSchema.pre('save', function(next) {
@@ -32,10 +10,9 @@ userSchema.pre('save', function(next) {
   next();
 });
 
-// create user model
+////////////////////
+// ~ User model ~ //
+////////////////////
 const userModel = mongoose.model('User', userSchema);
 
-
-
-// export Model
 module.exports = userModel;

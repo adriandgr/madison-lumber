@@ -4,6 +4,9 @@ const mongoose = require('mongoose');
 const convert  = require('xls-to-json');
 const input    = './utils/files/MadDirectory2016FinalAdrian.xls';
 const Mill     = require('../app/models/mill');
+const millSchema = require('../app/models/schemas/mill');
+const millIndex = require('../app/models/indexes/mill');
+const { buildIndex, dropIndex } = require('../app/models/modelUtils');
 
 function mapMills(raw) {
   return raw
@@ -62,6 +65,8 @@ function insertMills(mills) {
         throw err;
       }
       if((i + 1) === mills.length) {
+        dropIndex({ model: Mill, index: 'mill_index' });
+        buildIndex({ schema: millSchema, index: millIndex });
         console.log('Closing db connection');
         mongoose.connection.close();
         console.log(`${i + 1} insertions completed`);
