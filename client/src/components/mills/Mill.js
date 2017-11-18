@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import api from '../../utils/api';
-import millSchema from '../../utils/millSchema';
+//import millSchema from '../../utils/millSchema';
 import MillTable from './_MillTable';
 import headerBg from '../images/blue-mill.jpg';
 import LoadingBar from '../LoadingBar';
@@ -20,6 +20,10 @@ const MillBanner = props => (
     </h2>
   </div>
 )
+
+MillBanner.propTypes = {
+  mill: PropTypes.object.isRequired
+};
 
 const MillNotFound = props => (
   <div className="container">
@@ -42,6 +46,8 @@ const MillNotFound = props => (
     </Link>
   </div>
 );
+
+
 
 class Mill extends Component {
   constructor(props) {
@@ -152,5 +158,9 @@ class Mill extends Component {
     }
   }
 }
+
+Mill.propTypes = {
+  token: PropTypes.string.isRequired
+};
 
 export default Mill

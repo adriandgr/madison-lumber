@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 import PropTypes from 'prop-types';
 import api from '../../utils/api';
 import headerBg from '../images/moodyville-yard.jpg'
@@ -98,15 +98,11 @@ class Users extends Component {
   render() {
     if (!this.props.isAuthenticated) {
       return (
-        <div className="container">
-          <AlertMessages
-            success={[]}
-            errors={[
-              '401 - Unauthorized',
-              'The request lacks valid authentication credentials for the target resource.',
-              'Please log in and try again.']}
-          />
-        </div>
+        <Redirect to={{ pathname: '/login', state: {
+          errors: [
+            '401 - Unauthorized',
+            'Please log in to view the requested resource.'
+          ]} }}/>
       )
     }
 
@@ -134,7 +130,9 @@ class Users extends Component {
           imgSrc={headerBg} />
 
         <div className="breadcrumb">
-          <Link to="/users/new" className="btn btn-lg btn-success action-button"><i className="fa fa-user-plus" aria-hidden="true"></i> Add new user</Link>
+          <Link to="/users/new" className="btn btn-lg btn-success action-button">
+            <i className="fa fa-user-plus" aria-hidden="true"></i> Add new user
+          </Link>
         </div>
 
         { this.state.users.length > 0 &&

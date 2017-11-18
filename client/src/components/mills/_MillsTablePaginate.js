@@ -38,4 +38,10 @@ const MillsTablePaginate = props => {
   );
 };
 
+MillsTablePaginate.propTypes = {
+  page: PropTypes.number.isRequired,
+  limit: PropTypes.number.isRequired,
+  searchQuery: PropTypes.string.isRequired
+};
+
 export default MillsTablePaginate;

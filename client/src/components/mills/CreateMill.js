@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 import api from '../../utils/api';
 import NewMillForm from './_NewMillForm';
 import Jumbotron from '../shared/Jumbotron';

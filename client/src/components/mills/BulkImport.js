@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import api from '../../utils/api';
-import Dropzone from 'dropzone'
+//import Dropzone from 'dropzone'
 
 class BulkImport extends Component {
   constructor(props) {

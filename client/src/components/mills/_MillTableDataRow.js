@@ -23,14 +23,18 @@ const ArrContent = props => {
   return (
     <td>
       {props.content.map((content, i) => (
-        <div key={i} className='content-row'>
-          <p key={i + 1} style={{display: 'inline-block', marginBottom: 0}}>
-            <Linkify>{titleize(content.trim())}</Linkify>
-          </p>
-          {props.isAdmin &&
-            <i key={i + 2} className='fa fa-pencil' aria-hidden="true" onClick={props.toggleEditable}></i>
+        <span>
+          {content &&
+            <div key={i} className='content-row'>
+              <p key={i + 1} style={{display: 'inline-block', marginBottom: 0}}>
+                <Linkify>{titleize(content.trim())}</Linkify>
+              </p>
+              {props.isAdmin &&
+                <i key={i + 2} className='fa fa-pencil' aria-hidden="true" onClick={props.toggleEditable}></i>
+              }
+            </div>
           }
-        </div>
+        </span>
       ))}
     </td>
   );
@@ -64,7 +68,7 @@ class Editable extends Component {
   }
 
   handleChange(event) {
-    let content;
+    //let content;
     if(this.props.contentType === 'str') {
       this.setState({ content: event.target.value });
     } else {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import { BrowserRouter as Router } from 'react-router-dom';
 import { loadState, saveState } from '../utils/localStorage';
-import PropTypes from 'prop-types';
+
 import api from '../utils/api';
 import './assets/App.css';
 
@@ -32,7 +32,10 @@ class App extends Component {
     this.logoutUser = this.logoutUser.bind(this)
   }
 
+
+
   componentWillMount() {
+
     if (!loadState()) {
       this.setState({ tokenStatus: 'COMPLETE' });
       return;
@@ -56,14 +59,14 @@ class App extends Component {
     });
   }
 
-  authUser(token, userName, isAdmin) {
+  authUser(token, userName, isAdmin, redirectTo) {
     this.setState(()=> ({
       tokenStatus: 'COMPLETE',
       isAuthenticated: true,
       token,
       userName,
       isAdmin,
-      successAuth: ['Login Successful.', `Welcome back, ${userName}!`]
+      successAuth: ['Login Successful.', `Welcome back, ${userName}! ${redirectTo}`]
     }));
 
     saveState({

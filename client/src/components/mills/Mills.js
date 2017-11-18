@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import querystring from 'querystring';
 import api from '../../utils/api';
@@ -41,42 +41,43 @@ class Mills extends Component {
   }
 
   componentDidMount() {
-    this.loadMills()
+    this.loadMills();
   }
 
   componentWillReceiveProps(nextProps) {
-    this.loadMills()
+    this.loadMills();
   }
 
   loadMills() {
-    api.getMills(this.props.token, this.props.history.location.search).then(res => {
-      const newState = {
-        success: [],
-        errors: [],
-        mills: [],
-        searchTerm: [],
-        searchQuery: this.state.searchQuery,
-        prevSearchInput: this.state.prevSearchInput,
-        data: {
-          page: res.page ? Number(res.page) : 1,
-          pages: res.pages,
-          limit: res.limit ? Number(res.limit) : 20,
-          total: res.total,
+    if (this.props.isAuthenticated) {
+      api.getMills(this.props.token, this.props.history.location.search).then(res => {
+        const newState = {
+          success: [],
+          errors: [],
+          mills: [],
+          searchTerm: [],
+          searchQuery: this.state.searchQuery,
+          prevSearchInput: this.state.prevSearchInput,
+          data: {
+            page: res.page ? Number(res.page) : 1,
+            pages: res.pages,
+            limit: res.limit ? Number(res.limit) : 20,
+            total: res.total,
+          }
         }
-      }
 
-      if (res.success) {
-        newState.success = res.success;
-      }
-      if (res.query) {
-        newState.searchTerm = res.query;
-      }
-      if (res.mills) {
-        newState.mills = res.mills;
-      }
-
-      this.setState(() => newState);
-    })
+        if (res.success) {
+          newState.success = res.success;
+        }
+        if (res.query) {
+          newState.searchTerm = res.query;
+        }
+        if (res.mills) {
+          newState.mills = res.mills;
+        }
+        this.setState(() => newState);
+      });
+    }
   }
 
   reloadMills(event) {
@@ -87,18 +88,19 @@ class Mills extends Component {
   }
 
   handleInput(event) {
+    const searchQuery = event.target.value.trim();
     this.setState({
-      searchQuery: event.target.value,
-      prevSearchInput: this.state.prevSearchInput.concat(event.target.value)
+      searchQuery: searchQuery,
+      prevSearchInput: this.state.prevSearchInput.concat(searchQuery)
     });
-    if(event.target.value === '' && this.state.prevSearchInput.slice(-2).shift() !== '') {
+    if(searchQuery === '' && this.state.prevSearchInput.slice(-2).shift() !== '') {
       // Reloads all mills if search bar is cleared
       this.props.history.push(`${this.baseQuery}`);
       this.loadMills();
     }
     if(event.key === 'Enter' || event.key === 'Tab') {
       event.preventDefault();
-      this.props.history.push(`${this.baseQuery}&q=${event.target.value}`);
+      this.props.history.push(`${this.baseQuery}&q=${searchQuery}`);
       this.loadMills();
     }
   }
@@ -141,15 +143,12 @@ class Mills extends Component {
   render() {
     if (!this.props.isAuthenticated) {
       return (
-        <div className="container">
-          <AlertMessages
-            success={[]}
-            errors={[
-              '401 - Unauthorized',
-              'The request lacks valid authentication credentials for the target resource.',
-              'Please log in and try again.']}
-          />
-        </div>
+        <Redirect to={{ pathname: '/login', state: {
+          from: { pathname: '/mills' },
+          errors: [
+            '401 - Unauthorized',
+            'Please log in to view the requested resource.'
+          ]} }}/>
       )
     }
 

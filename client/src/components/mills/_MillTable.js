@@ -1,5 +1,4 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import MillTableDataRow from './_MillTableDataRow';
 import Time from'react-time';

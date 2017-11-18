@@ -1,25 +1,26 @@
 {
   "name": "client",
-  "version": "0.1.0",
+  "version": "0.8.0",
   "homepage": "https://db.madisonsreport.com",
   "private": true,
   "dependencies": {
-    "axios": "^0.16.2",
-    "dropzone": "^5.1.1",
-    "moment": "2.18.1",
-    "prop-types": "^15.5.10",
+    "axios": "^0.17.0",
+    "dropzone": "^5.2.0",
+    "moment": "2.19.1",
+    "prop-types": "^15.6.0",
     "qs": "6.5.0",
-    "react": "^15.6.1",
-    "react-dom": "^15.6.1",
+    "react": "^16.1.0",
+    "react-cookie": "^2.1.1",
+    "react-dom": "^16.1.0",
     "react-linkify": "0.2.1",
-    "react-router-dom": "^4.1.2",
-    "react-scripts": "1.0.10",
+    "react-router-dom": "^4.2.2",
+    "react-scripts": "1.0.17",
     "react-time": "4.3.0",
     "scroll-to-element": "2.0.0"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "react-scripts build && rm -rf ../server/public/ && mv build/ ../server/public",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
   }

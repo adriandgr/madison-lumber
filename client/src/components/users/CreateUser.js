@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router'
-import PropTypes from 'prop-types';
 import api from '../../utils/api';
 import NewUserForm from './_NewUserForm';
 import Jumbotron from '../shared/Jumbotron';
