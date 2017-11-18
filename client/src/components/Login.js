@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, Link } from 'react-router-dom';
+import { saveState } from '../utils/localStorage';
 import PropTypes from 'prop-types';
 import api from '../utils/api';
 import Jumbotron from './shared/Jumbotron';
@@ -29,6 +30,7 @@ class Login extends Component {
     super(props);
     this.state = {
       redirectToReferrer: false,
+      redirectTo: '/',
       email: '',
       pwd: '',
       errors: []
@@ -36,6 +38,15 @@ class Login extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+  }
+
+  componentWillMount() {
+    if (this.props.location.state && this.props.location.state.errors) {
+      this.setState(() => ({errors: this.props.location.state.errors}));
+    }
+    if (this.props.location.state && this.props.location.state.from) {
+      this.setState(() => ({redirectTo: this.props.location.state.from.pathname}));
+    }
   }
 
   handleChange(event) {
@@ -46,6 +57,7 @@ class Login extends Component {
   }
 
   handleSubmit(event) {
+    const redirectTo = this.state.redirectTo;
     event.preventDefault();
     api.authUser(
       this.state.email,
@@ -58,24 +70,38 @@ class Login extends Component {
       }
 
       if (res.token) {
-        this.props.onSubmit(
-          res.token,
-          res.user,
-          res.isAdmin
-        )
-        this.setState({ redirectToReferrer: true })
+        if (this.state.redirectTo === '/') {
+          this.props.onSubmit(
+            res.token,
+            res.user,
+            res.isAdmin,
+            redirectTo
+          )
+        } else {
+          const token = res.token
+          saveState({ token });
+          this.setState(() => ({redirectToReferrer: true}));
+        }
+
+
       }
 
     })
   }
 
   render() {
-    const { from } = this.props.location.state || { from: { pathname: '/' } }
-    const { redirectToReferrer } = this.state
+    const { redirectToReferrer } = this.state;
+
+    console.log(this.state.redirectTo);
+    if (this.props.isAuthenticated === true) {
+      return (
+        <Redirect to="/"/>
+      )
+    }
 
     if (redirectToReferrer) {
       return (
-        <Redirect to={from}/>
+        <Redirect to={this.state.redirectTo}/>
       )
     }
 
@@ -113,7 +139,11 @@ class Login extends Component {
                 />
               </div>
               <div className="form-group">
-                <button type="submit" className="btn btn-success btn-lg">Login</button>
+                <button type="submit" className="btn btn-success btn-lg btn-block"><i className="fa fa-sign-in" aria-hidden="true"></i> Login</button>
+                <Link to="/register" className="btn btn-link btn-block">
+                  <i className="fa fa-user-o" aria-hidden="true"></i> Register
+                </Link>
+
               </div>
             </form>
           </div>

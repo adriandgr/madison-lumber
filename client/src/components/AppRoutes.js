@@ -1,10 +1,11 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom';
+import { Route, Switch, Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 // Static components
 import Home from './Home';
 import Login from './Login';
+import Register from './Register';
 
 // User components
 import Users from './users/Users';
@@ -37,7 +38,16 @@ const AppRoutes = props => (
       path='/login'
       render={routerProps => (
         <Login {...routerProps}
+        isAuthenticated={props.isAuthenticated}
         onSubmit={props.authUser} />
+    )}/>
+    <Route
+      path='/register'
+      render={routerProps => (
+        <Register {...routerProps}
+          isAuthenticated={props.isAuthenticated}
+          isAdmin={props.isAdmin}
+          token={props.token} />
     )}/>
     <Route
       exact

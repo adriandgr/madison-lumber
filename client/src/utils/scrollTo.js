@@ -2,7 +2,7 @@ import scrollToElement from 'scroll-to-element';
 
 const scroll = {
   to: (className, durration) => {
-    const duration = duration || 500;
+    const duration = durration || 500;
     setTimeout(() => {
       scrollToElement(className, {
         offset: -20,

@@ -4,9 +4,10 @@ import scroll from '../../utils/scrollTo';
 
 const AlertMessages = props => {
   let msgCount = 0;
+  let infoCount = 0;
   let errCount = 0;
 
-  if((props.success.length > 0 || props.errors.length > 0) && props.scroll) {
+  if((props.success.length > 0 || props.errors.length > 0 || (props.info && props.info.length > 0)) && props.scroll) {
     scroll.to('.alert-messages');
   }
   return (
@@ -20,6 +21,21 @@ const AlertMessages = props => {
             { i === 0
               ? <strong>{msg} <br/></strong>
               : <span>{msg} <br/></span> }
+          </span>
+          )
+        })}
+      </div>
+    }
+
+    { props.info && props.info.length > 0 &&
+      <div className="alert alert-info">
+        {props.info.map((info, i) => {
+          infoCount++;
+          return (
+          <span key={`info${infoCount}`}>
+            { i === 0
+              ? <strong><i className="fa fa-info-circle" aria-hidden="true"></i> {info} <br/></strong>
+              : <span>{info} <br/></span> }
           </span>
           )
         })}

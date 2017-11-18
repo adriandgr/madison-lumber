@@ -1,6 +1,4 @@
 import React, { Component} from 'react';
-import { Redirect } from 'react-router'
-import PropTypes from 'prop-types';
 import api from '../../utils/api';
 import DeleteUser from './DeleteUser';
 import ManageUserTable from './_ManageUserTable';
