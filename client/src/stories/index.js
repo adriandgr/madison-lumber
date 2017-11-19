@@ -4,6 +4,7 @@ import { storiesOf } from '@storybook/react';
 import { action } from '@storybook/addon-actions';
 import { linkTo } from '@storybook/addon-links';
 import 'bootstrap/dist/css/bootstrap.css';
+import '../components/assets/App.css';
 
 
 import AlertMessages from '../components/shared/AlertMessages.js'
@@ -18,7 +19,7 @@ storiesOf('Button', module)
 
 storiesOf('AlertMessages', module)
   .add('with success', () => <AlertMessages success={['Success!', 'Yay it looks like it works...']} />)
-  .add('with error', () => <AlertMessages errors={['Error!', 'Aww that sucks...']} />)
+  .add('with error', () => <AlertMessages error={['Error!', 'Aww that sucks...']} />)
   .add('with info', () => <AlertMessages info={['Info!', 'This fact is very interesting. True fact.']} />)
   .add('with nothing', () => <AlertMessages />)
   .add('with mixed content', () => <AlertMessages success={['Success!', 'I can handle various message types']}

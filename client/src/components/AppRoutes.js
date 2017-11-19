@@ -117,7 +117,7 @@ const AppRoutes = props => (
         <div className="container">
           <AlertMessages
             success={[]}
-            errors={[
+            error={[
               '404 - Not Found',
               'The page you are looking for has been moved or doesn\'t exist anymore.']}
           />
