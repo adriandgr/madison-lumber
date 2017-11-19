@@ -1,0 +1,147 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders error message correctly 1`] = `
+<div
+  className="alert-messages"
+>
+  <div
+    className="alert alert-danger"
+  >
+    <span>
+      <strong>
+        Error!
+         
+        <br />
+      </strong>
+    </span>
+    <span>
+      <span>
+        This displays something bad...
+         
+        <br />
+      </span>
+    </span>
+  </div>
+</div>
+`;
+
+exports[`renders info message correctly 1`] = `
+<div
+  className="alert-messages"
+>
+  <div
+    className="alert alert-info"
+  >
+    <span>
+      <strong>
+        <i
+          aria-hidden="true"
+          className="fa fa-info-circle"
+        />
+         
+        Info
+         
+        <br />
+      </strong>
+    </span>
+    <span>
+      <span>
+        This is a true fact...
+         
+        <br />
+      </span>
+    </span>
+  </div>
+</div>
+`;
+
+exports[`renders mixed type message correctly 1`] = `
+<div
+  className="alert-messages"
+>
+  <div
+    className="alert alert-success"
+  >
+    <span>
+      <strong>
+        Success
+         
+        <br />
+      </strong>
+    </span>
+    <span>
+      <span>
+        This works...
+         
+        <br />
+      </span>
+    </span>
+  </div>
+  <div
+    className="alert alert-info"
+  >
+    <span>
+      <strong>
+        <i
+          aria-hidden="true"
+          className="fa fa-info-circle"
+        />
+         
+        Info
+         
+        <br />
+      </strong>
+    </span>
+    <span>
+      <span>
+        This is a true fact...
+         
+        <br />
+      </span>
+    </span>
+  </div>
+  <div
+    className="alert alert-danger"
+  >
+    <span>
+      <strong>
+        Error!
+         
+        <br />
+      </strong>
+    </span>
+    <span>
+      <span>
+        This displays something bad...
+         
+        <br />
+      </span>
+    </span>
+  </div>
+</div>
+`;
+
+exports[`renders success message correctly 1`] = `
+<div
+  className="alert-messages"
+>
+  <div
+    className="alert alert-success"
+  >
+    <span>
+      <strong>
+        Success
+         
+        <br />
+      </strong>
+    </span>
+    <span>
+      <span>
+        This works...
+         
+        <br />
+      </span>
+    </span>
+  </div>
+</div>
+`;

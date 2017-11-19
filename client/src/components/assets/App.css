@@ -164,6 +164,12 @@ h1.heading-brand, h2.heading-brand {
   visibility: hidden;
 }
 
+/* AlertMessages component
+-------------------------- */
+.alert-messages {
+  max-width: 1200px;
+  margin: 0 auto 10px;
+}
 
 /* Responsiveness for search container
 ---------------------------------------*/

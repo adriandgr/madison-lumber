@@ -23,9 +23,7 @@ class Home extends Component {
     <div className="container">
 
       {this.props.success &&
-        <AlertMessages
-          success={this.props.success}
-          errors={[]} />
+        <AlertMessages success={this.props.success} />
       }
 
 
