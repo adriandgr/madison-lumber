@@ -5,6 +5,7 @@
   "private": true,
   "dependencies": {
     "axios": "^0.17.0",
+    "bootstrap": "3",
     "dropzone": "^5.2.0",
     "moment": "2.19.1",
     "prop-types": "^15.6.0",
@@ -27,12 +28,12 @@
     "build-storybook": "build-storybook -s public"
   },
   "devDependencies": {
+    "@storybook/addon-actions": "^3.2.16",
+    "@storybook/addon-links": "^3.2.16",
+    "@storybook/react": "^3.2.16",
     "enzyme": "^3.2.0",
     "enzyme-adapter-react-16": "^1.1.0",
     "jest-enzyme": "^4.0.1",
-    "react-test-renderer": "^16.1.1",
-    "@storybook/react": "^3.2.16",
-    "@storybook/addon-actions": "^3.2.16",
-    "@storybook/addon-links": "^3.2.16"
+    "react-test-renderer": "^16.1.1"
   }
 }
