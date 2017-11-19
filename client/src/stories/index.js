@@ -8,6 +8,7 @@ import '../components/assets/App.css';
 
 
 import AlertMessages from '../components/shared/AlertMessages.js'
+//import AlertMessages from '../components/shared/AlertMessages.js'
 
 import { Button, Welcome } from '@storybook/react/demo';
 
@@ -24,3 +25,7 @@ storiesOf('AlertMessages', module)
   .add('with nothing', () => <AlertMessages />)
   .add('with mixed content', () => <AlertMessages success={['Success!', 'I can handle various message types']}
                                                   info={['Info!', 'The previous story did not leave a trace on the DOM. True fact.']}/>);
+
+// storiesOf('Search', module)
+//   .add('with text', () => <Button onClick={action('clicked')}>Hello Button</Button>)
+//   .add('with some emoji', () => <Button onClick={action('clicked')}>😀 😎 👍 💯</Button>);
