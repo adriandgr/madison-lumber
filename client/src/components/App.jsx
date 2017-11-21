@@ -7,15 +7,9 @@ import './assets/App.css';
 
 import SiteHeader from './shared/SiteHeader';
 import Footer from './shared/Footer';
-
 import LoadingBar from './LoadingBar';
-
 import AppRoutes from './AppRoutes';
 
-
-/////////
-/// App
-/////////
 
 class App extends Component {
   constructor(props) {
@@ -26,21 +20,18 @@ class App extends Component {
       isAdmin: false,
       token: null,
       userName: '',
-      successAuth: []
-    }
-    this.authUser = this.authUser.bind(this)
-    this.logoutUser = this.logoutUser.bind(this)
+      successAuth: [],
+    };
+    this.authUser = this.authUser.bind(this);
+    this.logoutUser = this.logoutUser.bind(this);
   }
 
-
-
   componentWillMount() {
-
     if (!loadState()) {
       this.setState({ tokenStatus: 'COMPLETE' });
       return;
     }
-    const localToken = loadState().token
+    const localToken = loadState().token;
     if (!this.state.token && localToken) {
       this.authWithToken(localToken);
     } else {
@@ -53,24 +44,24 @@ class App extends Component {
 
   authWithToken(token) {
     this.setState({ tokenStatus: 'LOADING' });
-    return api.validateToken(token).then( res => {
+    return api.validateToken(token).then((res) => {
       this.authUser(res.token, res.user, res.isAdmin);
       this.forceUpdate();
     });
   }
 
   authUser(token, userName, isAdmin, redirectTo) {
-    this.setState(()=> ({
+    this.setState(() => ({
       tokenStatus: 'COMPLETE',
       isAuthenticated: true,
       token,
       userName,
       isAdmin,
-      successAuth: ['Login Successful.', `Welcome back, ${userName}! ${redirectTo}`]
+      successAuth: ['Login Successful.', `Welcome back, ${userName}! ${redirectTo}`],
     }));
 
     saveState({
-      token
+      token,
     });
   }
 
@@ -80,10 +71,10 @@ class App extends Component {
       isAdmin: false,
       token: null,
       userName: '',
-      successAuth: ['Logout Successful.', `See you later, ${this.state.userName}.`]
-    }))
+      successAuth: ['Logout Successful.', `See you later, ${this.state.userName}.`],
+    }));
     saveState({
-      token: null
+      token: null,
     });
   }
 
@@ -94,7 +85,8 @@ class App extends Component {
           <SiteHeader
             tokenStatus={this.state.tokenStatus}
             isAuthenticated={this.state.isAuthenticated}
-            logoutUser={this.logoutUser}/>
+            logoutUser={this.logoutUser}
+          />
           {this.state.tokenStatus === 'COMPLETE' ? (
             <main id="site-main">
               <AppRoutes
@@ -106,7 +98,7 @@ class App extends Component {
               />
             </main>
           ) : (
-            <div className='loading-bar'>
+            <div className="loading-bar">
               <LoadingBar />
             </div>
           )}
