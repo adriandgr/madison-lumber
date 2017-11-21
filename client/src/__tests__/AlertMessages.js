@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import AlertMessages from '../shared/AlertMessages';
+import AlertMessages from '../components/shared/AlertMessages';
 import renderer from 'react-test-renderer';
 
 
