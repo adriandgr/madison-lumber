@@ -7,6 +7,7 @@ const baseURL = process.env.NODE_ENV === 'production'
 
 var instance = axios.create({
   baseURL,
+  withCredentials: true,
   headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 });
 

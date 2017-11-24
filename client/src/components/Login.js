@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Redirect, Link } from 'react-router-dom';
-import { saveState } from '../utils/localStorage';
+import Cookies from 'universal-cookie';
 import PropTypes from 'prop-types';
+import { saveState } from '../utils/localStorage';
 import api from '../utils/api';
 import Jumbotron from './shared/Jumbotron';
 import headerBg from './images/moodyville-yard.jpg';
@@ -21,8 +22,8 @@ function SectionBanner(props) {
 
 SectionBanner.propTypes = {
   sectionName: PropTypes.string.isRequired,
-  imgSrc: PropTypes.string.isRequired
-}
+  imgSrc: PropTypes.string.isRequired,
+};
 
 
 class Login extends Component {
@@ -33,16 +34,16 @@ class Login extends Component {
       redirectTo: '/',
       email: '',
       pwd: '',
-      errors: []
-    }
+      error: [],
+    };
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
   componentWillMount() {
-    if (this.props.location.state && this.props.location.state.errors) {
-      this.setState(() => ({errors: this.props.location.state.errors}));
+    if (this.props.location.state && this.props.location.state.error) {
+      this.setState(() => ({ error: this.props.location.state.error }));
     }
     if (this.props.location.state && this.props.location.state.from) {
       this.setState(() => ({redirectTo: this.props.location.state.from.pathname}));
@@ -57,36 +58,34 @@ class Login extends Component {
   }
 
   handleSubmit(event) {
+    const cookies = new Cookies();
     const redirectTo = this.state.redirectTo;
     event.preventDefault();
     api.authUser(
       this.state.email,
-      this.state.pwd
-    ).then(res => {
+      this.state.pwd,
+    ).then((res) => {
       if (res.errors) {
-        this.setState(() => ({errors: res.errors}));
+        this.setState(() => ({ error: res.errors }));
       } else {
-        this.setState(() => ({errors: []}))
+        this.setState(() => ({ error: [] }));
       }
-
       if (res.token) {
         if (this.state.redirectTo === '/') {
           this.props.onSubmit(
             res.token,
             res.user,
             res.isAdmin,
-            redirectTo
-          )
+            redirectTo,
+          );
         } else {
-          const token = res.token
+          const token = res.token;
+          cookies.set('session_id', token, { path: '/', maxAge: 86400 });
           saveState({ token });
-          this.setState(() => ({redirectToReferrer: true}));
+          this.setState(() => ({ redirectToReferrer: true }));
         }
-
-
       }
-
-    })
+    }).catch(err => this.setState(() => ({ error: [String(err)] })));
   }
 
   render() {
@@ -113,10 +112,10 @@ class Login extends Component {
 
         <div className="row">
           <div className="col-sm-6 col-sm-offset-3">
-            {this.state.errors &&
+            {this.state.error &&
               <AlertMessages
                 success={[]}
-                errors={this.state.errors} />}
+                error={this.state.error} />}
             <form action="/api/auth" onSubmit={this.handleSubmit}>
               <div className="form-group">
                 <label htmlFor="">Email</label>
@@ -155,7 +154,7 @@ class Login extends Component {
 }
 
 Login.propTypes = {
-  onSubmit: PropTypes.func.isRequired
-}
+  onSubmit: PropTypes.func.isRequired,
+};
 
 export default Login;
