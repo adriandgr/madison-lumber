@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router } from 'react-router-dom';
-import { loadState, saveState } from '../utils/localStorage';
+import Cookies from 'universal-cookie';
 
 import api from '../utils/api';
 import './assets/App.css';
@@ -12,10 +12,11 @@ import AppRoutes from './AppRoutes';
 
 
 class App extends Component {
+
   constructor(props) {
     super(props);
     this.state = {
-      tokenStatus: 'INIT',
+      authWithTokenStatus: 'INIT',
       isAuthenticated: false,
       isAdmin: false,
       token: null,
@@ -27,45 +28,41 @@ class App extends Component {
   }
 
   componentWillMount() {
-    if (!loadState()) {
-      this.setState({ tokenStatus: 'COMPLETE' });
-      return;
-    }
-    const localToken = loadState().token;
-    if (!this.state.token && localToken) {
+    const cookies = new Cookies();
+    // cookies.set('session_id', null, { path: '/', maxAge: 86400 });
+
+    const localToken = cookies.get('session_id') || null;
+    if (localToken) {
       this.authWithToken(localToken);
     } else {
-      // tokenStatus is maybe not the best name; this variable is more keeping track of
-      // when the process of checking on the token completes so other stuff can render
-      // accordingly (eg. navbar links)
-      this.setState({ tokenStatus: 'COMPLETE' });
+      this.setState({ authWithTokenStatus: 'COMPLETE' });
     }
   }
 
   authWithToken(token) {
-    this.setState({ tokenStatus: 'LOADING' });
+    this.setState({ authWithTokenStatus: 'LOADING' });
     return api.validateToken(token).then((res) => {
       this.authUser(res.token, res.user, res.isAdmin);
       this.forceUpdate();
-    });
+    }).catch(() => this.setState({ authWithTokenStatus: 'COMPLETE' }));
   }
 
   authUser(token, userName, isAdmin, redirectTo) {
+    const cookies = new Cookies();
     this.setState(() => ({
-      tokenStatus: 'COMPLETE',
+      authWithTokenStatus: 'COMPLETE',
       isAuthenticated: true,
       token,
       userName,
       isAdmin,
       successAuth: ['Login Successful.', `Welcome back, ${userName}! ${redirectTo}`],
     }));
-
-    saveState({
-      token,
-    });
+    console.log('authUser')
+    cookies.set('session_id', token, { path: '/', maxAge: 86400 });
   }
 
   logoutUser() {
+    const cookies = new Cookies();
     this.setState(() => ({
       isAuthenticated: false,
       isAdmin: false,
@@ -73,9 +70,8 @@ class App extends Component {
       userName: '',
       successAuth: ['Logout Successful.', `See you later, ${this.state.userName}.`],
     }));
-    saveState({
-      token: null,
-    });
+    
+    cookies.remove('session_id', { path: '/' });
   }
 
   render() {
@@ -83,11 +79,11 @@ class App extends Component {
       <Router>
         <div className="App">
           <SiteHeader
-            tokenStatus={this.state.tokenStatus}
+            authWithTokenStatus={this.state.authWithTokenStatus}
             isAuthenticated={this.state.isAuthenticated}
             logoutUser={this.logoutUser}
           />
-          {this.state.tokenStatus === 'COMPLETE' ? (
+          {this.state.authWithTokenStatus === 'COMPLETE' ? (
             <main id="site-main">
               <AppRoutes
                 successAuth={this.state.successAuth}
