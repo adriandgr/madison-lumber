@@ -11,13 +11,13 @@
     "prop-types": "^15.6.0",
     "qs": "6.5.0",
     "react": "^16.1.0",
-    "react-cookie": "^2.1.1",
     "react-dom": "^16.1.0",
     "react-linkify": "0.2.1",
     "react-router-dom": "^4.2.2",
     "react-scripts": "1.0.17",
     "react-time": "4.3.0",
-    "scroll-to-element": "2.0.0"
+    "scroll-to-element": "2.0.0",
+    "universal-cookie": "^2.1.0"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -33,6 +33,11 @@
     "@storybook/react": "^3.2.16",
     "enzyme": "^3.2.0",
     "enzyme-adapter-react-16": "^1.1.0",
+    "eslint": "^4.11.0",
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.8.0",
+    "eslint-plugin-jsx-a11y": "^6.0.2",
+    "eslint-plugin-react": "^7.5.1",
     "jest-enzyme": "^4.0.1",
     "react-test-renderer": "^16.1.1"
   }

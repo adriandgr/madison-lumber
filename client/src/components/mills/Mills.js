@@ -8,6 +8,8 @@ import scroll from '../../utils/scrollTo';
 import Jumbotron from '../shared/Jumbotron';
 import headerBg from '../images/mills-header.jpg';
 import AlertMessages from '../shared/AlertMessages';
+import SearchMills from './_SearchMills';
+
 
 class Mills extends Component {
   constructor(props) {
@@ -184,25 +186,14 @@ class Mills extends Component {
 
         {this.props.isAuthenticated &&
           <div className="row">
-              <div className="search-container col-xs-12">
-                <input
-                  ref={input => this.searchInput = input}
-                  className="form-control"
-                  id="search"
-                  name="search"
-                  placeholder="Search Mills"
-                  onKeyUp={this.handleInput}
-                  onFocus={() => scroll.to('.search-container')}>
-                </input>
-                <div className="input-group-btn clear-search">
-                  <span className="btn btn-default btn-search" onClick={this.reloadMills}>
-                    <i className={`fa fa-close ${this.state.searchQuery ? 'visible' : ''}`}></i>
-                  </span>
-                  <button className="btn btn-default btn-search" type="submit" onClick={this.handleClick}>
-                    <i className="glyphicon glyphicon-search"></i>
-                  </button>
-                </div>
-            </div>
+
+            <SearchMills
+              ref={input => this.searchInput = input}
+              onKeyUp={this.handleInput}
+              onFocus={() => scroll.to('.search-container')}
+              searchQuery={this.state.searchQuery}
+              reloadMills={this.reloadMills}
+              handleClick={this.handleClick}/>
           </div>
         }
 

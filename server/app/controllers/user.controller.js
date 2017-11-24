@@ -7,15 +7,16 @@ const bcrypt  = require('bcrypt');
 const saltRounds = 12;
 
 function validateToken(req, res) {
+  console.log('heyyyyyyy', req.session.cookie)
   const token = req.body.token;
   if (token) {
     return jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
       if (err) {
-        return res.json({ error: 'Authentication Failed. Please try again.' });
+        return res.status(403).json({ error: 'Authentication Failed. Bad token.' });
       } else {
         req.decoded = decoded;
         req.session.jwt = token;
-        res.cookie('jwt', token);
+        res.cookie('session_id', token, {maxAge: 30000});
         res.json({
           token,
           user: decoded._doc.firstName,
@@ -43,7 +44,7 @@ function authUser(req, res) {
       if (err) { throw err; }
 
       if (!user) {
-        return res.json({ errors: ['403 - Forbidden', 'Authentication Failed. Please try again.'] });
+        return res.status(403).json({ errors: ['403 - Forbidden', 'Authentication Failed. Please try again.'] });
       }
 
       bcrypt.compare(req.body.password, user.hash, function(err, comp) {
@@ -83,14 +84,13 @@ function getLogin(req, res) {
 
 function routerMiddleware(req, res, next) {
   // check header or url parameters or post parameters for token
-  console.log('HEADERS!!!!!', req.headers['x-access-token'], "body token", req.body.token);
-  var token = req.body.token || req.param('token') || req.headers['x-access-token'] || req.session.jwt;
+  var token = req.cookies.session_id || req.body.token || req.param('token') || req.headers['x-access-token'] || req.session.jwt;
   // decode token
   if (token) {
     // verifies secret and checks exp
     jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
       if (err) {
-        return res.json({
+        return res.status(401).json({
           errors: ['Authentication Failed. Please log in and try again.']});
       } else {
         // if everything is good, save to request for use in other routes

@@ -19,7 +19,7 @@ app.disable('x-powered-by');
 app.use(cookieParser());
 app.use(session({
   secret: process.env.SESSION,
-  cookie: { maxAge: 7 * 24 * 60 * 60 * 1000 }
+  cookie: { maxAge: 7 * 24 * 60 * 60 * 1000, httpOnly: true }
 }));
 
 app.use(flash());
@@ -40,7 +40,7 @@ app.use(expressValidator({
 mongoose.connect(process.env.DB_URI);
 
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Origin", "true");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, X-Access-Token");
   next();
 });
