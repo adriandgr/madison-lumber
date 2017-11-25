@@ -1,5 +1,9 @@
 # Madison's Lumber Directory
 
+[![Build Status on CircleCI](https://circleci.com/gh/adriandgr/madison-lumber.svg?style=shield)](https://circleci.com/gh/adriandgr/madison-lumber)
+
+* * *
+
 New web app to drive one of British Columbia's largest databases of lumber suppliers.
 
 
