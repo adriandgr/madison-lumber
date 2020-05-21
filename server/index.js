@@ -39,11 +39,25 @@ app.use(expressValidator({
 
 mongoose.connect(process.env.DB_URI);
 
+
 app.use(function(req, res, next) {
-  res.header("Access-Control-Allow-Origin", "true");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, X-Access-Token");
-  next();
+  var allowedOrigins = ['http://127.0.0.1:3000', 'http://localhost:3000', 'https://db.madisonsreport.com'];
+  var origin = req.headers.origin;
+  if(allowedOrigins.indexOf(origin) > -1){
+       res.setHeader('Access-Control-Allow-Origin', origin);
+  }
+  //res.header('Access-Control-Allow-Origin', 'http://127.0.0.1:8020');
+  res.header('Access-Control-Allow-Methods', 'GET, OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.header('Access-Control-Allow-Credentials', true);
+  return next();
 });
+
+// app.use(function(req, res, next) {
+//   res.header("Access-Control-Allow-Origin", "true");
+//   // res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, X-Access-Token");
+//   next();
+// });
 
 app.use('/api', routes);
 
