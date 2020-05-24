@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('sqreen');
 
 const express           = require('express');
 const app               = express();
@@ -13,6 +14,7 @@ const morgan            = require('morgan');
 const mongoose          = require('mongoose');
 const routes            = require('./app/routes');
 const port              = process.env.PORT || 8080;
+
 
 app.disable('x-powered-by');
 
