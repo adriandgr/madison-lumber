@@ -1,0 +1,396 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:800');
+
+/* Global
+---------- */
+
+body {
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Open Sans', sans-serif;
+}
+
+/* 4 the convenience
+---------------------- */
+
+.text-middle {
+  line-height: 1.42857143;
+}
+
+.visible {
+  visibility: visible !important;
+}
+
+
+/* Loading bar */
+
+.loading-bar {
+  background-image: url('loading.gif');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 150px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+
+  margin: auto;
+}
+
+
+/* Navbar
+---------- */
+
+.navbar {
+  background: #37474F;
+  color: #fff;
+  /*height: 80px;*/
+}
+
+@media screen and (min-width: 765px) {
+  .navbar.navbar-inverse>.container-fluid {
+    padding: 0px;
+    margin: 0px;
+  }
+  .navbar-header {
+    padding: 0 20px;
+  }
+}
+
+.navbar-header {
+  background: #263238;
+}
+
+img.navbar-logo {
+  margin: 0 10px;
+  transform: translateY(-8px);
+  width: 40px;
+  float: left;
+}
+
+.navbar-inverse .navbar-brand {
+  font-family: 'Open Sans', sans-serif;
+  color:white;
+}
+
+.active-link {
+  border-bottom: 3px solid tomato;
+}
+
+.nav.navbar-nav>li:hover {
+  background: #455A64;
+}
+
+.nav.navbar-nav>li>a {
+  color: #CFD8DC;
+}
+
+.nav.navbar-nav>li>a:hover {
+  color: white;
+}
+
+.section-banner {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: cover;
+}
+
+h1.heading-brand, h2.heading-brand {
+  color: white;
+  text-shadow: 1px 1px grey;
+}
+
+#site-header .navbar {
+  border-radius: 0;
+  border: none;
+  margin: 0;
+}
+
+#site-main {
+  margin-top: 50px;
+  margin-bottom: 125px;
+}
+
+
+/* Search bar
+-------------- */
+
+.search-container {
+  display: flex;
+  margin-bottom: 1.5em;
+}
+
+.search-container input {
+  border-radius: 4px 0 0 4px;
+  padding: 1.5em;
+  transition: width 0.4s ease-in-out;
+}
+
+.btn-search {
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  left: -2px;
+  padding: 0.8em 1em;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+}
+
+.search-container :focus {
+  border-color: #ccc;
+  box-shadow: none;
+  outline: none;
+}
+
+.clear-search > span {
+  border-left: none;
+  color: #777;
+}
+
+.clear-search:hover > span,
+.clear-search:focus > span,
+.clear-search:active > span
+.clear-search:hover:active > span,
+.clear-search:focus:active > span,
+.clear-search > .btn-default:active:hover {
+  background: #fff;
+  border: 1px solid #ccc;
+  border-left: none;
+  box-shadow: none;
+  cursor: default;
+}
+
+.clear-search > span > i {
+  visibility: hidden;
+}
+
+/* AlertMessages component
+-------------------------- */
+.alert-messages {
+  max-width: 1200px;
+  margin: 0 auto 10px;
+}
+
+/* Responsiveness for search container
+---------------------------------------*/
+
+@media screen and (min-width: 320px) {
+  .search-container input {
+    width: 70%;
+  }
+}
+
+@media screen and (min-width: 375px) {
+  .search-container input {
+    width: 77%;
+  }
+}
+
+@media screen and (min-width: 425px) {
+  .search-container input {
+    width: 80%;
+  }
+}
+
+@media screen and (min-width: 550px) {
+  .search-container input {
+    width: 85%;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .search-container input {
+    width: 20%
+  }
+  .search-container .form-control:focus {
+    width: 35%
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .search-container input {
+    width: 15%
+  }
+  .search-container .form-control:focus {
+    width: 25%
+  }
+}
+
+
+/* Sticky footer styling
+------------------------- */
+
+html {
+  position: relative;
+  min-height: 100%;
+}
+
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+
+#site-footer a {
+  color: #CFD8DC;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+#site-footer {
+  bottom: 0;
+  left: 0;
+  right: 0;
+  position: absolute;
+  text-align: center;
+  padding-bottom: 30px;
+  padding-top: 30px;
+  font-size: 12px;
+  background: #37474F;
+  color: #CFD8DC;
+}
+
+
+/* Dropdown menu styling
+-------------------------- */
+.dropdown-menu {
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown-menu li.divider {
+  margin: 0;
+}
+
+.dropdown-menu > li > a {
+  padding: 10px 15px;
+}
+
+.dropdown-menu > li > a > i.fa {
+  margin-right: 3px;
+}
+
+
+/* Users/Mills shared styling
+------------------------------ */
+
+.breadcrumb {
+  background-color: inherit;
+  margin-bottom: 30px;
+}
+
+.breadcrumb > a {
+  margin-bottom: 1em;
+}
+
+@media screen and (max-width: 768px) {
+  .breadcrumb {
+    margin-bottom: 0;
+  }
+}
+
+
+.table > tbody > tr > td,
+.table > tbody > tr > th,
+.table > tfoot > tr > td,
+.table > tfoot > tr > th,
+.table > thead > tr > td,
+.table > thead > tr > th {
+  vertical-align: middle;
+}
+
+.table > tbody > tr > td > p {
+  margin: 0;
+}
+
+.table > tbody > tr > td > p:first-letter {
+  text-transform: capitalize;
+}
+
+
+/* Mills styling
+---------------- */
+
+.table > tbody > tr > td, .table > thead > tr > th {
+  padding: 5px 14px;
+}
+
+.mill-table {
+  margin-bottom: 5em;
+}
+
+.mill-table > thead > tr > th, .mill-table > tbody > tr > td {
+  line-height: 225%;
+}
+
+.table > tbody > tr > td {
+  padding: 5px 14px;
+}
+
+.mill-table-data-input {
+  border: 1px solid #ddd;
+  border-right: none;
+  height: 34px;
+  margin: -1px 0 0 -6px;
+  padding-left: 5px;
+  min-width: 80%;
+  max-width: 90%;
+}
+
+.mill-table-data-input:focus {
+  outline: none;
+}
+
+.mill-table-data-btn {
+  border-radius: 0;
+  border: 1px solid #ddd;
+  margin: -2px 0 0 -2px;
+  padding: 6.5px 0.8em;
+}
+
+.mill-table-data-row .content-row i {
+  margin-left: 1em;
+  opacity: 0;
+}
+
+.mill-table-data-row .content-row:hover i {
+  opacity: 1;
+}
+
+.mills-table {
+  margin: 5px 0;
+}
+
+.mills-table-link {
+  color: #666666;
+}
+
+.pagination-info {
+  margin-top: 8px;
+}
+
+@media screen and (max-width: 768px) {
+  .mills-table-action > a {
+    margin-bottom: 1em;
+    width: 90%;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .mills-table-action > a:not(:first-child) {
+    margin-left: 1em;
+  }
+}
+
+
+/* Users styling
+---------------- */
+
+.manage-user {
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+.user-table > tbody > tr > td, .user-table > thead > tr > th {
+  line-height: 200%;
+  padding: 0.5em 0 0.5em 1em;
+}
