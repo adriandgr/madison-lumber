@@ -3,6 +3,9 @@ import { Link, NavLink, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import navbarLogo from '../assets/madison-logo-small.png';
 
+import { UserContext } from '../users/UserContext'
+
+
 const LogoutButton = props => (
   <Link to="#" onClick={props.handleSubmit}>
     <i className="fa fa-sign-out" aria-hidden="true"></i> logout
@@ -51,39 +54,40 @@ NavBar.propTypes = {
 
 
 class SiteHeader extends Component {
-  constructor(props) {
-    super(props);
-    this.handleSubmit = this.handleSubmit.bind(this)
-  }
+    handleSubmit = (event) => {
+        event.preventDefault();
+        this.props.history.push('/');
+        this.context.logoutUser();
+    }
 
-  handleSubmit(event) {
-    event.preventDefault();
-    this.props.history.push('/');
-    this.props.logoutUser();
-  }
+    render() {
+        return (
+            <UserContext.Consumer>
+                {props => (
+                    <header id="site-header">
+                        <div className="navbar navbar-inverse">
+                            <div className="container-fluid">
+                                <div className="navbar-header">
+                                    <NavLink to="/" className="navbar-brand">
+                                        <img src={navbarLogo} alt="Madison's Lumber" className="navbar-logo" /> Home
+                                    </NavLink>
+                                </div>
 
-  render() {
-    return (
-      <header id="site-header">
-        <div className="navbar navbar-inverse">
-          <div className="container-fluid">
-            <div className="navbar-header">
-              <NavLink to="/" className="navbar-brand">
-                <img src={navbarLogo} alt="Madison's Lumber" className="navbar-logo" /> Home
-              </NavLink>
-            </div>
-
-            {this.props.authWithTokenStatus === 'COMPLETE' &&
-              <NavBar
-                handleSubmit={this.handleSubmit}
-                isAuthenticated={this.props.isAuthenticated}
-              />}
-          </div>
-        </div>
-      </header>
+                                {props.authWithTokenStatus === 'COMPLETE' &&
+                                <NavBar
+                                    handleSubmit={this.handleSubmit}
+                                    isAuthenticated={props.isAuthenticated}
+                                />}
+                            </div>
+                        </div>
+                    </header>
+                )}
+            </UserContext.Consumer>
     );
   }
 }
+
+SiteHeader.contextType = UserContext;
 
 SiteHeader.propTypes = {
   authWithTokenStatus: PropTypes.string.isRequired,

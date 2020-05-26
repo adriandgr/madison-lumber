@@ -5,6 +5,9 @@ import ManageUserTable from './_ManageUserTable';
 import Jumbotron from '../shared/Jumbotron';
 import headerBg from '../assets/header-img.jpg'
 import AlertMessages from '../shared/AlertMessages';
+import { UserContext } from '../users/UserContext'
+import {Redirect} from "react-router-dom";
+
 
 class ManageUser extends Component {
   constructor(props) {
@@ -28,7 +31,7 @@ class ManageUser extends Component {
   }
 
   onSubmit(email) {
-    api.deleteUser(this.props.token, email, this.props.match.url)
+    api.deleteUser(this.context.token, email, this.props.match.url)
       .then(res => {
         if(res.errors) {
           this.setState(() => ({
@@ -44,10 +47,10 @@ class ManageUser extends Component {
   }
 
   loadUser() {
-    if (!this.props.token) {
+    if (!this.context.token) {
       return
     }
-    api.getUser(this.props.token, this.props.match.url).then(res => {
+    api.getUser(this.context.token, this.props.match.url).then(res => {
       const newState = {
         success: '',
         errors: '',
@@ -70,6 +73,16 @@ class ManageUser extends Component {
 
 
   render() {
+    if (!this.context.isAuthenticated) {
+      return (
+          <Redirect to={{ pathname: '/login', state: {
+              from: { pathname: '/users' },
+              error: [
+                '401 - Unauthorized',
+                'Please log in to view the requested resource.'
+              ]} }}/>
+      )
+    }
     return(
       <div className='container'>
 
@@ -96,5 +109,7 @@ class ManageUser extends Component {
     )
   }
 }
+
+ManageUser.contextType = UserContext;
 
 export default ManageUser;

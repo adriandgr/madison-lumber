@@ -4,7 +4,16 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 
-const SearchMills = props => {
+
+type Props = {
+    ref: any;
+    onKeyUp: any;
+    onFocus: any;
+    searchQuery: any;
+    reloadMills: any;
+    handleClick: any;
+}
+const SearchMills = (props: Props) => {
   return (
     <div className="search-container col-xs-12">
       <input

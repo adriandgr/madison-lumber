@@ -1,29 +1,21 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import madisonLogo from './assets/madison-logo.png';
 import headerBg from './assets/header-img.jpg';
 import AlertMessages from './shared/AlertMessages';
 
+import { UserContext } from './users/UserContext'
 
-class Home extends Component {
+
+class Home extends React.Component {
 
   render() {
-    let textIntro = `The most comprehensive listing of Canadian solid wood and
-    pulp manufacturers anywhere, Madison's Online Lumber Directory
-    has been published for over 60 years. Company information includes
-    contacts, tree species, rough and finished lumber sizes, lumber
-    production volumes, countries of lumber export, and much, much more.
-    A sample viewing of Madison's Online Directory is available HERE,
-    the full database contains more than 1,799 individual solid wood
-    and pulp producer entries. Further details and a link to our Madison's
-    Directory order form is HERE.`
-
     return (
 
     <div className="container">
 
-      {this.props.success &&
-        <AlertMessages success={this.props.success} />
+      {this.context.token &&
+        <AlertMessages success={this.context.successAuth} />
       }
 
 
@@ -37,15 +29,23 @@ class Home extends Component {
     <h3>Lumber Directory Database</h3>
 
     <p>
-      {textIntro}
+      The most comprehensive listing of Canadian solid wood and
+      pulp manufacturers anywhere, Madison's Online Lumber Directory
+      has been published for over 60 years. Company information includes
+      contacts, tree species, rough and finished lumber sizes, lumber
+      production volumes, countries of lumber export, and much, much more.
+      A sample viewing of Madison's Online Directory is available HERE,
+      the full database contains more than 1,799 individual solid wood
+      and pulp producer entries. Further details and a link to our Madison's
+      Directory order form is HERE.
     </p>
-
-
     </div>
 
     );
   }
 }
+
+Home.contextType = UserContext;
 
 Home.propTypes = {
   success: PropTypes.array.isRequired

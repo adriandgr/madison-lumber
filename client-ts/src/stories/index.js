@@ -7,8 +7,8 @@ import 'bootstrap/dist/css/bootstrap.css';
 import '../components/assets/App.css';
 
 
-import AlertMessages from '../components/shared/AlertMessages.js'
-import SearchMills from '../components/mills/_SearchMills.js'
+import AlertMessages from '../components/shared/AlertMessages'
+import SearchMills from '../components/mills/_SearchMills'
 
 import { Button, Welcome } from '@storybook/react/demo';
 

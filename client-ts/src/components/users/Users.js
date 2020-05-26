@@ -5,6 +5,8 @@ import api from '../../utils/api';
 import headerBg from '../assets/moodyville-yard.jpg'
 import AlertMessages from '../shared/AlertMessages';
 
+import { UserContext } from '../users/UserContext'
+
 const UsersBanner = props => (
   <div
     className="jumbotron text-center section-banner"
@@ -70,10 +72,10 @@ class Users extends Component {
   }
 
   loadUsers() {
-    if (!this.props.token) {
+    if (!this.context.token) {
       return
     }
-    api.getUsers(this.props.token).then(res=> {
+    api.getUsers(this.context.token).then(res=> {
       const newState = {
         success: [],
         errors: [],
@@ -96,17 +98,18 @@ class Users extends Component {
   }
 
   render() {
-    if (!this.props.isAuthenticated) {
+    if (!this.context.isAuthenticated) {
       return (
         <Redirect to={{ pathname: '/login', state: {
-          errors: [
+            from: { pathname: '/users' },
+            error: [
             '401 - Unauthorized',
             'Please log in to view the requested resource.'
           ]} }}/>
       )
     }
 
-    if (!this.props.isAdmin) {
+    if (!this.context.isAdmin) {
       return (
         <div className="container">
           <AlertMessages
@@ -143,6 +146,8 @@ class Users extends Component {
     )
   }
 }
+
+Users.contextType = UserContext;
 
 Users.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,

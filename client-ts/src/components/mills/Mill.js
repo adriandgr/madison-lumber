@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
+import {Link, Redirect} from 'react-router-dom';
 import PropTypes from 'prop-types';
 import api from '../../utils/api';
 //import millSchema from '../../utils/millSchema';
@@ -8,46 +8,7 @@ import headerBg from '../assets/blue-mill.jpg';
 import LoadingBar from '../LoadingBar';
 import AlertMessages from '../shared/AlertMessages';
 
-const MillBanner = props => (
-  <div
-    className="jumbotron text-center section-banner"
-    style={{backgroundImage: `url(${props.imgSrc})`}}>
-    <h1 className="heading-brand">
-      {props.mill.name}
-    </h1>
-    <h2 className="heading-brand">
-      {props.mill.type} - {props.mill.region}
-    </h2>
-  </div>
-)
-
-MillBanner.propTypes = {
-  mill: PropTypes.object.isRequired
-};
-
-const MillNotFound = props => (
-  <div className="container">
-    <AlertMessages
-      success={[]}
-      errors={[
-        '404 - Not Found',
-        'The mill record you requested has been moved or doesn\'t exist anymore.']}
-    />
-    <Link
-      to="/mills"
-      className="btn btn-lg btn-default center-block">
-        <i className="fa fa-undo" aria-hidden="true"></i> View all mills
-    </Link>
-    <br />
-    <Link
-      to="/"
-      className="btn btn-lg btn-default center-block">
-        <i className="fa fa-home" aria-hidden="true"></i> Take me home
-    </Link>
-  </div>
-);
-
-
+import { UserContext } from '../users/UserContext'
 
 class Mill extends Component {
   constructor(props) {
@@ -129,6 +90,16 @@ class Mill extends Component {
   }
 
   render() {
+      if (!this.context.isAuthenticated) {
+          return (
+              <Redirect to={{ pathname: '/login', state: {
+                      from: { pathname: '/mills' },
+                      error: [
+                          '401 - Unauthorized',
+                          'Please log in to view the requested resource.'
+                      ]} }}/>
+          )
+      }
     if(this.state.millStatus === 'COMPLETE') {
       if(this.state.mill) {
         return (
@@ -144,7 +115,7 @@ class Mill extends Component {
                 scroll={true} />
 
               <MillTable
-                isAdmin={this.props.isAdmin}
+                isAdmin={this.context.isAdmin}
                 mill={this.state.mill}
                 handleEdit={this.handleEdit}/>
             </div>
@@ -158,9 +129,52 @@ class Mill extends Component {
     }
   }
 }
+Mill.contextType = UserContext;
 
 Mill.propTypes = {
   token: PropTypes.string.isRequired
 };
+
+const MillBanner = props => (
+    <div
+        className="jumbotron text-center section-banner"
+        style={{backgroundImage: `url(${props.imgSrc})`}}>
+        <h1 className="heading-brand">
+            {props.mill.name}
+        </h1>
+        <h2 className="heading-brand">
+            {props.mill.type} - {props.mill.region}
+        </h2>
+    </div>
+)
+
+MillBanner.propTypes = {
+    mill: PropTypes.object.isRequired
+};
+
+const MillNotFound = props => (
+    <div className="container">
+        <AlertMessages
+            success={[]}
+            errors={[
+                '404 - Not Found',
+                'The mill record you requested has been moved or doesn\'t exist anymore.']}
+        />
+        <Link
+            to="/mills"
+            className="btn btn-lg btn-default center-block">
+            <i className="fa fa-undo" aria-hidden="true"></i> View all mills
+        </Link>
+        <br />
+        <Link
+            to="/"
+            className="btn btn-lg btn-default center-block">
+            <i className="fa fa-home" aria-hidden="true"></i> Take me home
+        </Link>
+    </div>
+);
+
+
+
 
 export default Mill

@@ -5,19 +5,19 @@ import Jumbotron from '../shared/Jumbotron';
 import headerBg from '../assets/kiln-dried-lumber.jpg';
 import AlertMessages from '../shared/AlertMessages';
 
+import { UserContext } from '../users/UserContext'
+import {Redirect} from "react-router-dom";
+
+
 class CreateMill extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+  state = {
       success: [],
       errors: [],
       fireRedirect: false
-    };
-    this.onSubmit = this.onSubmit.bind(this);
-  }
+  };
 
-  onSubmit(mill) {
-    api.createMill(this.props.token, mill)
+  onSubmit = (mill) => {
+    api.createMill(this.context.token, mill)
       .then(res=> {
         if (res.errors) {
           return this.setState(() => ({
@@ -32,6 +32,16 @@ class CreateMill extends Component {
   }
 
   render() {
+      if (!this.context.isAuthenticated) {
+          return (
+              <Redirect to={{ pathname: '/login', state: {
+                      from: { pathname: '/mills/new' },
+                      error: [
+                          '401 - Unauthorized',
+                          'Please log in to view the requested resource.'
+                      ]} }}/>
+          )
+      }
     return(
       <div className='container'>
 
@@ -52,5 +62,7 @@ class CreateMill extends Component {
     )
   }
 }
+
+CreateMill.contextType = UserContext;
 
 export default CreateMill;

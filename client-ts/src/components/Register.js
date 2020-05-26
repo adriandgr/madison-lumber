@@ -5,10 +5,11 @@ import Jumbotron from './shared/Jumbotron';
 import headerBg from './assets/moodyville-yard.jpg'
 import AlertMessages from './shared/AlertMessages';
 
+import { UserContext } from './users/UserContext'
+import {Redirect} from "react-router-dom";
+
 class Register extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+  state = {
       success: [],
       info: [
               'Early Access by invitation only',
@@ -17,10 +18,9 @@ class Register extends Component {
       errors: [],
       fireRedirect: false
     }
-    this.onSubmit = this.onSubmit.bind(this)
-  }
 
-  onSubmit(user) {
+
+  onSubmit = (user) => {
     api.createUser(this.props.token, user)
       .then(res => {
         if (res.errors) {
@@ -37,7 +37,9 @@ class Register extends Component {
   }
 
   render() {
-
+    if (this.context.isAuthenticated) {
+      return <Redirect to={{ pathname: '/'}}/>
+    }
     return (
       <div className="container">
 
@@ -74,5 +76,6 @@ class Register extends Component {
   }
 }
 
+Register.contextType = UserContext;
 
 export default Register;

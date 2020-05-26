@@ -8,6 +8,10 @@ import Jumbotron from './shared/Jumbotron';
 import headerBg from './assets/moodyville-yard.jpg';
 import AlertMessages from './shared/AlertMessages';
 
+import { UserContext } from './users/UserContext'
+
+
+
 function SectionBanner(props) {
   return (
     <div
@@ -72,7 +76,7 @@ class Login extends Component {
       }
       if (res.token) {
         if (this.state.redirectTo === '/') {
-          this.props.onSubmit(
+          this.context.authUser(
             res.token,
             res.user,
             res.isAdmin,
@@ -92,7 +96,7 @@ class Login extends Component {
     const { redirectToReferrer } = this.state;
 
     console.log(this.state.redirectTo);
-    if (this.props.isAuthenticated === true) {
+    if (this.context.isAuthenticated === true) {
       return (
         <Redirect to="/"/>
       )
@@ -106,9 +110,7 @@ class Login extends Component {
 
     return (
       <div className="container">
-        <Jumbotron
-          heading="Login"
-          imgSrc={headerBg}/>
+        <Jumbotron heading="Login" imgSrc={headerBg}/>
 
         <div className="row">
           <div className="col-sm-6 col-sm-offset-3">
@@ -152,6 +154,8 @@ class Login extends Component {
     );
   }
 }
+Login.contextType = UserContext;
+
 
 Login.propTypes = {
   onSubmit: PropTypes.func.isRequired,

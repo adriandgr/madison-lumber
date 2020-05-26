@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 //import Dropzone from 'dropzone'
+import { UserContext } from '../users/UserContext'
+import {Redirect} from "react-router-dom";
 
 class BulkImport extends Component {
   constructor(props) {
@@ -28,6 +30,16 @@ class BulkImport extends Component {
   }
 
   render() {
+    if (!this.context.isAuthenticated) {
+      return (
+          <Redirect to={{ pathname: '/login', state: {
+              from: { pathname: '/mills/import' },
+              error: [
+                '401 - Unauthorized',
+                'Please log in to view the requested resource.'
+              ]} }}/>
+      )
+    }
     return (
       <div className='container'>
         <form
@@ -56,5 +68,5 @@ class BulkImport extends Component {
     )
   }
 }
-
+BulkImport.contextType = UserContext;
 export default BulkImport

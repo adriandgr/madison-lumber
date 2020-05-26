@@ -4,20 +4,17 @@ import NewUserForm from './_NewUserForm';
 import Jumbotron from '../shared/Jumbotron';
 import headerBg from '../assets/moodyville-yard.jpg'
 import AlertMessages from '../shared/AlertMessages';
+import { UserContext } from '../users/UserContext'
 
 class CreateUser extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
+  state = {
       success: [],
       errors: [],
       fireRedirect: false
-    }
-    this.onSubmit = this.onSubmit.bind(this)
   }
 
-  onSubmit(user) {
-    api.createUser(this.props.token, user)
+  onSubmit = (user) => {
+    api.createUser(this.context.token, user)
       .then(res => {
         if (res.errors) {
           this.setState(() => ({
@@ -33,12 +30,12 @@ class CreateUser extends Component {
   }
 
   render() {
-    if (!this.props.isAuthenticated) {
+    if (!this.context.isAuthenticated) {
       return (
         <div className="container">
           <AlertMessages
             success={[]}
-            errors={[
+            error={[
               '401 - Unauthorized',
               'The request lacks valid authentication credentials for the target resource.',
               'Please log in and try again.']}
@@ -47,7 +44,7 @@ class CreateUser extends Component {
       )
     }
 
-    if (!this.props.isAdmin) {
+    if (!this.context.isAdmin) {
       return (
         <div className="container">
           <AlertMessages
@@ -83,5 +80,6 @@ class CreateUser extends Component {
   }
 }
 
+CreateUser.contextType = UserContext;
 
 export default CreateUser;

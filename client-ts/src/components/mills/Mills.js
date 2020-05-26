@@ -10,6 +10,7 @@ import headerBg from '../assets/mills-header.jpg';
 import AlertMessages from '../shared/AlertMessages';
 import SearchMills from './_SearchMills';
 
+import { UserContext } from '../users/UserContext'
 
 class Mills extends Component {
   constructor(props) {
@@ -51,8 +52,8 @@ class Mills extends Component {
   }
 
   loadMills() {
-    if (this.props.isAuthenticated) {
-      api.getMills(this.props.token, this.props.history.location.search).then(res => {
+    if (this.context.isAuthenticated) {
+      api.getMills(this.context.token, this.props.history.location.search).then(res => {
         const newState = {
           success: [],
           errors: [],
@@ -122,7 +123,7 @@ class Mills extends Component {
     // optimistically remove the target mill from the component state
     this.setState(() => (mills));
 
-    api.deleteMill(this.props.token, slug).then(res => {
+    api.deleteMill(this.context.token, slug).then(res => {
       const newState = {
         success: [],
         errors: []
@@ -143,11 +144,11 @@ class Mills extends Component {
   }
 
   render() {
-    if (!this.props.isAuthenticated) {
+    if (!this.context.isAuthenticated) {
       return (
         <Redirect to={{ pathname: '/login', state: {
           from: { pathname: '/mills' },
-          errors: [
+          error: [
             '401 - Unauthorized',
             'Please log in to view the requested resource.'
           ]} }}/>
@@ -166,7 +167,7 @@ class Mills extends Component {
             errors={this.state.errors}
             scroll={true}/> }
 
-        {this.props.isAdmin &&
+        {this.context.isAdmin &&
           <div className="breadcrumb">
             <div className="row">
               <div className="col-lg-2 col-lg-offset-0 col-sm-3 col-sm-offset-0 col-md-3 col-md-offset-0 col-xs-10 col-xs-offset-1 mills-table-action">
@@ -184,7 +185,7 @@ class Mills extends Component {
             </div>
           </div>}
 
-        {this.props.isAuthenticated &&
+        {this.context.isAuthenticated &&
           <div className="row">
 
             <SearchMills
@@ -202,17 +203,19 @@ class Mills extends Component {
             Search for <strong> {this.state.searchTerm} </strong> returned <strong> {this.state.data.total} </strong> {this.state.data.total === 1 ? 'result' : 'results'}
           </div>}
 
-        { this.props.token && this.state.mills.length > 0 &&
+        { this.context.token && this.state.mills.length > 0 &&
           <MillsTable
             mills={this.state.mills}
             metaData={this.state.data}
             search={querystring.parse(this.props.history.location.search.slice(1))}
-            isAdmin={this.props.isAdmin}
+            isAdmin={this.context.isAdmin}
             handleDelete={this.handleDelete} />}
       </div>
     )
   }
 }
+
+Mills.contextType = UserContext;
 
 Mills.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,

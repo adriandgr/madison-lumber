@@ -72,14 +72,15 @@ const MillTable = props => {
         </tr>
       </thead>
       <tbody>
-        {tableData.map((data, i) => (
-          <MillTableDataRow
-            key={i}
-            isAdmin={props.isAdmin}
-            sectionName={data.sectionName}
-            content={data.content}
-            millKey={data.millKey}
-            handleEdit={props.handleEdit} />
+      {tableData.map((data, i) => ( <div> </div>
+          // <MillTableDataRow
+          //   key={i}
+          //   isAdmin={props.isAdmin}
+          //   // sectionName={data.sectionName}
+          //   // content={data.content}
+          //   // millKey={data.millKey}
+          //   // handleEdit={props.handleEdit}
+          // />
         ))}
         { props.mill.lastUpdated &&
           <tr>
