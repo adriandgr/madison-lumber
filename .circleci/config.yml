@@ -5,6 +5,6 @@ jobs:
     docker:
       - image: circleci/node:12
     steps:
-      - checkouta
+      - checkout
       - run: npm install --prefix ./client-ts
       - run: npm test --prefix ./client-ts
