@@ -3,9 +3,8 @@ jobs:
   build:
     working_directory: ~/tmp
     docker:
-      - image: circleci/node:7.10
+      - image: circleci/node:12
     steps:
       - checkout
-      - run: cd client
-      - run: npm install --prefix ./client
-      - run: npm test --prefix ./client
+      - run: npm install --prefix ./client-ts
+      - run: npm test --prefix ./client-ts

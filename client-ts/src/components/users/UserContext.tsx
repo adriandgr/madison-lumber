@@ -2,7 +2,20 @@ import React from 'react'
 import Cookies from "universal-cookie";
 import api from "../../utils/api";
 
-export const UserContext = React.createContext({});
+type ContextProps = {
+    authWithToken: object;
+    authUser: object;
+    logoutUser: object;
+    authWithTokenStatus: string;
+    isAuthenticated: boolean;
+    isAdmin: boolean;
+    token?: string;
+    userName: string;
+    successAuth: any[];
+};
+
+export const UserContext = React.createContext<Partial<ContextProps>>({});
+
 interface State {
     authWithTokenStatus: string;
     isAuthenticated: boolean;
