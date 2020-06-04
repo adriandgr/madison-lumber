@@ -1,5 +1,6 @@
 const millIndex = {
   type: {
+    uuid: 'text',
     name: 'text',
     type: 'text',
     region: 'text',

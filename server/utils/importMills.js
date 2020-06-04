@@ -2,7 +2,7 @@ require('dotenv').config();
 
 const mongoose = require('mongoose');
 const convert  = require('xls-to-json');
-const input    = './utils/files/MadDirectory2016FinalAdrian.xls';
+const input    = './utils/files/MadDirectory2020.xls';
 const Mill     = require('../app/models/mill');
 const millSchema = require('../app/models/schemas/mill');
 const millIndex = require('../app/models/indexes/mill');
@@ -15,7 +15,7 @@ function mapMills(raw) {
       return {
         name: mill['Name of mill'],
         type: mill['Type of mill'],
-        region: mill['Region'],
+        region: mill['Region'].replace('Canada, ',''),
         qualifications: {
           employees: mill['Employees'],
           memberOf: mill['Member of'].split(','),
@@ -34,7 +34,7 @@ function mapMills(raw) {
           export: mill['Export'].split(','),
           shipping: mill['Shipping'].split(','),
           services: mill['Services'].split(','),
-          surfacedSizes: mill['Surfaced Sizes'].replace(/;\W?|,\W?/g, 'split_me').split('split_me'),
+          surfacedSizes: mill['Surfaced Sizes'].split(','),
           roughSizes: mill['Rough Sizes'].split(','),
           species: mill['Species'].split(','),
           products: mill['Products'].split(',')
@@ -44,9 +44,11 @@ function mapMills(raw) {
           location: mill['Mill location'],
           fax: mill['Fax'],
           website: mill['Website'],
-          email: mill['Email'],
+          email: mill['Email'].split(','),
           contactPersons: mill['Contact persons'].split(','),
-          phone: mill['Phone'].split(',')
+          phone: mill['Phone'].split(','),
+          latitude: mill['Latitude'],
+          longitude: mill['Longitude']
         },
         lastUpdated: mill['Last Updated']
       };
@@ -55,11 +57,11 @@ function mapMills(raw) {
 
 function insertMills(mills) {
   console.log('Opening db connection');
-  mongoose.connect(process.env.DB_URI);
+  mongoose.connect(process.env.DB_URI );
 
-  let newMill;
+  // let newMill;
   mills.forEach((mill, i) => {
-    newMill = new Mill(mill);
+    const newMill = new Mill(mill);
     newMill.save((err, res) => {
       if(err) {
         throw err;

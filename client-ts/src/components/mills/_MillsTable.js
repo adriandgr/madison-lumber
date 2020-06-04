@@ -23,9 +23,9 @@ const MillsTable = props => {
         </thead>
         <tbody>
           {props.mills.map(mill => (
-              <tr key={mill.slug}>
+              <tr key={mill.uuid}>
                 <td>
-                  <Link to={`/mills/${mill.slug}`} className="mills-table-link">
+                  <Link to={`/mills/${mill.uuid}`} className="mills-table-link">
                       {mill.name}
                   </Link>
                 </td>
@@ -34,7 +34,7 @@ const MillsTable = props => {
                 <td className="text-center">
                   { !props.isAdmin &&
                     <Link
-                      to={`/mills/${mill.slug}`}
+                      to={`/mills/${mill.uuid}`}
                       className="btn btn-primary">
                         <i className="fa fa-eye" aria-hidden="true"></i> View
                     </Link>
@@ -48,7 +48,7 @@ const MillsTable = props => {
                       <ul className="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
                         <li>
                           <Link
-                            to={`/mills/${mill.slug}`}>
+                            to={`/mills/${mill.uuid}`}>
                               <i className="fa fa-eye" aria-hidden="true"></i> View
                           </Link>
                         </li>
@@ -56,7 +56,7 @@ const MillsTable = props => {
                         <li>
                           <Link
                             to='#'
-                            name={mill.slug}
+                            name={mill.uuid}
                             onClick={(event) => {
                               event.preventDefault();
                               props.handleDelete(event.target.name);

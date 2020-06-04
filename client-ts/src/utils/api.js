@@ -37,8 +37,8 @@ const api = {
     return instance.get(query)
       .then(res => res.data );
   },
-  getMill: (token, millSlug) => {
-    return instance.get(`/api${millSlug}?token=${token}`)
+  getMill: (token, millUUID) => {
+    return instance.get(`/api${millUUID}?token=${token}`)
       .then(res => res.data );
   },
   createMill: (token, mill) => {

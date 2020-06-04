@@ -73,3 +73,5 @@ client/build
 .env.production.local
 
 .idea/
+
+server/utils/files/*

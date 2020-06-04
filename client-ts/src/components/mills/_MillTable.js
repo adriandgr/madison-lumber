@@ -31,7 +31,7 @@ const mapTableData = props => {
   const tableData = [];
 
   // Filter these keys out; they're not relevant to the table
-  const irrelevant = ['__v', '_id', 'slug', 'lastUpdated'];
+  const irrelevant = ['__v', '_id', 'uuid', 'lastUpdated'];
   const millKeys = Object.keys(mill).filter(key => !irrelevant.includes(key));
 
   millKeys.forEach(key => {
@@ -72,15 +72,15 @@ const MillTable = props => {
         </tr>
       </thead>
       <tbody>
-      {tableData.map((data, i) => ( <div> </div>
-          // <MillTableDataRow
-          //   key={i}
-          //   isAdmin={props.isAdmin}
-          //   // sectionName={data.sectionName}
-          //   // content={data.content}
-          //   // millKey={data.millKey}
-          //   // handleEdit={props.handleEdit}
-          // />
+      {tableData.map((data, i) => (
+          <MillTableDataRow
+            key={i}
+            isAdmin={props.isAdmin}
+            sectionName={data.sectionName}
+            content={data.content}
+            millKey={data.millKey}
+            handleEdit={props.handleEdit}
+          />
         ))}
         { props.mill.lastUpdated &&
           <tr>

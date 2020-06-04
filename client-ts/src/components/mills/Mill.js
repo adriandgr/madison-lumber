@@ -28,6 +28,7 @@ class Mill extends Component {
   }
 
   loadMill() {
+      console.log(this.props.match.url)
     api.getMill(this.props.token, this.props.match.url).then(res => {
       const newState = {
         success: '',
@@ -75,7 +76,7 @@ class Mill extends Component {
 
   handleEdit(options, sectionName) {
     this.updateMillState(options)
-    return api.editMill(this.props.token, this.state.mill.slug, options, sectionName)
+    return api.editMill(this.props.token, this.state.mill.uuid, options, sectionName)
               .then(res => {
                 if(res.errors) {
                   this.setState({

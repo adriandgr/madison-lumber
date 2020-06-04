@@ -1,6 +1,10 @@
 const { Schema } = require('mongoose');
 
 const millSchema = new Schema({
+  uuid: {
+    type: String,
+    unique: true
+  },
   name: String,
   type: String,
   region: String,

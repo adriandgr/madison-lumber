@@ -54,7 +54,7 @@ function showMills(req, res) {
   **/
 function showSingle(req, res) {
 
-  Mill.findOne({slug: req.params.slug }, (err, mill) => {
+  Mill.findOne({uuid: req.params.uuid }, (err, mill) => {
     if (err) {
       res.status(404);
       res.json({
@@ -177,7 +177,7 @@ function processEdit(req, res) {
   let [[ millKeys, val ]] = Object.entries(req.body.options);
   millKeys = millKeys.split('.');
 
-  Mill.findOne({slug: req.body.slug }, (err, mill) => {
+  Mill.findOne({uuid: req.body.uuid }, (err, mill) => {
     // Accounts for nested nature of mill schema
     if(millKeys.length === 1) {
       const [ key ] = millKeys;
@@ -210,7 +210,7 @@ function processEdit(req, res) {
 }
 
 function deleteMill(req, res) {
-  Mill.remove({ slug: req.params.slug }, (err, db) => {
+  Mill.remove({ uuid: req.params.uuid }, (err, db) => {
     if (db.result.n === 0) {
       // if mill entry is not found return an error
       return res.json({errors: ['Error 500', 'Internal server error.']});
