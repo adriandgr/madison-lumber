@@ -7,25 +7,32 @@ const mills = require('../models/seed');
 function showMills(req, res) {
   // get all mills
   if (req.query.q) {
-    req.flash('query', req.query.q);
-    const query = req.query.q.split(' ').map(q => `"${q}"`);
-    Mill.paginate({$text: {$search: `${query}`}}, { page: req.query.p, limit: Number(req.query.limit) })
-      .then(mills => {
-        res.json({
-          mills: mills.docs,
-          total: mills.total,
-          limit: mills.limit,
-          page: mills.page,
-          pages: mills.pages,
-          success: req.flash('success'),
-          query: req.flash('query')
-        });
-      })
-      .catch(err => {
-        console.error(err);
-        res.status(404);
-        res.send('Events not found');
+    if(req.decoded._doc.accountType == 'free'){
+      res.status(403);
+      return res.json({
+        errors: ['Search not allow on free account.']
       });
+    } else {
+      req.flash('query', req.query.q);
+      const query = req.query.q.split(' ').map(q => `"${q}"`);
+      Mill.paginate({$text: {$search: `${query}`}}, { page: req.query.p, limit: Number(req.query.limit) })
+          .then(mills => {
+            res.json({
+              mills: mills.docs,
+              total: mills.total,
+              limit: mills.limit,
+              page: mills.page,
+              pages: mills.pages,
+              success: req.flash('success'),
+              query: req.flash('query')
+            });
+          })
+          .catch(err => {
+            console.error(err);
+            res.status(404);
+            res.send('Events not found');
+          });
+    }
   } else {
     Mill.paginate({}, { page: req.query.p, limit: Number(req.query.limit) })
       .then(mills => {

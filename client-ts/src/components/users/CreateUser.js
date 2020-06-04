@@ -66,7 +66,7 @@ class CreateUser extends Component {
           <div className="col-sm-6 col-sm-offset-3">
             <AlertMessages
               success={this.state.success}
-              errors={this.state.errors}
+              error={this.state.errors}
               scroll={true} />
 
             <NewUserForm

@@ -49,7 +49,7 @@ class Register extends Component {
           <AlertMessages
               success={this.state.success}
               info={this.state.info}
-              errors={this.state.errors}
+              error={this.state.errors}
               scroll={true} />
 
           <div class="panel panel-default">

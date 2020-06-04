@@ -20,13 +20,14 @@ const api = {
       ).then(res => res.data);
   },
   validateToken: token => {
-    return instance.post(
-      '/api/validate',
-      querystring.stringify({ token })
-      ).then(res => res.data);
+      const authHeader = { headers: { Authorization: 'Bearer ' + token } };
+      return instance.post('/api/validate', null, authHeader)
+          .then(res => res.data);
   },
   getMills: (token, q) => {
-    let query = `/api/mills/?token=${token}&`;
+    // let query = `/api/mills/?token=${token}&`;
+    let authHeader = { headers: { Authorization: 'Bearer ' + token } }
+    let query = `/api/mills/?`;
     if(q) {
       const parsed = querystring.parse(q.slice(1));
       parsed.q ? parsed.q = parsed.q : parsed.q = '';
@@ -34,8 +35,8 @@ const api = {
     } else {
       query += `q=&p=1&limit=20`;
     }
-    return instance.get(query)
-      .then(res => res.data );
+    return instance.get(query,authHeader)
+        .then(res => res.data );
   },
   getMill: (token, millUUID) => {
     return instance.get(`/api${millUUID}?token=${token}`)

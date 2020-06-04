@@ -7,8 +7,7 @@ const bcrypt  = require('bcrypt');
 const saltRounds = 12;
 
 function validateToken(req, res) {
-  console.log('heyyyyyyy', req.session.cookie)
-  const token = req.body.token;
+  const token = req.body.token || req.session.jwt || req.headers['authorization'].replace('Bearer ','');
   if (token) {
     return jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
       if (err) {
@@ -20,10 +19,13 @@ function validateToken(req, res) {
         res.json({
           token,
           user: decoded._doc.firstName,
-          isAdmin: decoded._doc.admin
+          isAdmin: decoded._doc.admin,
+          accountType: decoded._doc.accountType
         });
       }
     });
+  } else {
+    return res.status(403).json({ error: 'Authentication Failed. Token Parse Error.' });
   }
 }
 
@@ -44,6 +46,7 @@ function authUser(req, res) {
       if (err) { throw err; }
 
       if (!user) {
+        console.log('User Not found')
         return res.status(403).json({ errors: ['403 - Forbidden', 'Authentication Failed. Please try again.'] });
       }
 
@@ -53,6 +56,7 @@ function authUser(req, res) {
         }
 
         if (comp === false) {
+          console.log('Auth Fail')
           return res.json({ errors: ['403 - Forbidden', 'Authentication Failed. Please try again.'] });
         }
 
@@ -84,23 +88,22 @@ function getLogin(req, res) {
 
 function routerMiddleware(req, res, next) {
   // check header or url parameters or post parameters for token
-  var token = req.cookies.session_id || req.body.token || req.param('token') || req.headers['x-access-token'] || req.session.jwt;
+  var token = req.cookies.session_id || req.body.token || req.param('token') || req.headers['x-access-token'] || req.session.jwt || req.headers['authorization'].replace('Bearer ','');
+
   // decode token
   if (token) {
-    // verifies secret and checks exp
     jwt.verify(token, process.env.JWT_SECRET, function(err, decoded) {
       if (err) {
         return res.status(401).json({
-          errors: ['Authentication Failed. Please log in and try again.']});
+          errors: ['Authentication Failed. Please log in and try again.']
+        });
       } else {
-        // if everything is good, save to request for use in other routes
         req.decoded = decoded;
         next();
       }
     });
   } else {
-    // if there is no token
-    // return an error
+    console.log('routerMiddleware ELSE')
     req.flash('warnings', 'Please login to view the requested resource.');
     return res.status(403).redirect('/login');
   }
