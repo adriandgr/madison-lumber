@@ -8,21 +8,42 @@ const baseURL = process.env.NODE_ENV === 'production'
 var instance = axios.create({
   baseURL,
   withCredentials: true,
-  headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+  headers: {'Content-Type': 'application/json'}
 });
 
 
 const api = {
   authUser: (email, password) => {
     return instance.post(
-      '/api/login',
-      querystring.stringify({ email, password })
-      ).then(res => res.data);
+        '/graphql',
+        { query:`
+            query {
+                login(email: "${email}", password: "${password}") {
+                    userId
+                    firstName
+                    token
+                    isAdmin
+                    accountType
+                }
+            }
+          ` }
+    ).then(res => res.data);
   },
   validateToken: token => {
-      const authHeader = { headers: { Authorization: 'Bearer ' + token } };
-      return instance.post('/api/validate', null, authHeader)
-          .then(res => res.data);
+      // const authHeader = { headers: { Authorization: 'Bearer ' + token } };
+      return instance.post(
+          '/graphql',
+          { query:`
+          query {
+            validate(token: "${token}") {
+                userId
+                firstName
+                token
+                isAdmin
+                accountType
+            }
+          }
+          `}).then(res => res.data);
   },
   getMills: (token, q) => {
     // let query = `/api/mills/?token=${token}&`;
@@ -35,10 +56,67 @@ const api = {
     } else {
       query += `q=&p=1&limit=20`;
     }
-    return instance.get(query,authHeader)
+    return instance.post('/graphql',
+        { query:`
+            query {
+                mills {
+                    _id
+                    uuid
+                    name
+                    type
+                    region
+                    qualifications {  millStatus }
+                    lastUpdated
+                }
+            }
+          ` }, authHeader)
         .then(res => res.data );
   },
   getMill: (token, millUUID) => {
+     const mill = `
+            query {
+                mills {
+                    _id
+                    uuid
+                    name
+                    type
+                    region
+                    contact {
+                        address
+                        location
+                        phone
+                        fax
+                        website
+                        email
+                        contactPersons
+                    }
+                    catalog: {
+                        products
+                        species
+                        roughSizes
+                        surfacedSizes
+                        production
+                        panelThickness
+                        services
+                        kilnCapacity
+                        shipping
+                        export
+                    }
+                    qualifications: {
+                        gradingAgency
+                        memberOf
+                        employees
+                        notes
+                        certification
+                        preservatives
+                        treatingFacilities
+                        distributionYard
+                        millStatus
+                    }
+                    lastUpdated: String
+                }
+            }
+          `
     return instance.get(`/api${millUUID}?token=${token}`)
       .then(res => res.data );
   },

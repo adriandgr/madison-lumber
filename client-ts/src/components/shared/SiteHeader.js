@@ -3,7 +3,7 @@ import { Link, NavLink, withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import navbarLogo from '../assets/madison-logo-small.png';
 
-import { UserContext } from '../users/UserContext'
+import UserContext from '../users/UserContext'
 
 
 const LogoutButton = props => (

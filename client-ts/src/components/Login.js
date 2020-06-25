@@ -8,7 +8,7 @@ import Jumbotron from './shared/Jumbotron';
 import headerBg from './assets/moodyville-yard.jpg';
 import AlertMessages from './shared/AlertMessages';
 
-import { UserContext } from './users/UserContext'
+import UserContext from './users/UserContext'
 
 
 
@@ -39,6 +39,7 @@ class Login extends Component {
       email: '',
       pwd: '',
       error: [],
+      errory: null
     };
 
     this.handleChange = this.handleChange.bind(this);
@@ -74,22 +75,25 @@ class Login extends Component {
       } else {
         this.setState(() => ({ error: [] }));
       }
-      if (res.token) {
+      if (res.data.login.token) {
         if (this.state.redirectTo === '/') {
           this.context.authUser(
-            res.token,
-            res.user,
-            res.isAdmin,
+            res.data.login.token,
+            res.data.login.firstName,
+            res.data.login.isAdmin,
             redirectTo,
           );
         } else {
-          const token = res.token;
+          const token = res.data.login.token;
           cookies.set('session_id', token, { path: '/', maxAge: 86400 });
           saveState({ token });
           this.setState(() => ({ redirectToReferrer: true }));
         }
       }
-    }).catch(err => this.setState(() => ({ error: [String(err)] })));
+    }).catch((err) => {
+      console.log(err.response.data.errors[0].message)
+      this.setState(() => ({ error: [err.response.data.errors[0].message] }))
+    });
   }
 
   render() {

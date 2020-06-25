@@ -3,7 +3,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import madisonLogo from './assets/madison-logo.png';
 import headerBg from './assets/header-img.jpg';
 import AlertMessages from './shared/AlertMessages';
-import { UserContext } from './users/UserContext'
+import UserContext from './users/UserContext'
 
 const landingDescription = `The most comprehensive listing of Canadian solid wood and pulp manufacturers anywhere, 
   Madison's Online Lumber Directory has been published for over 60 years. Company information includes contacts, tree 
@@ -16,7 +16,7 @@ const Home = (props:RouteComponentProps) => (
       {context => (
           <div className="container">
             {context.token &&
-            <AlertMessages success={context.successAuth}/>
+            <AlertMessages success={['Login Successful.', `Welcome back, ${context.firstName}!`]}/>
             }
             <div className="jumbotron text-center section-banner"
                  style={{backgroundImage: `url(${headerBg})`}}>

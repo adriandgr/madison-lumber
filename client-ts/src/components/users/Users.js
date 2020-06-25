@@ -5,7 +5,7 @@ import api from '../../utils/api';
 import headerBg from '../assets/moodyville-yard.jpg'
 import AlertMessages from '../shared/AlertMessages';
 
-import { UserContext } from '../users/UserContext'
+import UserContext from '../users/UserContext'
 
 const UsersBanner = props => (
   <div

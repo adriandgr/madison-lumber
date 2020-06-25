@@ -8,7 +8,7 @@ import headerBg from '../assets/blue-mill.jpg';
 import LoadingBar from '../LoadingBar';
 import AlertMessages from '../shared/AlertMessages';
 
-import { UserContext } from '../users/UserContext'
+import UserContext from '../users/UserContext'
 
 class Mill extends Component {
   constructor(props) {

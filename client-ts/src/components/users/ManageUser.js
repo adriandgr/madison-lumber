@@ -5,7 +5,7 @@ import ManageUserTable from './_ManageUserTable';
 import Jumbotron from '../shared/Jumbotron';
 import headerBg from '../assets/header-img.jpg'
 import AlertMessages from '../shared/AlertMessages';
-import { UserContext } from '../users/UserContext'
+import UserContext from '../users/UserContext'
 import {Redirect} from "react-router-dom";
 
 

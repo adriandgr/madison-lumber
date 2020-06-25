@@ -4,7 +4,7 @@ import NewUserForm from './_NewUserForm';
 import Jumbotron from '../shared/Jumbotron';
 import headerBg from '../assets/moodyville-yard.jpg'
 import AlertMessages from '../shared/AlertMessages';
-import { UserContext } from '../users/UserContext'
+import UserContext from '../users/UserContext'
 
 class CreateUser extends Component {
   state = {

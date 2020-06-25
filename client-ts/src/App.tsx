@@ -11,8 +11,7 @@ import LoadingBar from './components/LoadingBar';
 import AppRoutes from './components/AppRoutes';
 
 import './components/assets/App.css';
-import UserStore from './components/users/UserContext';
-import { UserContext } from './components/users/UserContext'
+import UserContext from './components/users/UserContext';
 
 interface State {
   authWithTokenStatus: string;
@@ -23,12 +22,35 @@ interface State {
   successAuth: any[];
 };
 
+type ContextProps = {
+    authWithToken: object;
+    authUser: object;
+    logoutUser: object;
+    authWithTokenStatus: string;
+    isAuthenticated: boolean;
+    isAdmin: boolean;
+    token?: string;
+    userName: string;
+    successAuth: any[];
+};
+
 class App extends React.Component {
   // TODO: constrain ts type any to more narrow
   state = {
       authWithTokenStatus: 'INIT',
-    };
+      isAuthenticated: false,
+      isAdmin: false,
+      firstName: null,
+      token: null,
+      userId: null,
 
+    };
+  login = (token: String, userId: String, firstName: String) => {
+    this.setState({ token, userId, firstName });
+  };
+  logout = () => {
+    this.setState({ token: null, userId: null, firstName: null });
+  };
   componentDidMount() {
     const cookies = new Cookies();
     // cookies.set('session_id', null, { path: '/', maxAge: 86400 });
@@ -40,19 +62,65 @@ class App extends React.Component {
       this.setState({ authWithTokenStatus: 'COMPLETE' });
     }
   }
-  //
-  authWithToken = (token: string) => {
+
+  authWithToken = (token: String) => {
+    const cookies = new Cookies();
     this.setState({ authWithTokenStatus: 'LOADING' });
     return api.validateToken(token).then((res) => {
-      this.context.authUser(res.token, res.user, res.isAdmin);
+      // TODO: Fix cookie. context?
+      this.authUser(res.data.login.token, res.data.login.firstName, res.data.login.isAdmin);
       this.forceUpdate();
-    }).catch(() => this.setState({ authWithTokenStatus: 'COMPLETE' }));
+    }).catch((err) => {
+      this.setState({ authWithTokenStatus: 'COMPLETE' })
+      if (err.response && err.response.data.errors[0].message === 'TOKEN_ERROR') {
+        console.log(err.response.data.errors[0].message)
+        cookies.remove('session_id', { path: '/' });
+      }
+
+    });
+  }
+
+  authUser = (token: String, firstName: String, isAdmin: Boolean, redirectTo?: String) => {
+        const cookies = new Cookies();
+        this.setState(() => ({
+            authWithTokenStatus: 'COMPLETE',
+            isAuthenticated: true,
+            token,
+            firstName,
+            isAdmin,
+            successAuth: ['Login Successful.', `Welcome back, ${firstName}!`],
+        }));
+        console.log('authUser')
+        cookies.set('session_id', token, { path: '/', maxAge: 86400 });
+    }
+
+  logoutUser = () => {
+    const cookies = new Cookies();
+    this.setState(() => ({
+        isAuthenticated: false,
+        isAdmin: false,
+        token: undefined,
+        userName: '',
+        successAuth: ['Logout Successful.', `See you later, ${this.state.firstName}.`],
+    }));
+    cookies.remove('session_id', { path: '/' });
   }
 
   render() {
     return (
       <Router>
-        <UserStore>
+        <UserContext.Provider value={{
+          authWithTokenStatus: this.state.authWithTokenStatus,
+          isAuthenticated: this.state.isAuthenticated,
+          isAdmin: this.state.isAdmin,
+          token: this.state.token,
+          firstName: this.state.firstName,
+          userId: this.state.userId,
+          login: this.login,
+          logoutUser: this.logoutUser,
+          authWithToken: this.authWithToken,
+          authUser: this.authUser
+        }}>
           <div className="App">
             <SiteHeader
             />
@@ -67,7 +135,7 @@ class App extends React.Component {
             )}
             <Footer />
           </div>
-        </UserStore>
+        </UserContext.Provider>
       </Router>
     );
   }
