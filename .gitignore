@@ -75,3 +75,4 @@ client/build
 .idea/
 
 server/utils/files/*
+nodemon.json
