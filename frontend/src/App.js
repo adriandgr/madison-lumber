@@ -9,11 +9,12 @@ import NavBar from "./components/NavBar"
 import Footer from "./components/Footer"
 import Home from "./pages/Home"
 import Login from "./pages/Login/Login"
+import Mills from "./pages/Mills/Mills"
 
 
 
 function App() {
-  const {token,validateToken} = useContext(UserContext)
+  const {token,validateToken, logout} = useContext(UserContext)
 
   useEffect(()=> {
     const cookies = new Cookies()
@@ -21,17 +22,13 @@ function App() {
     if (token) {
       console.log('TOKE', token)
       validateToken(token)
+    } else {
+      logout()
     }
   }, [])
 
-  // useEffect(()=> {
-  //   if (token) {
-  //     validateToken()
-  //   }
-  // }, [token])
   return (
     <div className="App">
-      
         <NavBar/>
         <Switch>
           <Route exact path='/'>
@@ -40,9 +37,11 @@ function App() {
           <Route path='/login'>
             <Login/>
           </Route>
+          <Route path='/mills'>
+            <Mills/>
+          </Route>
         </Switch>
         <Footer/>
-      
     </div>
   );
 }

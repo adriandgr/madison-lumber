@@ -55,6 +55,13 @@ $input-shadow: none;
   text-align: center;
 }
 
+.container.container__mill_cards {
+ margin: 2em auto;
+}
+.card.card__mill {
+  margin: .5em 1.3em
+}
+
 // Import only what you need from Bulma
 @import "../node_modules/bulma/bulma.sass";
 // @import "../node_modules/bulma/sass/utilities/_all.sass";

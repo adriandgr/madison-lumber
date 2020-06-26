@@ -1,12 +1,19 @@
-import React, {useContext} from "react"
+import React, {useContext, useState, useEffect} from "react"
 import {Link, NavLink} from "react-router-dom"
 import logo from "../assets/madison-logo-small.png"
 import {UserContext} from "../contexts/userContext"
 
 function NavBar() {
+  const [hasValidatedCookies,setHasValidatedCookie] = useState(false)
   const {token, logout, userName} = useContext(UserContext)
   
-  console.log(userName)
+  useEffect(() => {
+    if (token !== undefined) {
+      setHasValidatedCookie(true)
+    }
+  },[token])
+
+  // console.log(userName)
   return(
     <nav className="navbar is-primary" role="navigation" aria-label="main navigation">
       <div className="navbar-brand">
@@ -41,7 +48,7 @@ function NavBar() {
           </div>
         </div>
 
-        <div className="navbar-end">
+        { hasValidatedCookies && <div className="navbar-end">
           <div className="navbar-item">
             <div className="buttons">
               {!token 
@@ -63,7 +70,7 @@ function NavBar() {
               }
             </div>
           </div>
-        </div>
+        </div>}
       </div>
     </nav>
   )

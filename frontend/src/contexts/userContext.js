@@ -4,7 +4,7 @@ import Cookies from 'universal-cookie'
 const UserContext = React.createContext()
 
 function UserContextProvider(props) {
-  const [token, setToken] = useState(null)
+  const [token, setToken] = useState()
   const [firstName, setFirstName] = useState('')
   const [accountType, setAccountType] = useState(null)
   const [isAdmin, setIsAdmin] = useState(null)
