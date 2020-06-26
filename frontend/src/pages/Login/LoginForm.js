@@ -56,11 +56,10 @@ function LoginForm() {
         console.log(resData);
         if (resData.data.login.token) {
           const userDetails = {
-            firstName: resData.data.login.firstName,
-            isAdmin: resData.data.login.userId,
-            accountType: resData.data.accountType
+            ...resData.data.login
           }
-          login(resData.data.login.token, userDetails)
+          
+          login(userDetails)
         }
       })
       .catch((err) => {

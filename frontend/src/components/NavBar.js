@@ -4,13 +4,9 @@ import logo from "../assets/madison-logo-small.png"
 import {UserContext} from "../contexts/userContext"
 
 function NavBar() {
-  const {token, logout, userDetails} = useContext(UserContext)
-  let firstName = ''
-  // if (userDetails) {
-  //   let {firstName} = userDetails
-  // }
-
-  console.log(userDetails)
+  const {token, logout, userName} = useContext(UserContext)
+  
+  console.log(userName)
   return(
     <nav className="navbar is-primary" role="navigation" aria-label="main navigation">
       <div className="navbar-brand">
@@ -59,7 +55,7 @@ function NavBar() {
               </>
               : <>
                 
-                <div className="button is-primary" >Hello, {firstName}</div>
+                <div className="button is-primary" >Hello, {userName}</div>
                 <button onClick={logout} className="button is-light">
                   Logout
                 </button>

@@ -1,6 +1,7 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
+import Cookies from 'universal-cookie'
 import {Switch, Route} from 'react-router-dom'
-import {UserContextProvider} from "./contexts/userContext"
+import {UserContext} from "./contexts/userContext"
 
 import './App.scss';
 
@@ -10,10 +11,27 @@ import Home from "./pages/Home"
 import Login from "./pages/Login/Login"
 
 
+
 function App() {
+  const {token,validateToken} = useContext(UserContext)
+
+  useEffect(()=> {
+    const cookies = new Cookies()
+    const token = cookies.get('jwt')
+    if (token) {
+      console.log('TOKE', token)
+      validateToken(token)
+    }
+  }, [])
+
+  // useEffect(()=> {
+  //   if (token) {
+  //     validateToken()
+  //   }
+  // }, [token])
   return (
     <div className="App">
-      <UserContextProvider>
+      
         <NavBar/>
         <Switch>
           <Route exact path='/'>
@@ -24,7 +42,7 @@ function App() {
           </Route>
         </Switch>
         <Footer/>
-      </UserContextProvider>
+      
     </div>
   );
 }
