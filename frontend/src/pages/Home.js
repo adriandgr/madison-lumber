@@ -17,8 +17,8 @@ function Home() {
         heroImg={heroImg}
         medium
       />
-      <div className="container">
-        <h3>About our lumber database</h3>
+      <div className="container container__landing">
+        <h4 className="title is-4">About our lumber database</h4>
         <p>{landingDescription}</p>
       </div>
       

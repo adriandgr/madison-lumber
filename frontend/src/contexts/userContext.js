@@ -1,13 +1,15 @@
 import React, {useState} from "react"
 import Cookies from 'universal-cookie'
+import {useHistory} from 'react-router-dom'
 
 const UserContext = React.createContext()
 
 function UserContextProvider(props) {
-  const [token, setToken] = useState()
+  const [token, setToken] = useState(undefined)
   const [firstName, setFirstName] = useState('')
   const [accountType, setAccountType] = useState(null)
   const [isAdmin, setIsAdmin] = useState(null)
+  const history = useHistory()
 
   const validateToken = (token) => {
     console.log('START VALIDATE TOKEN')
@@ -30,7 +32,7 @@ function UserContextProvider(props) {
     }).then((res) => {
         if (res.status !== 200 && res.status !== 201) {
           throw new Error("Fetch Failed!")
-        }
+        } 
         return res.json();
     }).then((resData) => {
         if (resData.data.validate.firstName) {
@@ -40,15 +42,16 @@ function UserContextProvider(props) {
           }
           login(userDetails)
         } else {
-          console.log('VALIDATE ELSE')
+          logout()
         }
 
     }).catch((err) => {
-        console.log(err)
-      });
+      logout()
+      console.log(err)
+    });
   }
   
-  const login = (userDetails) => {
+  const login = (userDetails, redirectTo) => {
     console.log('LOGIN METHOD', userDetails)
     const {
       token, 
@@ -62,6 +65,10 @@ function UserContextProvider(props) {
     setFirstName(firstName)
     setAccountType(accountType)
     setIsAdmin(isAdmin)
+
+    if (redirectTo) {
+      history.push(redirectTo)
+    }
   }
   const logout = () => {
     const cookies = new Cookies();
@@ -70,6 +77,7 @@ function UserContextProvider(props) {
     setFirstName('')
     setAccountType(null)
     setIsAdmin(null)
+    history.push('/')
   }
  
   return (

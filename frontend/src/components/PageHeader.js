@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 function PageHeader(props) {
   const isMedium = props.medium ? 'is-medium ' : ''
   return (
-    <section className={`hero ${isMedium}is-primary is-bold has-background`}>
+    <section className={`hero ${isMedium}is-primary is-bold has-background page-header`}>
       <img className="hero-background is-transparent" src={props.heroImg} alt="hero-background"/>
       <div className="hero-body">
         <div className="container">

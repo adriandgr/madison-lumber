@@ -1,11 +1,12 @@
 import React, {useState,useContext} from 'react'
 import { UserContext } from "../../contexts/userContext";
 
-function LoginForm() {
+function LoginForm(props) {
   const [email, setEmail] = useState('')
   const [emailIsBlank, setEmailIsBlank] = useState(false)
   const [password, setPassword] = useState('')
   const [pwIsBlank, setPwIsBlank] = useState(false)
+  const [isFetching, setIsFetching] = useState(false)
   const {login} = useContext(UserContext)
 
   function handleChange(e) {
@@ -21,6 +22,7 @@ function LoginForm() {
   
   function handleSubmit(e) {
     e.preventDefault()
+    props.setErrorMessage('')
     if (email === '') {
       setEmailIsBlank(true)
     } 
@@ -39,35 +41,39 @@ function LoginForm() {
             }
         `
     };
-    fetch("http://localhost:8181/graphql", {
-      method: "POST",
-      body: JSON.stringify(requestBody),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    })
-      .then((res) => {
-        if (res.status !== 200 && res.status !== 201) {
-          throw new Error("Fetch Failed!");
-        }
-        return res.json();
-      })
-      .then((resData) => {
-        console.log(resData);
-        if (resData.data.login.token) {
-          const userDetails = {
-            ...resData.data.login
+    if ((email !== '') && (password !== '')) {
+      setIsFetching(true)
+      fetch("http://localhost:8181/graphql", {
+        method: "POST",
+        body: JSON.stringify(requestBody),
+        headers: { "Content-Type": "application/json" },
+      }).then((res) => {
+          if (res.status !== 200 && res.status !== 201) {
+            throw new Error("Fetch Failed!");
           }
+          return res.json();
+      }).then((resData) => {
+          if (resData.data.login.token) {
+            const userDetails = {
+              ...resData.data.login
+            }
+            setIsFetching(false)
+            login(userDetails, '/mills')
+          }
+      }).catch((err) => {
+          setTimeout(() => setIsFetching(false), 800);
+
+          if (err.message === 'Fetch Failed!') {
+            const err_msg = 'Provided email and password do not match.'
+            setTimeout(() => props.setErrorMessage(err_msg), 1100);
+          } else {
+            props.setErrorMessage('We encountered an unexpected error while handling your request. Please try again later.')
+            console.log('Fetch Login', err);
+          }
+      
           
-          login(userDetails)
-        }
-      })
-      .catch((err) => {
-        console.log(err);
       });
-
-    console.log(email, password)
-
+    }
   }
   return (
     <div className="container container__login-form">
@@ -112,8 +118,12 @@ function LoginForm() {
 
         <div className="field">
           <p className="control">
-            <button className="button is-success">
-              Login
+            <button className="button is-success button__login">
+            { !isFetching ?
+            <>Login</> :
+            <span className="icon is-small is-left">
+              <i className="fas fa-spinner fa-spin"></i>
+            </span>}
             </button>
           </p>
         </div>

@@ -7,11 +7,11 @@ import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
-    <UserContextProvider>
-      <Router>
+    <Router>
+      <UserContextProvider>
         <App />
-      </Router>
-    </UserContextProvider>
+      </UserContextProvider>
+    </Router>    
   </React.StrictMode>,
   document.getElementById('root')
 );

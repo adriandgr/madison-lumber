@@ -10,6 +10,7 @@ import Footer from "./components/Footer"
 import Home from "./pages/Home"
 import Login from "./pages/Login/Login"
 import Mills from "./pages/Mills/Mills"
+import Mill from "./pages/Mill/Mill"
 
 
 
@@ -20,7 +21,6 @@ function App() {
     const cookies = new Cookies()
     const token = cookies.get('jwt')
     if (token) {
-      console.log('TOKE', token)
       validateToken(token)
     } else {
       logout()
@@ -28,19 +28,24 @@ function App() {
   }, [])
 
   return (
-    <div className="App">
+    <div className="container__app_root">
         <NavBar/>
-        <Switch>
-          <Route exact path='/'>
-            <Home/>
-          </Route>
-          <Route path='/login'>
-            <Login/>
-          </Route>
-          <Route path='/mills'>
-            <Mills/>
-          </Route>
-        </Switch>
+        <div className="content__wrap">
+          <Switch>
+            <Route exact path='/'>
+              <Home/>
+            </Route>
+            <Route path='/login'>
+              <Login/>
+            </Route>
+            <Route path='/mills'>
+              <Mills/>
+            </Route>
+            <Route path='/mill/:mill_uuid'>
+              <Mill/>
+            </Route>
+          </Switch>
+        </div>
         <Footer/>
     </div>
   );

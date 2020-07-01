@@ -5,7 +5,7 @@ import {UserContext} from "../contexts/userContext"
 
 function NavBar() {
   const [hasValidatedCookies,setHasValidatedCookie] = useState(false)
-  const {token, logout, userName} = useContext(UserContext)
+  const {token, logout, firstName} = useContext(UserContext)
   
   useEffect(() => {
     if (token !== undefined) {
@@ -62,7 +62,7 @@ function NavBar() {
               </>
               : <>
                 
-                <div className="button is-primary" >Hello, {userName}</div>
+                <div className="button is-primary" >Hello, {firstName}</div>
                 <button onClick={logout} className="button is-light">
                   Logout
                 </button>

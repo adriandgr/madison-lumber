@@ -25,6 +25,10 @@ $control-border-width: 2px;
 $input-border-color: transparent;
 $input-shadow: none;
 
+.container__app_root {
+  position: relative;
+  min-height: 100vh;
+}
 .hero.has-background {
   position: relative;
   overflow: hidden;
@@ -40,26 +44,59 @@ $input-shadow: none;
   opacity: 0.3;
 }
 
-.container.container__login-form {
-  margin: 1em auto;
-  border: 1px solid $brand;
-  border-radius: .5em;
-  background-color: $off-white;
-  padding: 1em;
-  max-width: 50%;
+.content__wrap {
+  padding-bottom: 2.5rem;    /* Footer height */
 }
 
-.columns.columns__social_links {
-  margin: 0 auto .5em auto;
-  width: 20%;
-  text-align: center;
+.container {
+  .container__landing {
+    h3 {
+      size: 2em !important;
+    }
+  }
+  .container__mill_cards {
+    margin: 2em auto;
+  }
+
+  .container__pagination {
+    margin: 0 auto 2em auto;
+    width: 60%;
+  }
+
+  .container__login-form {
+    margin: 1em auto;
+    border: 1px solid $brand;
+    border-radius: .5em;
+    background-color: $off-white;
+    padding: 1em;
+    max-width: 50%;
+  
+    button.button__login {
+      width: 4em;
+    }
+  }
 }
 
-.container.container__mill_cards {
- margin: 2em auto;
-}
+
 .card.card__mill {
   margin: .5em 1.3em
+}
+
+.hero.page-header {
+  margin-bottom: 2em;
+}
+
+.footer {
+  .footer__wrapper {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+  .columns.columns__social_links {
+    margin: 0 auto .5em auto;
+    width: 20%;
+    text-align: center;
+  } 
 }
 
 // Import only what you need from Bulma

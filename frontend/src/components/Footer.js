@@ -33,7 +33,7 @@ function SocialLinks() {
 function Footer() {
   const currentYear = new Date().getFullYear();
   return (
-    <footer className="footer">
+    <footer className="footer footer__wrapper">
       <div className="content has-text-centered">
         <p>
           © 2017-{currentYear}{" "}
