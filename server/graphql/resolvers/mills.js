@@ -5,14 +5,19 @@ const { transformMill } = require('./merge');
 
 
 module.exports = {
-    mills: async (args, req) => {
+    mills: async ({resultFilters}, req) => {
         if (!req.isAuth) {
             throw new Error('Unauthenticated')
-        } else if (!req.isAdmin){
-            throw new Error('Unauthorized')
         }
         try {
-            const mills = await Mill.find()
+            const {query, count, offset} = resultFilters || { query: '', count: 20, offset: 0 } 
+
+            const options = {
+                skip: offset,
+                limit: count
+            }
+            
+            const mills = await Mill.find({ name: new RegExp(query) }, null, options)
             return mills.map(transformMill);
         } catch (err) {
             throw err;

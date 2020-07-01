@@ -120,11 +120,17 @@ input MillQualificationsInput {
     millStatus: String
 }
 
+input ResultFilters {
+    query: String
+    count: Int
+    offset: Int
+}
+
 type RootQuery {
     users: [User!]!
     login(email: String!, password: String!): AuthData!
     validate(token: String!): AuthData!
-    mills: [Mill!]!
+    mills(resultFilters: ResultFilters): [Mill!]!
 }
 
 type RootMutation {
