@@ -77,6 +77,13 @@ $input-shadow: none;
   }
 }
 
+.container.container__mill_search {
+  form {
+    width: 40%;
+    margin-bottom: 2em;
+  }
+}
+
 
 .card.card__mill {
   margin: .5em 1.3em
@@ -97,6 +104,15 @@ $input-shadow: none;
     width: 20%;
     text-align: center;
   } 
+}
+
+.ri-icon-spin {
+  animation: ri-spin 2s linear infinite;
+}
+
+@keyframes ri-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 // Import only what you need from Bulma
