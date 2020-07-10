@@ -88,10 +88,10 @@ function LoginForm(props) {
               placeholder="Email" 
             />
             <span className="icon is-small is-left">
-              <i className="fas fa-envelope"></i>
+              <i className="ri-mail-fill"></i>
             </span>
             {emailIsBlank && <span class="icon is-small is-right">
-              <i class="fas fa-exclamation-triangle"></i>
+              <i class="ri-error-warning-fill"></i>
             </span>}
           </p>
           {emailIsBlank && <p class="help is-danger">Email may not be blank</p>}
@@ -106,10 +106,10 @@ function LoginForm(props) {
               type="password" 
               placeholder="Password" />
             <span className="icon is-small is-left">
-              <i className="fas fa-lock"></i>
+              <i className="ri-lock-fill"></i>
             </span>
             {pwIsBlank && <span class="icon is-small is-right">
-              <i class="fas fa-exclamation-triangle"></i>
+              <i class="ri-error-warning-fill"></i>
             </span>}
           </div>
           {pwIsBlank && <p class="help is-danger">Password may not be blank</p>}
@@ -122,7 +122,7 @@ function LoginForm(props) {
             { !isFetching ?
             <>Login</> :
             <span className="icon is-small is-left">
-              <i className="fas fa-spinner fa-spin"></i>
+              <i className="ri-refresh-line ri-icon-spin"></i>
             </span>}
             </button>
           </p>
