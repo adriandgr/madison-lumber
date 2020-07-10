@@ -2,16 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import {BrowserRouter as Router} from "react-router-dom"
 import {UserContextProvider} from "./contexts/userContext"
+import MatomoProvider from "./contexts/matomoContext"
+
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
-    <Router>
-      <UserContextProvider>
-        <App />
-      </UserContextProvider>
-    </Router>    
+    <MatomoProvider>
+      <Router>
+        <UserContextProvider>
+          <App />
+        </UserContextProvider>
+      </Router>    
+    </MatomoProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
