@@ -121,6 +121,7 @@ input MillQualificationsInput {
 }
 
 input ResultFilters {
+    uuid: String
     query: String
     count: Int
     offset: Int

@@ -10,8 +10,13 @@ module.exports = {
             throw new Error('Unauthenticated')
         }
         try {
-            const {query, count, offset} = resultFilters || { query: '', count: 20, offset: 0 } 
+            const {uuid, query, count, offset} = resultFilters || { uuid: undefined, query: '', count: 20, offset: 0 } 
 
+            if (uuid) {
+                const mill = await Mill.findOne({uuid})
+                return [mill].map(transformMill)
+            }
+            
             const options = {
                 skip: offset,
                 limit: count
