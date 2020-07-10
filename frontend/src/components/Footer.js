@@ -4,15 +4,15 @@ function SocialLinks() {
   const links = [
     {
       url: "https://twitter.com/LumberNews",
-      icon: "fa-twitter-square"
+      icon: "ri-twitter-fill"
     },
     {
       url: "https://www.instagram.com/lumbernews/",
-      icon: "fa-instagram"
+      icon: "ri-instagram-line"
     },
     {
       url: "https://www.facebook.com/MadisonsLumberReporter",
-      icon: "fa-facebook-square"
+      icon: "ri-facebook-box-fill"
     }
   ]
   return (
@@ -21,7 +21,7 @@ function SocialLinks() {
         <div className="column" key={link.icon}>
           <a href={link.url}>
             <span className="icon is-medium">
-              <i className={`fab fa-lg ${link.icon}`}></i>
+              <i className={`ri-xl ${link.icon}`}></i>
             </span>
           </a>
         </div>
