@@ -59,7 +59,7 @@ module.exports = {
             decodedToken = jwt.verify(token, process.env.JWT_SECRET);
         } catch (err) {
             if (err.message === 'jwt expired') {
-                throw new Error('TOKEN_ERROR');
+                throw new Error('TOKEN_EXP');
             } else {
                 throw err;
             }
