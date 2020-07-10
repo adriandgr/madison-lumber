@@ -23,14 +23,14 @@ workflows:
   version: 2
   build_test_and_approval_deploy:
     jobs:
+    - build
+    - test:
+      requires:
       - build
-      - test:
+    - hold:
+        type: approval
         requires:
-          - build
-      - hold:
-          type: approval
-          requires:
-            - test
-      - deploy:
-          requires:
-            - hold
+        - test
+    - deploy:
+        requires:
+        - hold
