@@ -37,7 +37,7 @@ function NavBar() {
             <a className="navbar-link" href="#blank"> Admin</a>
 
             <div className="navbar-dropdown">
-              <a className="navbar-item" href="#blank">Manage Users</a>
+              <NavLink className="navbar-item" to="/users">Manage Users</NavLink>
               <a className="navbar-item" href="#blank">Jobs</a>
               <a className="navbar-item" href="#blank">Contact</a>
               <hr className="navbar-divider"/>
