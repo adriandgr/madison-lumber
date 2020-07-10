@@ -70,14 +70,14 @@ function UserContextProvider(props) {
       history.push(redirectTo)
     }
   }
-  const logout = () => {
+  const logout = (redirectTo = "/") => {
     const cookies = new Cookies();
     cookies.remove('jwt', { path: '/' })
     setToken(null)
     setFirstName('')
     setAccountType(null)
     setIsAdmin(null)
-    history.push('/')
+    history.push(redirectTo)
   }
  
   return (
