@@ -1,21 +1,20 @@
 version: 2
+
 jobs:
   build:
-    # working_directory: ~/tmp
+    working_directory: ~/tmp
     docker:
       - image: circleci/node:12
     steps:
       - checkout
       - run: npm install --prefix ./client-ts
-  test:
-    docker:
-      - image: circleci/node:12
-    steps:
-      - checkout
-      - run: npm test --prefix ./client-ts
+      - run:
+        name: Run tests
+        command: npm test --prefix ./client-ts
   deploy:
-    docker:
-      - image: circleci/node:12
+    machine:
+      enabled: true
+    working_directory: ~/tmp
     steps:
       - checkout
       - run: echo "hello world"
@@ -24,13 +23,10 @@ workflows:
   build-test-and-approve-deploy:
     jobs:
       - build
-      - test:
-        requires:
-        - build
       - hold:
           type: approval
           requires:
-          - test
+          - build
       - deploy:
           requires:
           - hold
