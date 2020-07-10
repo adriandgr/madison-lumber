@@ -21,16 +21,16 @@ jobs:
       - run: echo "hello world"
 workflows:
   version: 2
-  build_test_and_approval_deploy:
+  build-test-and-approve-deploy:
     jobs:
-    - build
-    - test:
-      requires:
       - build
-    - hold:
-        type: approval
+      - test:
         requires:
-        - test
-    - deploy:
-        requires:
-        - hold
+        - build
+      - hold:
+          type: approval
+          requires:
+          - test
+      - deploy:
+          requires:
+          - hold
