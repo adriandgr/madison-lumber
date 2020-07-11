@@ -9,8 +9,8 @@ jobs:
       - checkout
       - run: npm install --prefix ./client-ts
       - run:
-        name: Run tests
-        command: npm test --prefix ./client-ts
+          name: Run tests
+          command: npm test --prefix ./client-ts
   deploy:
     machine:
       enabled: true
