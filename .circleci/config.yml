@@ -21,15 +21,20 @@ jobs:
         condition:
           equal: [ master, << pipeline.git.branch >> ]
         steps:
-          - run: echo "I am on master"
+          - run: 
+              name: Deploy to master
+              command: |
+                echo "I am on master"
       - when:
           condition:
             equal: [ staging, << pipeline.git.branch >> ]
           steps:
-            - run: |
-                echo "I am on staging"
-                git remote add live ssh://madisons@madisonsreport.com/var/repo/staging.madisonsreport.git
-                git push live staging
+            - run: 
+                name: Deploy to staging
+                command: |
+                  echo "I am on staging"
+                  git remote add live ssh://madisons@madisonsreport.com/var/repo/staging.madisonsreport.git
+                  git push live staging
 workflows:
   version: 2
   build-test-and-approve-deploy:
