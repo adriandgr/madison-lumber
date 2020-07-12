@@ -1,0 +1,5 @@
+query validate($token: String!)  {
+  firstName
+  accountType
+  isAdmin
+}
