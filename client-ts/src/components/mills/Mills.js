@@ -79,6 +79,14 @@ class Mills extends Component {
           newState.mills = res.mills;
         }
         this.setState(() => newState);
+      }).catch(err =>{
+        if (err.response && err.response.data ){
+          if (err.response.data.errors){
+            this.setState(() => ({ errors: err.response.data.errors }));
+          } else {
+            this.setState(() => ({ errors: [] }));
+          }
+        }
       });
     }
   }
@@ -164,7 +172,7 @@ class Mills extends Component {
         { (this.state.success || this.state.errors) &&
           <AlertMessages
             success={this.state.success}
-            errors={this.state.errors}
+            error={this.state.errors}
             scroll={true}/> }
 
         {this.context.isAdmin &&
