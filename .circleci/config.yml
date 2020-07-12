@@ -27,7 +27,7 @@ jobs:
                 command: |
                   echo "I am on << pipeline.git.branch >>"
                   git remote add live ssh://madisons@madisonsreport.com/var/repo/staging.madisonsreport.git
-                  git push live staging
+                  git push live master
                   
 workflows:
   version: 2.1
