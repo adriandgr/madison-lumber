@@ -1,4 +1,5 @@
-version: 2
+version: 2.1
+
 jobs:
   build:
     working_directory: ~/tmp
@@ -7,4 +8,47 @@ jobs:
     steps:
       - checkout
       - run: npm install --prefix ./client-ts
-      - run: npm test --prefix ./client-ts
+      - run:
+          name: Run tests
+          command: npm test --prefix ./client-ts
+  deploy:
+    machine:
+      enabled: true
+    working_directory: ~/tmp
+    steps:
+      - checkout
+      - when:
+          condition:
+            or:
+              - equal: [ staging, << pipeline.git.branch >> ]
+          steps:
+            - run: 
+                name: Deploy to Staging
+                command: |
+                  echo "I am on << pipeline.git.branch >>"
+                  git remote add live ssh://madisons@madisonsreport.com/var/repo/staging.madisonsreport.git
+                  git push live staging
+      - when:
+          condition:
+            or:
+              - equal: [ master, << pipeline.git.branch >> ]
+          steps:
+            - run: 
+                name: Deploy to Production
+                command: |
+                  echo "I am on << pipeline.git.branch >>"
+                  git remote add live ssh://madisons@madisonsreport.com/var/repo/db.madisonsreport.git
+                  git push live master
+                  
+workflows:
+  version: 2.1
+  build-test-and-approve-deploy:
+    jobs:
+      - build
+      - hold:
+          type: approval
+          requires:
+          - build
+      - deploy:
+          requires:
+          - hold
