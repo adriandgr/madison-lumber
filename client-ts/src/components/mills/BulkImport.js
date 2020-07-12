@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 //import Dropzone from 'dropzone'
-import { UserContext } from '../users/UserContext'
+import UserContext from '../users/UserContext'
 import {Redirect} from "react-router-dom";
 
 class BulkImport extends Component {

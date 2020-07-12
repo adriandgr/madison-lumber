@@ -1,0 +1,129 @@
+@charset "utf-8";
+
+// Set your brand colors
+$brand: #1cc267;
+$brand-dark: #2b4135;
+$pink: #FA7C91;
+$brown: #757763;
+$beige-light: #D0D1CD;
+$beige-lighter: #EFF0EB;
+$off-white: #fdfdfd;
+
+// Update Bulma's global variables
+$family-sans-serif: "Nunito", sans-serif;
+$grey-dark: $brown;
+$grey-light: $beige-light;
+$primary: $brand;
+$link: $pink;
+$widescreen-enabled: false;
+$fullhd-enabled: false;
+
+// Update some of Bulma's component variables
+$body-background-color: $beige-lighter;
+$footer-background-color: $brand-dark;
+$control-border-width: 2px;
+$input-border-color: transparent;
+$input-shadow: none;
+
+.container__app_root {
+  position: relative;
+  min-height: 100vh;
+}
+.hero.has-background {
+  position: relative;
+  overflow: hidden;
+}
+.hero-background {
+  position: absolute;
+  object-fit: cover;
+  object-position: center center;
+  width: 100%;
+  height: 100%;
+}
+.hero-background.is-transparent {
+  opacity: 0.3;
+}
+
+.content__wrap {
+  padding-bottom: 2.5rem;    /* Footer height */
+}
+
+.container {
+  .container__landing {
+    h3 {
+      size: 2em !important;
+    }
+  }
+  .container__mill_cards {
+    margin: 2em auto;
+  }
+
+  .container__pagination {
+    margin: 0 auto 2em auto;
+    width: 60%;
+  }
+
+  .container__login-form {
+    margin: 1em auto;
+    border: 1px solid $brand;
+    border-radius: .5em;
+    background-color: $off-white;
+    padding: 1em;
+    max-width: 50%;
+  
+    button.button__login {
+      width: 4em;
+    }
+  }
+}
+
+.container.container__mill_search {
+  form {
+    width: 40%;
+    margin-bottom: 2em;
+  }
+}
+
+
+.card.card__mill {
+  margin: .5em 1.3em
+}
+
+.hero.page-header {
+  margin-bottom: 2em;
+}
+
+.footer {
+  .footer__wrapper {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+  }
+  .columns.columns__social_links {
+    margin: 0 auto .5em auto;
+    width: 20%;
+    text-align: center;
+  } 
+}
+
+.ri-icon-spin {
+  animation: ri-spin 2s linear infinite;
+}
+
+@keyframes ri-spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// Import only what you need from Bulma
+@import "../node_modules/bulma/bulma.sass";
+// @import "../node_modules/bulma/sass/utilities/_all.sass";
+// @import "../node_modules/bulma/sass/base/_all.sass";
+// @import "../node_modules/bulma/sass/elements/button.sass";
+// @import "../node_modules/bulma/sass/elements/container.sass";
+// @import "../node_modules/bulma/sass/elements/title.sass";
+// @import "../node_modules/bulma/sass/form/_all.sass";
+// @import "../node_modules/bulma/sass/components/navbar.sass";
+// @import "../node_modules/bulma/sass/layout/hero.sass";
+// @import "../node_modules/bulma/sass/layout/section.sass";
+// @import "../node_modules/bulma/sass/grid/columns.sass";

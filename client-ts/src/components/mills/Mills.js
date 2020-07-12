@@ -10,7 +10,7 @@ import headerBg from '../assets/mills-header.jpg';
 import AlertMessages from '../shared/AlertMessages';
 import SearchMills from './_SearchMills';
 
-import { UserContext } from '../users/UserContext'
+import UserContext from '../users/UserContext'
 
 class Mills extends Component {
   constructor(props) {
