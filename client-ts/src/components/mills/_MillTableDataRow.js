@@ -11,8 +11,8 @@ const StrContent = props => {
       <span>
         <Linkify>{props.content}</Linkify>
       </span>
-      {props.isAdmin &&
-        <i className='fa fa-pencil' aria-hidden="true" onClick={props.toggleEditable}></i>
+      {/* props.isAdmin &&
+        <i className='fa fa-pencil' aria-hidden="true" onClick={props.toggleEditable}></i> */
       }
     </td>
   );
@@ -29,8 +29,8 @@ const ArrContent = props => {
               <p key={i + 1} style={{display: 'inline-block', marginBottom: 0}}>
                 <Linkify>{titleize(content.trim())}</Linkify>
               </p>
-              {props.isAdmin &&
-                <i key={i + 2} className='fa fa-pencil' aria-hidden="true" onClick={props.toggleEditable}></i>
+              {/* props.isAdmin &&
+                <i key={i + 2} className='fa fa-pencil' aria-hidden="true" onClick={props.toggleEditable}></i> */
               }
             </div>
           }

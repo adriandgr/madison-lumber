@@ -20,6 +20,10 @@ class Mills extends Component {
       errors: [],
       mills: [],
       searchTerm: [],
+      searchRegion: [],
+      searchType: [],
+      searchProduct: [],
+      searchSpecies: [],
       searchQuery: '',
       prevSearchInput: [],
       data: {
@@ -35,8 +39,13 @@ class Mills extends Component {
     this.loadMills = this.loadMills.bind(this);
     this.reloadMills = this.reloadMills.bind(this);
     this.handleInput = this.handleInput.bind(this);
+    this.handleRegionChange = this.handleRegionChange.bind(this);
+    this.handleTypeChange = this.handleTypeChange.bind(this);
+    this.handleProductChange = this.handleProductChange.bind(this);
+    this.handleSpeciesChange = this.handleSpeciesChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
     this.handleDelete = this.handleDelete.bind(this);
+    this.onChange = this.onChange.bind(this);
   }
 
   componentWillMount() {
@@ -60,6 +69,9 @@ class Mills extends Component {
           mills: [],
           searchTerm: [],
           searchQuery: this.state.searchQuery,
+          searchRegion: this.state.searchRegion,
+          searchType: this.state.searchType,
+          searchSpecies: this.state.searchSpecies,
           prevSearchInput: this.state.prevSearchInput,
           data: {
             page: res.page ? Number(res.page) : 1,
@@ -92,33 +104,110 @@ class Mills extends Component {
   }
 
   reloadMills(event) {
-    this.searchInput.value = '';
+    //this.searchInput.value = '';
     this.setState({ searchQuery: '' });
     this.props.history.push(this.baseQuery);
     this.loadMills();
   }
 
+  onChange(event) {
+    this.setState({searchQuery: event.target.value});
+  }
+
   handleInput(event) {
-    const searchQuery = event.target.value.trim();
+    const searchQuery = event.target.value;
     this.setState({
       searchQuery: searchQuery,
-      prevSearchInput: this.state.prevSearchInput.concat(searchQuery)
+      // prevSearchInput: this.state.prevSearchInput.concat(searchQuery)
     });
-    if(searchQuery === '' && this.state.prevSearchInput.slice(-2).shift() !== '') {
+    if(searchQuery === '') { //&& this.state.prevSearchInput.slice(-2).shift() !== ''
       // Reloads all mills if search bar is cleared
       this.props.history.push(`${this.baseQuery}`);
       this.loadMills();
     }
     if(event.key === 'Enter' || event.key === 'Tab') {
       event.preventDefault();
-      this.props.history.push(`${this.baseQuery}&q=${searchQuery}`);
+      this.props.history.push(`${this.baseQuery}&q=${searchQuery}&r=${this.state.searchRegion}`);
       this.loadMills();
     }
   }
 
+  handleTypeChange(event) {
+    const inputType = event.target.value;
+    if (event.target.checked) {
+      this.setState({
+        searchType: this.state.searchType.concat(inputType)
+      }, () => {
+        console.log("Type set to: " + this.state.searchType);
+        this.props.history.push(`${this.baseQuery}&q=${this.state.searchQuery}&r=${this.state.searchRegion}&t=${this.state.searchType}&pr=${this.state.searchProduct}&sp=${this.state.searchSpecies}`);
+      } );
+    } else {
+      this.setState({
+        searchType: this.state.searchType.filter((type) => type !== inputType)
+      }, () => {
+        this.props.history.push(`${this.baseQuery}&q=${this.state.searchQuery}&r=${this.state.searchRegion}&t=${this.state.searchType}&pr=${this.state.searchProduct}&sp=${this.state.searchSpecies}`);
+      });
+    } 
+  }
+
+  handleRegionChange(event) {
+    const inputRegion = event.target.value;
+    if (event.target.checked) {
+      this.setState({
+        searchRegion: this.state.searchRegion.concat(inputRegion)
+      }, () => {
+        console.log("Region set to: " + this.state.searchRegion);
+        this.props.history.push(`${this.baseQuery}&q=${this.state.searchQuery}&r=${this.state.searchRegion}&t=${this.state.searchType}&pr=${this.state.searchProduct}&sp=${this.state.searchSpecies}`);
+      } );
+    } else {
+      this.setState({
+        searchRegion: this.state.searchRegion.filter((region) => region !== inputRegion)
+      }, () => {
+        this.props.history.push(`${this.baseQuery}&q=${this.state.searchQuery}&r=${this.state.searchRegion}&t=${this.state.searchType}&pr=${this.state.searchProduct}&sp=${this.state.searchSpecies}`);
+      });
+    }   
+  }
+
+  handleProductChange(event) {
+    const inputProduct = event.target.value;
+    if (event.target.checked) {
+      this.setState({
+        searchProduct: this.state.searchProduct.concat(inputProduct)
+      }, () => {
+        console.log("Product set to: " + this.state.searchProduct);
+        this.props.history.push(`${this.baseQuery}&q=${this.state.searchQuery}&r=${this.state.searchRegion}&t=${this.state.searchType}&pr=${this.state.searchProduct}&sp=${this.state.searchSpecies}`);
+      } );
+    } else {
+      this.setState({
+        searchProduct: this.state.searchProduct.filter((product) => product !== inputProduct)
+      }, () => {
+        this.props.history.push(`${this.baseQuery}&q=${this.state.searchQuery}&r=${this.state.searchRegion}&t=${this.state.searchType}&pr=${this.state.searchProduct}&sp=${this.state.searchSpecies}`);
+      });
+    }   
+  }
+
+  handleSpeciesChange(event) {
+    const inputSpecies = event.target.value;
+    if (event.target.checked) {
+      this.setState({
+        searchSpecies: this.state.searchSpecies.concat(inputSpecies)
+      }, () => {
+        console.log("Species set to: " + this.state.searchSpecies);
+        this.props.history.push(`${this.baseQuery}&q=${this.state.searchQuery}&r=${this.state.searchRegion}&t=${this.state.searchType}&pr=${this.state.searchProduct}&sp=${this.state.searchSpecies}`);
+      } );
+    } else {
+      this.setState({
+        searchSpecies: this.state.searchSpecies.filter((species) => species !== inputSpecies)
+      }, () => {
+        this.props.history.push(`${this.baseQuery}&q=${this.state.searchQuery}&r=${this.state.searchRegion}&t=${this.state.searchType}&pr=${this.state.searchProduct}&sp=${this.state.searchSpecies}`);
+      });
+    }   
+  }
+
   handleClick(event) {
+    const searchQuery = event.target.value.trim();
     event.preventDefault();
-    this.props.history.push(`${this.baseQuery}&q=${this.searchInput.value}`);
+    this.props.history.push(`${this.baseQuery}&q=${searchQuery}`);
     this.loadMills();
   }
 
@@ -166,58 +255,54 @@ class Mills extends Component {
     return (
      <div className="container">
         <Jumbotron
-          heading="All Mills"
+          heading="Mills"
           imgSrc={headerBg}/>
 
         { (this.state.success || this.state.errors) &&
           <AlertMessages
             success={this.state.success}
             error={this.state.errors}
-            scroll={true}/> }
-
-        {this.context.isAdmin &&
-          <div className="breadcrumb">
-            <div className="row">
-              <div className="col-lg-2 col-lg-offset-0 col-sm-3 col-sm-offset-0 col-md-3 col-md-offset-0 col-xs-10 col-xs-offset-1 mills-table-action">
-                <Link to="/mills/new" className="btn btn-lg btn-success btn-block"><i className="fa fa-plus" aria-hidden="true"></i> Add new mill</Link>
-              </div>
-            {/*
-              XXX For use in future developments
-              <div className="col-lg-2 col-lg-offset-0 col-sm-3 col-sm-offset-0 col-md-3 col-md-offset-0 col-xs-10 col-xs-offset-1 mills-table-action">
-                <Link to="/mills/import" className="btn btn-lg btn-success btn-block"><i className="fa fa-upload" aria-hidden="true"></i> Bulk Import</Link>
-              </div>
-              <div className="col-lg-2 col-lg-offset-0 col-sm-3 col-sm-offset-0 col-md-3 col-md-offset-0 col-xs-10 col-xs-offset-1 mills-table-action">
-                <Link to="/mills/not-yet-implemented" className="btn btn-lg btn-success btn-block"><i className="fa fa-download" aria-hidden="true"></i> Export</Link>
-              </div>
-            */}
-            </div>
-          </div>}
-
-        {this.context.isAuthenticated &&
-          <div className="row">
-
-            <SearchMills
-              ref={input => this.searchInput = input}
-              onKeyUp={this.handleInput}
-              onFocus={() => scroll.to('.search-container')}
-              searchQuery={this.state.searchQuery}
-              reloadMills={this.reloadMills}
-              handleClick={this.handleClick}/>
-          </div>
+            scroll={true}/> 
         }
 
-        { this.state.searchTerm.length > 0 &&
-          <div className="alert alert-info">
-            Search for <strong> {this.state.searchTerm} </strong> returned <strong> {this.state.data.total} </strong> {this.state.data.total === 1 ? 'result' : 'results'}
-          </div>}
 
-        { this.context.token && this.state.mills.length > 0 &&
-          <MillsTable
-            mills={this.state.mills}
-            metaData={this.state.data}
-            search={querystring.parse(this.props.history.location.search.slice(1))}
-            isAdmin={this.context.isAdmin}
-            handleDelete={this.handleDelete} />}
+        <div className="row">
+          {this.context.isAuthenticated &&
+              <SearchMills
+                ref={input => this.searchInput = input}
+                onKeyUp={this.handleInput}
+                onChange={this.onChange}
+                onRegionChange={this.handleRegionChange}
+                onTypeChange={this.handleTypeChange}
+                onProductChange={this.handleProductChange}
+                onSpeciesChange={this.handleSpeciesChange}
+                onFocus={() => scroll.to('.search-container')}
+                searchQuery={this.state.searchQuery}
+                reloadMills={this.reloadMills}
+                handleClick={this.handleClick}/>
+          }
+
+          {/* { this.state.searchTerm.length > 0 &&
+            <div className="alert alert-info">
+              Search for <strong> {this.state.searchTerm} </strong> returned <strong> {this.state.data.total} </strong> {this.state.data.total === 1 ? 'result' : 'results'}
+            </div>
+          } */}
+
+          { this.context.token && this.state.mills.length > 0 &&
+            <div className="col">
+              <MillsTable
+                mills={this.state.mills}
+                metaData={this.state.data}
+                searchQuery={this.state.searchQuery} //querystring.parse(this.props.history.location.search.slice(1))
+                searchRegion={this.state.searchRegion}
+                searchType={this.state.searchType}
+                searchProduct={this.state.searchProduct}
+                searchSpecies={this.state.searchSpecies}
+                isAdmin={this.context.isAdmin}
+                handleDelete={this.handleDelete} />
+            </div>
+          }
+        </div>
       </div>
     )
   }
@@ -227,7 +312,6 @@ Mills.contextType = UserContext;
 
 Mills.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
-  isAdmin: PropTypes.bool.isRequired
 };
 
 export default Mills;

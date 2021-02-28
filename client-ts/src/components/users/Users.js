@@ -129,7 +129,7 @@ class Users extends Component {
           />}
 
         <UsersBanner
-          heading='Manage Users'
+          heading='Users'
           imgSrc={headerBg} />
 
         <div className="breadcrumb">

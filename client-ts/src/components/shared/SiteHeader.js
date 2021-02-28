@@ -7,29 +7,42 @@ import { UserContext } from '../users/UserContext'
 
 
 const LogoutButton = props => (
-  <Link to="#" onClick={props.handleSubmit}>
-    <i className="fa fa-sign-out" aria-hidden="true"></i> logout
-  </Link>
+      <Link to="#" onClick={props.handleSubmit}>
+        <i className="fa fa-sign-out" aria-hidden="true"></i> logout
+      </Link>
 );
 
 LogoutButton.propTypes = {
   handleSubmit: PropTypes.func.isRequired,
 };
 
+const UsersButton = props => {
+  if (props.isAdmin) {
+    return (
+      <li>
+        <NavLink to="/users" activeClassName="active-link">
+          <i className="fa fa-users" aria-hidden="true" /> Users
+        </NavLink>
+      </li>
+    );
+  }
+  return null;
+};
+
+UsersButton.propTypes = {
+  isAdmin: PropTypes.bool.isRequired,
+};
+
 const NavBar = (props) => {
   if (props.isAuthenticated) {
     return (
       <ul className="nav navbar-nav">
-        <li>
+        <li className="nav-item">
           <NavLink to="/mills" activeClassName="active-link">
             <i className="fa fa-database" aria-hidden="true" /> Mills
           </NavLink>
         </li>
-        <li>
-          <NavLink to="/users" activeClassName="active-link">
-            <i className="fa fa-users" aria-hidden="true" /> Manage Users
-          </NavLink>
-        </li>
+        <UsersButton isAdmin={props.isAdmin}/>
         <li>
           <LogoutButton handleSubmit={props.handleSubmit} />
         </li>
@@ -50,6 +63,7 @@ const NavBar = (props) => {
 NavBar.propTypes = {
   isAuthenticated: PropTypes.bool.isRequired,
   handleSubmit: PropTypes.func.isRequired,
+  isAdmin: PropTypes.bool.isRequired,
 };
 
 
@@ -65,19 +79,19 @@ class SiteHeader extends Component {
             <UserContext.Consumer>
                 {props => (
                     <header id="site-header">
-                        <div className="navbar navbar-inverse">
+                        <div className="navbar navbar-expand-lg navbar-dark">
                             <div className="container-fluid">
-                                <div className="navbar-header">
-                                    <NavLink to="/" className="navbar-brand">
-                                        <img src={navbarLogo} alt="Madison's Lumber" className="navbar-logo" /> Home
-                                    </NavLink>
-                                </div>
+                                
+                              <NavLink to="/" className="navbar-brand">
+                                  <img src={navbarLogo} alt="Madison's Lumber" className="navbar-logo" /> Madison's Lumber
+                              </NavLink>
 
-                                {props.authWithTokenStatus === 'COMPLETE' &&
-                                <NavBar
-                                    handleSubmit={this.handleSubmit}
-                                    isAuthenticated={props.isAuthenticated}
-                                />}
+                              {props.authWithTokenStatus === 'COMPLETE' &&
+                              <NavBar
+                                  handleSubmit={this.handleSubmit}
+                                  isAuthenticated={props.isAuthenticated}
+                                  isAdmin={props.isAdmin}
+                              />}
                             </div>
                         </div>
                     </header>

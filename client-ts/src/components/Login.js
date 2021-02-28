@@ -43,9 +43,7 @@ class Login extends Component {
 
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-  }
 
-  componentWillMount() {
     if (this.props.location.state && this.props.location.state.error) {
       this.setState(() => ({ error: this.props.location.state.error }));
     }
@@ -94,8 +92,6 @@ class Login extends Component {
 
   render() {
     const { redirectToReferrer } = this.state;
-
-    console.log(this.state.redirectTo);
     if (this.context.isAuthenticated === true) {
       return (
         <Redirect to="/"/>
@@ -158,7 +154,6 @@ Login.contextType = UserContext;
 
 
 Login.propTypes = {
-  onSubmit: PropTypes.func.isRequired,
 };
 
 export default Login;

@@ -16,6 +16,8 @@ const mongoose          = require('mongoose');
 const routes            = require('./app/routes');
 const port              = process.env.PORT || 8080;
 
+const Invitation    = require('./app/models/invitation');
+
 
 app.disable('x-powered-by');
 var corsOptions = {
@@ -41,10 +43,17 @@ app.set('view engine', 'ejs');
 app.use(expressLayouts);
 
 app.use(bodyParser.urlencoded({ extended: true }));
+
 app.use(expressValidator({
   isRegion: options => {
     return options.region.length === 2;
-  }
+  },
+  customValidators: {
+    isValid: invitation => {
+      return Invitation.isValid(invitation);
+    }
+ }
+  
 }));
 
 mongoose.connect(process.env.DB_URI);

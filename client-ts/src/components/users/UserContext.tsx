@@ -43,7 +43,7 @@ class UserStore extends React.Component<any, State> {
         if (localToken) {
             this.authWithToken(localToken);
         } else {
-            this.setState({ authWithTokenStatus: 'COMPLETE' });
+            this.state = { authWithTokenStatus: 'COMPLETE' };
         }
     }
 
@@ -65,7 +65,6 @@ class UserStore extends React.Component<any, State> {
             isAdmin,
             successAuth: ['Login Successful.', `Welcome back, ${userName}!`],
         }));
-        console.log('authUser')
         cookies.set('session_id', token, { path: '/', maxAge: 86400 });
     }
     logoutUser = () => {

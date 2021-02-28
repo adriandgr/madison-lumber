@@ -10,7 +10,8 @@ class NewUserForm extends React.Component {
       lastName: '',
       email: '',
       pwd: '',
-      accountType: 'free'
+      accountType: 'free',
+      invitationCode: ''
     };
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -26,7 +27,7 @@ class NewUserForm extends React.Component {
       pwd: this.state.pwd,
       accountType: this.state.accountType
     }
-    this.props.onSubmit(user)
+    this.props.onSubmit(this.state.invitationCode, user)
     this.setState({ fireRedirect: true })
   }
 
@@ -91,9 +92,17 @@ class NewUserForm extends React.Component {
               value={this.state.accountType}
               onChange={this.handleChange}>
               <option value='free'>free</option>
-              <option value='paid'>paid</option>
-              <option value='admin'>admin</option>
             </select>
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="">Invitation Code</label>
+            <input
+              type="text"
+              name="invitationCode"
+              className="form-control"
+              value={this.state.invitationCode}
+              onChange={this.handleChange} />
           </div>
 
           <div className="form-group">
@@ -101,7 +110,7 @@ class NewUserForm extends React.Component {
           </div>
         </form>
         { fireRedirect && (
-          <Redirect to={'/users'} success={'asdfasdf'}/>
+          <Redirect to={'/login'} success={'asdfasdf'}/>
         ) }
       </div>
     );

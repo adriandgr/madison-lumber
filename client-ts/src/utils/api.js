@@ -25,13 +25,16 @@ const api = {
           .then(res => res.data);
   },
   getMills: (token, q) => {
-    // let query = `/api/mills/?token=${token}&`;
     let authHeader = { headers: { Authorization: 'Bearer ' + token } }
     let query = `/api/mills/?`;
     if(q) {
       const parsed = querystring.parse(q.slice(1));
       parsed.q ? parsed.q = parsed.q : parsed.q = '';
-      query += `q=${parsed.q}&p=${parsed.p}&limit=${parsed.limit}`;
+      parsed.r ? parsed.r = parsed.r : parsed.r = '';
+      parsed.t ? parsed.t = parsed.t : parsed.t = '';
+      parsed.pr ? parsed.pr = parsed.pr : parsed.pr = '';
+      parsed.sp ? parsed.sp = parsed.sp : parsed.sp = '';
+      query += `q=${parsed.q}&r=${parsed.r}&t=${parsed.t}&pr=${parsed.pr}&sp=${parsed.sp}&p=${parsed.p}&limit=${parsed.limit}`;
     } else {
       query += `q=&p=1&limit=20`;
     }
@@ -39,6 +42,7 @@ const api = {
         .then(res => res.data );
   },
   getMill: (token, millUUID) => {
+    console.log("Attempted to fetch mill with _id: " + millUUID);
     return instance.get(`/api${millUUID}?token=${token}`)
       .then(res => res.data );
   },
@@ -90,6 +94,18 @@ const api = {
       '/api/users/create',
       querystring.stringify({
         token,
+        firstName: user.name,
+        lastName: user.surname,
+        email: user.email,
+        password: user.pwd,
+        accountType: user.accountType
+      })).then(res => res.data);
+  },
+  registerUser: (invitationCode, user) => {
+    return instance.post(
+      '/api/users/register',
+      querystring.stringify({
+        invitationCode,
         firstName: user.name,
         lastName: user.surname,
         email: user.email,

@@ -1,0 +1,28 @@
+{
+  "files": {
+    "main.css": "/static/css/main.b8d25ecb.chunk.css",
+    "main.js": "/static/js/main.d539c831.chunk.js",
+    "main.js.map": "/static/js/main.d539c831.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.b01d6b84.js",
+    "runtime-main.js.map": "/static/js/runtime-main.b01d6b84.js.map",
+    "static/js/2.22ad54eb.chunk.js": "/static/js/2.22ad54eb.chunk.js",
+    "static/js/2.22ad54eb.chunk.js.map": "/static/js/2.22ad54eb.chunk.js.map",
+    "index.html": "/index.html",
+    "precache-manifest.179da0ba37670f6fcabaeff49402c2bb.js": "/precache-manifest.179da0ba37670f6fcabaeff49402c2bb.js",
+    "service-worker.js": "/service-worker.js",
+    "static/css/main.b8d25ecb.chunk.css.map": "/static/css/main.b8d25ecb.chunk.css.map",
+    "static/js/2.22ad54eb.chunk.js.LICENSE.txt": "/static/js/2.22ad54eb.chunk.js.LICENSE.txt",
+    "static/media/blue-mill.jpg": "/static/media/blue-mill.a5730234.jpg",
+    "static/media/header-img.jpg": "/static/media/header-img.82efaf1e.jpg",
+    "static/media/kiln-dried-lumber.jpg": "/static/media/kiln-dried-lumber.43d80994.jpg",
+    "static/media/madison-logo.png": "/static/media/madison-logo.1368a047.png",
+    "static/media/mills-header.jpg": "/static/media/mills-header.09c6b3b0.jpg",
+    "static/media/moodyville-yard.jpg": "/static/media/moodyville-yard.f2a4b5f6.jpg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.b01d6b84.js",
+    "static/js/2.22ad54eb.chunk.js",
+    "static/css/main.b8d25ecb.chunk.css",
+    "static/js/main.d539c831.chunk.js"
+  ]
+}

@@ -20,8 +20,8 @@ class Register extends Component {
     }
 
 
-  onSubmit = (user) => {
-    api.createUser(this.props.token, user)
+  onSubmit = (invitationCode, user) => {
+    api.registerUser(invitationCode, user)
       .then(res => {
         if (res.errors) {
           this.setState(() => ({
