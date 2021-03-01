@@ -1,10 +1,7 @@
 const { Schema } = require('mongoose');
 
 const millSchema = new Schema({
-  uuid: {
-    type: String,
-    unique: true
-  },
+
   name: String,
   type: String,
   region: String,
@@ -41,6 +38,19 @@ const millSchema = new Schema({
     millStatus: String
   },
   lastUpdated: Date
-});
+},
+{
+  timestamps: true,
+  versionKey: false,
+  autoIndex: true
+}
+);
 
 module.exports = millSchema;
+
+/*
+  uuid: {
+    type: String,
+    unique: true
+  },
+*/

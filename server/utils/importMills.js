@@ -1,8 +1,8 @@
 require('dotenv').config();
 
 const mongoose = require('mongoose');
-const convert  = require('xls-to-json');
-const input    = './utils/files/MadDirectory2020.xls';
+const convert  = require('xlsx-to-json');
+const input    = './utils/files/MadDirectory2020print.xlsx';
 const Mill     = require('../app/models/mill');
 const millSchema = require('../app/models/schemas/mill');
 const millIndex = require('../app/models/indexes/mill');
@@ -58,12 +58,20 @@ function mapMills(raw) {
 function insertMills(mills) {
   console.log('Opening db connection');
   mongoose.connect(process.env.DB_URI );
-
-  // let newMill;
+/*   console.log("Removing all mills");
+  Mill.remove(function(err,removed) {
+    if(err) {
+      throw err;
+    }
+    console.log(removed + " mills removed.")
+  }); */
+  console.log("Importing mills");
   mills.forEach((mill, i) => {
     const newMill = new Mill(mill);
     newMill.save((err, res) => {
       if(err) {
+        console.log("newMill.save() failed with error: ");
+        console.log(err);
         throw err;
       }
       if((i + 1) === mills.length) {
@@ -79,6 +87,7 @@ function insertMills(mills) {
 
 convert({input: input, output: null}, function(err, raw) {
   if(err) {
+    console.log("xls conversion failed");
     throw err;
   }
   insertMills(mapMills(raw));

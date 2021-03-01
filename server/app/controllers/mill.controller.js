@@ -5,55 +5,56 @@ const mills = require('../models/seed');
   * Show All Events
   **/
 function showMills(req, res) {
-  // get all mills
-  if (req.query.q) {
-    if(req.decoded._doc.accountType == 'free'){
-      res.status(403);
-      return res.json({
-        errors: ['Search not allow on free account.']
-      });
-    } else {
-      req.flash('query', req.query.q);
-      const query = req.query.q.split(' ').map(q => `"${q}"`);
-      Mill.paginate({$text: {$search: `${query}`}}, { page: req.query.p, limit: Number(req.query.limit) })
-          .then(mills => {
-            res.json({
-              mills: mills.docs,
-              total: mills.total,
-              limit: mills.limit,
-              page: mills.page,
-              pages: mills.pages,
-              success: req.flash('success'),
-              query: req.flash('query')
-            });
-          })
-          .catch(err => {
-            console.error(err);
-            res.status(404);
-            res.send('Events not found');
-          });
-    }
-  } else {
-    Mill.paginate({}, { page: req.query.p, limit: Number(req.query.limit) })
-      .then(mills => {
-        res.json({
-          mills: mills.docs,
-          total: mills.total,
-          limit: mills.limit,
-          page: mills.page,
-          pages: mills.pages,
-          success: req.flash('success'),
-          query: req.flash('query')
-        });
-      })
-      .catch(err => {
-        console.error(err);
-        res.status(404);
-        res.send('Events not found');
-      });
+  console.log("query received is: " + req.query.q);
+  // construct a query object (constructedQuery) before using paginate
+  let query = ' ';
+  let regions = [];
+  let types = [];
+  let products = [];
+  let species = [];
+  let constructedQuery = {};
+  if (req.query.q)  {
+    query = req.query.q.split(' ').map(q => `"${q}"`);
+    constructedQuery.$text = {$search: `${query}`};
   }
-
-
+  if (req.query.r)  {
+    regions = req.query.r.split(',');
+    constructedQuery.region = { $in: regions };
+  }
+  if (req.query.t)  {
+    types = req.query.t.split(',');
+    types = types.map( type => { return new RegExp(type, 'i') } );
+    constructedQuery.type = { $in: types };
+  }
+  if (req.query.pr)  {
+    products = req.query.pr.split(',');
+    products = products.map( product => { return new RegExp(product, 'i') } );
+    constructedQuery["catalog.products"] = { $in: products };
+  }
+  if (req.query.sp)  {
+    species = req.query.sp.split(',');
+    species = species.map( sp => { return new RegExp(sp, 'i')} );
+    constructedQuery["catalog.species"] = { $in: species };
+  }
+  console.log(req.query.p);
+  console.log(constructedQuery);
+  Mill.paginate( constructedQuery, { page: req.query.p, limit: Number(req.query.limit) })
+    .then(mills => {
+      res.json({
+        mills: mills.docs,
+        total: mills.total,
+        limit: mills.limit,
+        page: mills.page,
+        pages: mills.pages,
+        success: req.flash('success'),
+        query: req.flash('query')
+      });
+    })
+    .catch(err => {
+      console.error(err);
+      res.status(404);
+      res.send('Events not found');
+    });
 }
 
 /**
@@ -61,7 +62,7 @@ function showMills(req, res) {
   **/
 function showSingle(req, res) {
 
-  Mill.findOne({uuid: req.params.uuid }, (err, mill) => {
+  Mill.findOne({_id: req.params.id }, (err, mill) => {
     if (err) {
       res.status(404);
       res.json({

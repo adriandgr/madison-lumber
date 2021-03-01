@@ -11,63 +11,31 @@ const MillsTable = props => {
         pages={props.metaData.pages}
         total={props.metaData.total}
         limit={props.metaData.limit}
-        searchQuery={props.search.q}/>
+        searchQuery={props.searchQuery}
+        searchRegion={props.searchRegion}
+        searchType={props.searchType}
+        searchProduct={props.searchProduct}
+        searchSpecies={props.searchSpecies}/>
       <table className="table table-bordered table-hover table-striped mills-table">
         <thead>
           <tr>
             <th>Name</th>
             <th className="hidden-xs">Type</th>
             <th className="text-center">Region</th>
-            <th className="text-center">Details</th>
+            <th className="text-center">Status</th>
           </tr>
         </thead>
         <tbody>
           {props.mills.map(mill => (
               <tr key={mill.uuid}>
                 <td>
-                  <Link to={`/mills/${mill.uuid}`} className="mills-table-link">
+                  <Link to={`/mills/${mill._id}`} className="mills-table-link">
                       {mill.name}
                   </Link>
                 </td>
                 <td className="hidden-xs"> {mill.type} </td>
                 <td className="text-center"> {mill.region} </td>
-                <td className="text-center">
-                  { !props.isAdmin &&
-                    <Link
-                      to={`/mills/${mill.uuid}`}
-                      className="btn btn-primary">
-                        <i className="fa fa-eye" aria-hidden="true"></i> View
-                    </Link>
-                  }
-                  { props.isAdmin &&
-                    <div className="dropdown">
-                      <button className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-                        Manage &nbsp;
-                         <span className="caret"></span>
-                      </button>
-                      <ul className="dropdown-menu dropdown-menu-left" aria-labelledby="dropdownMenu1">
-                        <li>
-                          <Link
-                            to={`/mills/${mill.uuid}`}>
-                              <i className="fa fa-eye" aria-hidden="true"></i> View
-                          </Link>
-                        </li>
-                        <li className="divider"></li>
-                        <li>
-                          <Link
-                            to='#'
-                            name={mill.uuid}
-                            onClick={(event) => {
-                              event.preventDefault();
-                              props.handleDelete(event.target.name);
-                            }}>
-                              <i className="fa fa-trash" aria-hidden="true"></i> Delete
-                          </Link>
-                        </li>
-                      </ul>
-                    </div>
-                  }
-                </td>
+                <td className="text-center"> {mill.qualifications.millStatus} </td>
               </tr>
             )
           )}
@@ -78,7 +46,11 @@ const MillsTable = props => {
         pages={props.metaData.pages}
         limit={props.metaData.limit}
         total={props.metaData.total}
-        searchQuery={props.search.q}
+        searchQuery={props.searchQuery}
+        searchRegion={props.searchRegion}
+        searchType={props.searchType}
+        searchProduct={props.searchProduct}
+        searchSpecies={props.searchSpecies}
         />
     </div>
   )
@@ -87,7 +59,12 @@ const MillsTable = props => {
 MillsTable.propTypes = {
   mills: PropTypes.array.isRequired,
   isAdmin: PropTypes.bool.isRequired,
-  handleDelete: PropTypes.func.isRequired
+  handleDelete: PropTypes.func.isRequired,
+  searchQuery: PropTypes.string.isRequired,
+  searchRegion: PropTypes.string.isRequired,
+  searchType: PropTypes.string.isRequired,
+  searchProduct: PropTypes.string.isRequired,
+  searchSpecies: PropTypes.string.isRequired
 };
 
 export default MillsTable;

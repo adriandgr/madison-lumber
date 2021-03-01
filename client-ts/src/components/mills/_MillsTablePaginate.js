@@ -8,9 +8,9 @@ const MillsTablePaginate = props => {
 
   return (
     <div className='row paginate'>
-      <div className='col-sm-2 col-sm-offset-0 col-xs-8 col-xs-offset-2'>
+      <div className='col-sm-3 col-sm-offset-0 col-xs-8 col-xs-offset-2'>
         <Link
-          to={`?p=${(props.page - 1)}&limit=${props.limit}${props.searchQuery ? '&q=' + props.searchQuery : ''}`}
+          to={`?p=${(props.page - 1)}&limit=${props.limit}${props.searchQuery ? '&q=' + props.searchQuery : ''}${props.searchRegion ? '&r=' + props.searchRegion : ''}${props.searchType ? '&t=' + props.searchType : ''}${props.searchProduct ? '&pr=' + props.searchProduct : ''}${props.searchSpecies ? '&sp=' + props.searchSpecies : ''}`}
           className='btn btn-default btn-block'
           onClick={event => prevDisabled && event.preventDefault()}
           disabled={prevDisabled}>
@@ -18,14 +18,14 @@ const MillsTablePaginate = props => {
           &nbsp; Back
         </Link>
       </div>
-      <div className='col-sm-5 col-sm-offset-1  col-xs-12 text-center text-middle pagination-info'>
+      <div className='col-sm-6 col-sm-offset-1  col-xs-12 text-center text-middle pagination-info'>
         <span>
           Page <strong>{props.page}</strong> of <strong>{props.pages}</strong> (<strong>{props.total}</strong>  mills in total)
         </span>
       </div>
-      <div className='col-sm-2 col-sm-offset-2 col-xs-8 col-xs-offset-2'>
+      <div className='col-sm-3 col-sm-offset-2 col-xs-8 col-xs-offset-2'>
         <Link
-          to={`?p=${(props.page + 1)}&limit=${props.limit}${props.searchQuery ? '&q=' + props.searchQuery : ''}`}
+          to={`?p=${(props.page + 1)}&limit=${props.limit}${props.searchQuery ? '&q=' + props.searchQuery : ''}${props.searchRegion ? '&r=' + props.searchRegion : ''}${props.searchType ? '&t=' + props.searchType : ''}${props.searchProduct ? '&pr=' + props.searchProduct : ''}${props.searchSpecies ? '&sp=' + props.searchSpecies : ''}`}
           className='btn btn-default btn-block'
           onClick={event => nextDisabled && event.preventDefault()}
           disabled={nextDisabled}
@@ -41,7 +41,11 @@ const MillsTablePaginate = props => {
 MillsTablePaginate.propTypes = {
   page: PropTypes.number.isRequired,
   limit: PropTypes.number.isRequired,
-  searchQuery: PropTypes.string.isRequired
+  searchQuery: PropTypes.string.isRequired,
+  searchRegion: PropTypes.string.isRequired,
+  searchType: PropTypes.string.isRequired,
+  searchProduct: PropTypes.string.isRequired,
+  searchSpecies: PropTypes.string.isRequired,
 };
 
 export default MillsTablePaginate;

@@ -1,7 +1,20 @@
 const millIndex = {
   type: {
-    uuid: 'text',
     name: 'text',
+    'qualifications.gradingAgency': 'text'
+  },
+  options: {
+    name: 'mill_index',
+    weights: {
+      name: 10,
+      'qualifications.gradingAgency': 8
+    }
+  }
+};
+
+module.exports = millIndex;
+
+/*
     type: 'text',
     region: 'text',
     'contact.address': 'text',
@@ -11,13 +24,8 @@ const millIndex = {
     'catalog.services': 'text',
     'catalog.export': 'text',
     'catalog.shipping': 'text',
-    'qualifications.gradingAgency': 'text'
-  },
-  options: {
-    name: 'mill_index',
-    weights: {
-      name: 10,
-      'qualifications.gradingAgency': 8,
+*/
+/*
       'catalog.products': 6,
       'catalog.species': 6,
       'catalog.services': 6,
@@ -27,8 +35,4 @@ const millIndex = {
       region: 3,
       'contact.address': 1,
       'contact.contactPersons': 1
-    }
-  }
-};
-
-module.exports = millIndex;
+*/

@@ -1,0 +1,12 @@
+{
+  "env": {
+    "DB_URI" : "mongodb://localhost/test?retryWrites=true&w=majority",
+    "SQREEN_APP_NAME": "Madisons Directory",
+    "SQREEN_TOKEN": "env_org_8cbf0c4efafd5de3cc55434cd8bb94f0d62e7e5ef02a5d0ce9c30468",
+    "SESSION": "topsecretsession",
+    "JWT_SECRET": "topsecrettoken",
+    "SEED_EMAIL": "test@test.com",
+    "SEED_PWD": "testuser",
+    "PORT":8181
+  }
+}

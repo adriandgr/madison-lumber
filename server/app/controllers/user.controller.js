@@ -86,6 +86,59 @@ function getLogin(req, res) {
   });
 }
 
+function processRegister(req, res) {
+
+  // validate info
+  req.checkBody('firstName', 'First name is required.').notEmpty();
+  req.checkBody('lastName', 'Last name is required.').notEmpty();
+  req.checkBody('email', 'Valid email is required.').isEmail();
+  req.checkBody('invitationCode', 'Valid invitation code needed.').notEmpty()
+  req.checkBody('invitationCode', 'This code is invalid.').isValid();
+  req.checkBody('password', 'Password should be between 8 and 30 characters long').len(8, 30);
+  
+
+  req.getValidationResult().then(result => {
+    if (!result.isEmpty()) {
+      const val = result.array().map(err => err.msg);
+      const errors = ['Validation Errors:'].concat(val);
+      return res.json({
+        errors
+      });
+    }
+
+    bcrypt.hash(req.body.password, saltRounds, function(err, hash) {
+      if (err) {
+        return res.json({errors: ['Error 500', 'Internal Server Error. Please try again.']});
+      }
+
+      let isAdmin = false;
+
+/*       if (req.body.accountType === 'admin') {
+        isAdmin = true;
+      } */
+
+      const user = new User({
+        firstName: req.body.firstName,
+        lastName: req.body.lastName,
+        email: req.body.email,
+        hash,
+        accountType: req.body.accountType,
+        admin: isAdmin
+      });
+
+      user.save((err) => {
+        if (err) {
+          return res.json({errors: ['Error 500', 'Internal Server Error. Please try again.']});
+        }
+
+        res.json({
+          success: 'Successfully created the user!'
+        });
+      });
+    });
+  });
+}
+
 function routerMiddleware(req, res, next) {
   // check header or url parameters or post parameters for token
   var token = req.cookies.session_id || req.body.token || req.param('token') || req.headers['x-access-token'] || req.session.jwt || req.headers['authorization'].replace('Bearer ','');
@@ -253,6 +306,7 @@ function logout(req, res) {
 module.exports = {
   validateToken,
   authUser,
+  processRegister,
   getLogin,
   getUsers,
   manageUser,
