@@ -43,7 +43,7 @@ class UserStore extends React.Component<any, State> {
         if (localToken) {
             this.authWithToken(localToken);
         } else {
-            this.state = { authWithTokenStatus: 'COMPLETE' };
+            this.setState({ authWithTokenStatus: 'COMPLETE' });
         }
     }
 
