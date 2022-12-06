@@ -16,7 +16,7 @@
     "dropzone": "^5.7.0",
     "moment": "^2.26.0",
     "prop-types": "^15.7.2",
-    "qs": "^6.9.4",
+    "qs": "^6.9.7",
     "react": "^16.13.1",
     "react-bootstrap": "^1.4.0",
     "react-dev-utils": "^10.2.1",
